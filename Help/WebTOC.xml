@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpTOC>
+
+  <HelpTOCNode Id="30a55780-2de2-49b5-8fb7-b2ce532a1cbf" Title="Core Namespace" Url="html/N-Core.htm">
+    <HelpTOCNode Id="ec57f34d-5726-467f-bdf2-965ac1fb81e2" Title="Option(T) Class" Url="html/T-Core.Option-1.htm">
+      <HelpTOCNode Title="Option(T) Methods" Url="html/Methods.T-Core.Option-1.htm" />
+    </HelpTOCNode>
+    <HelpTOCNode Id="5ca39f75-fe75-4b9a-a5fd-8a0226124a5e" Title="ProblemClass Class" Url="html/T-Core.ProblemClass.htm">
+      <HelpTOCNode Title="ProblemClass Members" Url="html/AllMembers.T-Core.ProblemClass.htm" />
+      <HelpTOCNode Title="ProblemClass Constructor " Url="html/M-Core.ProblemClass.-ctor.htm" />
+      <HelpTOCNode Title="ProblemClass Methods" Url="html/Methods.T-Core.ProblemClass.htm" />
+      <HelpTOCNode Id="c9054906-8055-483a-b6dd-f70a6de24f60" Title="ProblemClass Properties" Url="html/Properties.T-Core.ProblemClass.htm">
+        <HelpTOCNode Title="Name Property " Url="html/P-Core.ProblemClass.Name.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="b6ed4911-23b1-4cb1-838f-d8fadb513ae5" Title="ProblemInstance(T) Class" Url="html/T-Core.ProblemInstance-1.htm">
+      <HelpTOCNode Title="ProblemInstance(T) Methods" Url="html/Methods.T-Core.ProblemInstance-1.htm" />
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="1915aec7-06be-4a78-a967-dd4d33ebc583" Title="IGAL Namespace" Url="html/N-IGAL.htm">
+    <HelpTOCNode Id="c29f4d19-e7c3-4c0a-9757-8594cac00be0" Title="Program Class" Url="html/T-IGAL.Program.htm">
+      <HelpTOCNode Title="Program Members" Url="html/AllMembers.T-IGAL.Program.htm" />
+      <HelpTOCNode Title="Program Methods" Url="html/Methods.T-IGAL.Program.htm" />
+    </HelpTOCNode>
+  </HelpTOCNode>
+</HelpTOC>
