@@ -9,5 +9,10 @@ namespace Problems
         {
             Index = index;
         }
+
+        public override string ToString()
+        {
+            return Index.ToString();
+        }
     }
 }

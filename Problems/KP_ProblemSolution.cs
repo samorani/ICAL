@@ -8,10 +8,10 @@ using Core;
 namespace Problems
 {
     public class KP_ProblemSolution : 
-        ProblemSolution<KP_ProblemSolution, KP_ProblemInstance, KP_Option>
+        ProblemSolution<KP_ProblemSolution, KP_ProblemInstance, KP_Option> 
     {
         /// <summary>
-        /// Gets or sets the current selection.
+        /// The object selection array. X[i] = true if i is selected.
         /// </summary>
         /// <value>The current selection.</value>
         public bool [] X { get; private set; }
@@ -24,11 +24,37 @@ namespace Problems
 
         public double RemainingCapacity { get; set; }
 
-        public KP_ProblemSolution(KP_ProblemInstance inst) : base(inst)
+        /// <summary>
+        /// Needed to compile without errors.
+        /// </summary>
+        public KP_ProblemSolution()
+        { }
+
+        /// <summary>
+        /// Initializes an empty instance of the <see cref="KP_ProblemSolution"/> class.
+        /// </summary>
+        /// <param name="inst">The inst.</param>
+        public KP_ProblemSolution(KP_ProblemInstance inst) : this()
         {
-            X = new bool[inst.N];
-            RemainingCapacity = inst.C;
+            this.X = new bool[inst.N];
+            this.CurrentValue = 0;
+            this.Instance = inst;
+            this.RemainingCapacity = inst.C;
         }
+
+        public KP_ProblemSolution(KP_ProblemInstance inst, bool [] x) : this(inst)
+        {
+            for (int i=0;i<x.Length;i++)
+            {
+                X[i] = x[i];
+                if (X[i])
+                {
+                    CurrentValue += Instance.P[i];
+                    RemainingCapacity -= Instance.W[i];
+                }
+            }
+        }
+
 
         /// <summary>
         /// Gets the attributes of option of selecting the i-th object. The weight and profit of i, the remaining capacity, w/p and p/w
@@ -67,12 +93,50 @@ namespace Problems
         public override KP_ProblemSolution ChooseOption(KP_Option o)
         {
             int i = o.Index;
-            KP_ProblemSolution newSol =  new KP_ProblemSolution(Instance);
-            newSol.X = new bool[Instance.N];
+            KP_ProblemSolution newSol = new KP_ProblemSolution(this.Instance);
             X.CopyTo(newSol.X,0);
+            newSol.X[i] = true;
             newSol.CurrentValue = CurrentValue + Instance.P[i];
             newSol.RemainingCapacity = RemainingCapacity - Instance.W[i];
             return newSol;
+        }
+
+        /// <summary>
+        /// Checks whether the instances are the same and all the objects selected are the same
+        /// </summary>
+        /// <param name="other">The other solution.</param>
+        /// <returns><c>true</c> if the current solution is the same as the other solution; otherwise, <c>false</c>.</returns>
+        protected override bool IsSameAs(KP_ProblemSolution other)
+        {
+            if (other.Instance != this.Instance)
+                return false;
+            for (int i = 0; i < X.Length; i++)
+                if (X[i] != other.X[i])
+                    return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Returns true if target solution contains the object corresponding to the option
+        /// </summary>
+        /// <param name="option">The option in consideration.</param>
+        /// <param name="targetSolution">The target solution.</param>
+        /// <returns><c>true</c> if the option brings this solution closer to the targetSolution, <c>false</c> otherwise.</returns>
+        protected override bool BringsCloser(KP_Option option, KP_ProblemSolution targetSolution)
+        {
+            int index = option.Index;
+            if (targetSolution.X[index])
+                return true;
+            else
+                return false;
+        }
+
+        public override string ToString()
+        {
+            string s = "[";
+            foreach (bool b in X)
+                s += b ? "1," : "0,";
+            return s + "]";
         }
     }
 }

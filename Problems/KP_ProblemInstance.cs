@@ -10,7 +10,7 @@ namespace Problems
     /// <summary>
     /// An in instance of the KP01
     /// </summary>
-    /// <seealso cref="Core.ProblemInstance" />
+    /// <seealso cref="Core.ProblemInstance"/>
     public class KP_ProblemInstance : ProblemInstance<KP_ProblemSolution, KP_ProblemInstance, KP_Option>
     {
         /// <summary>
@@ -43,9 +43,21 @@ namespace Problems
             C = capacity;
         }
 
-        public override IEnumerable<List<KP_Option>> SequencesThatMayBuild(KP_ProblemSolution targetSolution)
+        public override KP_ProblemSolution BuildEmptySolution()
         {
-            throw new NotImplementedException();
+            return new KP_ProblemSolution(this);
+        }
+
+        public override string ToString()
+        {
+            string s = "W=[";
+            foreach (double d in W)
+                s += d + ",";
+            s += "], P=[";
+            foreach (double d in P)
+                s += d + ",";
+            s += "], C=" + C;
+            return s;
         }
     }
 }
