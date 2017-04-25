@@ -9,12 +9,17 @@ namespace Core
     /// <summary>
     /// Class ProblemSolution. It may be a partial or complete solution to a problem instance of a given problem class
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class ProblemSolution<T> where T : ProblemClass
+    /// <typeparam name="P"></typeparam>
+    public abstract class ProblemSolution <P,O> where P : ProblemInstance where O : Option
     {
-        public ProblemInstance<T> Instance { get; private set; }
+        /// <summary>
+        /// Gets the problem instance of this solution.
+        /// </summary>
+        /// <value>The instance.</value>
+        public P Instance { get; protected set; }
+        
 
-        public ProblemSolution(ProblemInstance<T> instance)
+        public ProblemSolution(P instance)
         {
             Instance = instance;
         }
@@ -22,14 +27,21 @@ namespace Core
         /// <summary>
         /// Gets the feasible options of the current solution for the current problem instance
         /// </summary>
-        /// <returns>IEnumerable&lt;Option&lt;T&gt;&gt;.</returns>
-        public abstract IEnumerable<Option<T>> GetFeasibleOptions();
+        /// <returns>IEnumerable&lt;Option&gt;.</returns>
+        public abstract IEnumerable<O> GetFeasibleOptions();
 
         /// <summary>
         /// Gets the attributes of option.
         /// </summary>
         /// <param name="o">The o.</param>
-        /// <returns>System.Double[].</returns>
-        public abstract double[] GetAttributesOfOption(Option<T> o);
+        /// <returns>the attributes</returns>
+        public abstract SortedList<string, double> GetAttributesOfOption(O o);
+
+        /// <summary>
+        /// Chooses the option and updates this solution
+        /// </summary>
+        /// <param name="o">The o.</param>
+        public abstract void ChooseOption(O o);
+
     }
 }

@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 namespace Core
 {
     /// <summary>
-    /// Represents a problem instance of a certain class of problems
+    /// Class Option.It represents a feasible option at a given stage of a partially built solution.
     /// </summary>
-    public abstract class ProblemInstance 
+    public abstract class Option
     {
-        public ProblemInstance ()
-        { }
     }
 }
