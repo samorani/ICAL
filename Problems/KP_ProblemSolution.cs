@@ -7,7 +7,8 @@ using Core;
 
 namespace Problems
 {
-    public class KP_ProblemSolution : ProblemSolution<KP_ProblemInstance, KP_Option>
+    public class KP_ProblemSolution : 
+        ProblemSolution<KP_ProblemSolution, KP_ProblemInstance, KP_Option>
     {
         /// <summary>
         /// Gets or sets the current selection.
@@ -63,13 +64,15 @@ namespace Problems
         /// Chooses the option and updates this solution. Reduces the capacity by the weight and increases the value by the profit
         /// </summary>
         /// <param name="o">The o.</param>
-        public override void ChooseOption(KP_Option o)
+        public override KP_ProblemSolution ChooseOption(KP_Option o)
         {
             int i = o.Index;
-            this.X[i] = true;
-            this.RemainingCapacity -= Instance.W[i];
-            this.CurrentValue += Instance.P[i];
+            KP_ProblemSolution newSol =  new KP_ProblemSolution(Instance);
+            newSol.X = new bool[Instance.N];
+            X.CopyTo(newSol.X,0);
+            newSol.CurrentValue = CurrentValue + Instance.P[i];
+            newSol.RemainingCapacity = RemainingCapacity - Instance.W[i];
+            return newSol;
         }
-
     }
 }

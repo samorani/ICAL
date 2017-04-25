@@ -9,11 +9,11 @@ namespace Core
     /// <summary>
     /// Represents a problem instance of a certain class of problems
     /// </summary>
-    public abstract class ProblemInstance 
+    public abstract class ProblemInstance<S, I, O> where S : ProblemSolution<S, I, O> where I : ProblemInstance<S, I, O> where O : Option<S, I, O>
     {
         public ProblemInstance ()
         { }
 
-        //public abstract IEnumerable<List<O>> SequencesThatMayBuild<P, O>(ProblemSolution<P, O> targetSolution) where P : ProblemInstance where O : Option<P>;
+        public abstract IEnumerable<List<O>> SequencesThatMayBuild(S targetSolution);
     }
 }

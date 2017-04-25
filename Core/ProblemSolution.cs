@@ -9,17 +9,17 @@ namespace Core
     /// <summary>
     /// Class ProblemSolution. It may be a partial or complete solution to a problem instance of a given problem class
     /// </summary>
-    /// <typeparam name="P"></typeparam>
-    public abstract class ProblemSolution <P,O> where P : ProblemInstance where O : Option<P>
+    /// <typeparam name="I"></typeparam>
+    public abstract class ProblemSolution<S, I, O> where S : ProblemSolution<S, I, O> where I : ProblemInstance<S, I, O> where O : Option<S, I, O>
     {
         /// <summary>
         /// Gets the problem instance of this solution.
         /// </summary>
         /// <value>The instance.</value>
-        public P Instance { get; protected set; }
+        public I Instance { get; protected set; }
         
 
-        public ProblemSolution(P instance)
+        public ProblemSolution(I instance)
         {
             Instance = instance;
         }
@@ -41,7 +41,7 @@ namespace Core
         /// Chooses the option and updates this solution
         /// </summary>
         /// <param name="o">The o.</param>
-        public abstract void ChooseOption(O o);
+        public abstract S ChooseOption(O o);
 
     }
 }

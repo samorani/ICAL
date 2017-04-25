@@ -11,7 +11,7 @@ namespace Problems
     /// An in instance of the KP01
     /// </summary>
     /// <seealso cref="Core.ProblemInstance" />
-    public class KP_ProblemInstance : ProblemInstance
+    public class KP_ProblemInstance : ProblemInstance<KP_ProblemSolution, KP_ProblemInstance, KP_Option>
     {
         /// <summary>
         /// Gets the size.
@@ -43,9 +43,9 @@ namespace Problems
             C = capacity;
         }
 
-        //public override IEnumerable<List<O>> SequencesThatMayBuild<P, O>(ProblemSolution<P, O> targetSolution)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public override IEnumerable<List<KP_Option>> SequencesThatMayBuild(KP_ProblemSolution targetSolution)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
