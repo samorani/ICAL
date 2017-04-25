@@ -10,7 +10,7 @@ namespace Core
     /// Class ProblemSolution. It may be a partial or complete solution to a problem instance of a given problem class
     /// </summary>
     /// <typeparam name="P"></typeparam>
-    public abstract class ProblemSolution <P,O> where P : ProblemInstance where O : Option
+    public abstract class ProblemSolution <P,O> where P : ProblemInstance where O : Option<P>
     {
         /// <summary>
         /// Gets the problem instance of this solution.

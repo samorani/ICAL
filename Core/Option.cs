@@ -9,7 +9,7 @@ namespace Core
     /// <summary>
     /// Class Option.It represents a feasible option at a given stage of a partially built solution.
     /// </summary>
-    public abstract class Option
+    public abstract class Option<P> where P:ProblemInstance
     {
     }
 }

@@ -42,5 +42,10 @@ namespace Problems
             P = profits;
             C = capacity;
         }
+
+        //public override IEnumerable<List<O>> SequencesThatMayBuild<P, O>(ProblemSolution<P, O> targetSolution)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

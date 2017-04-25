@@ -13,5 +13,7 @@ namespace Core
     {
         public ProblemInstance ()
         { }
+
+        //public abstract IEnumerable<List<O>> SequencesThatMayBuild<P, O>(ProblemSolution<P, O> targetSolution) where P : ProblemInstance where O : Option<P>;
     }
 }
