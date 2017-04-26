@@ -26,7 +26,7 @@ namespace Core
         /// <param name="currentList">The current list.</param>
         /// <param name="targetSolution">The target solution.</param>
         /// <returns>IEnumerable&lt;List&lt;O&gt;&gt;.</returns>
-        public IEnumerable<List<O>> SequencesThatMayBuildFrom(List<O> currentList, S targetSolution)
+        public IEnumerable<Sequence<S, I, O>> SequencesThatMayBuildFrom(Sequence<S, I, O> currentList, S targetSolution)
         {
             // check if we are done
             if (this.IsSameAs(targetSolution))
@@ -38,10 +38,10 @@ namespace Core
                     if (BringsCloser(option, targetSolution))
                     {
                         S newSol = ChooseOption(option);
-                        List<O> newList = new List<O>(currentList);
+                        Sequence<S, I, O> newList = new Sequence<S, I, O>(currentList);
                         // add the solution reached to newList
-                        newList.Add(option);
-                        foreach (List<O> l in newSol.SequencesThatMayBuildFrom(newList, targetSolution))
+                        newList.Add((S)this, option);
+                        foreach (Sequence<S, I, O> l in newSol.SequencesThatMayBuildFrom(newList, targetSolution))
                             yield return l;
                     }
             }

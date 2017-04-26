@@ -70,10 +70,11 @@ namespace Test
             Assert.AreEqual(6, target.CurrentValue);
             
             // build sequences
-            List<List<KP_Option>> sequences = new List<List<KP_Option>>(inst.SequencesThatMayBuild(target));
-            foreach (List<KP_Option> s in sequences)
+            List<Sequence<KP_ProblemSolution,KP_ProblemInstance,KP_Option>> sequences = 
+                new List<Sequence<KP_ProblemSolution, KP_ProblemInstance, KP_Option>>(inst.SequencesThatMayBuild(target));
+            foreach (Sequence<KP_ProblemSolution, KP_ProblemInstance, KP_Option> s in sequences)
             {
-                foreach (KP_Option o in s)
+                foreach (KP_Option o in s.Options)
                     Debug.Write(o.Index + ",");
                 Debug.WriteLine("");
             }

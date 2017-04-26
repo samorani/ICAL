@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ILOG.Concert">
+      <HintPath>..\DLLs\ILOG.Concert.dll</HintPath>
+    </Reference>
+    <Reference Include="ILOG.CPLEX">
+      <HintPath>..\DLLs\ILOG.CPLEX.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,10 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CplexGreedyAlgorithmLearner.cs" />
+    <Compile Include="FunctionGreedyRule.cs" />
+    <Compile Include="IGreedyAlgorithmLearner.cs" />
+    <Compile Include="GreedyRule.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="ProblemInstance.cs" />
     <Compile Include="ProblemSolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sequence.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,10 +23,10 @@ namespace Core
         /// </summary>
         /// <param name="targetSolution">The target solution.</param>
         /// <returns>IEnumerable&lt;List&lt;O&gt;&gt;.</returns>
-        public IEnumerable<List<O>> SequencesThatMayBuild(S targetSolution)
+        public IEnumerable<Sequence<S,I,O>> SequencesThatMayBuild(S targetSolution)
         {
             S empty = BuildEmptySolution();
-            foreach (List<O> list in empty.SequencesThatMayBuildFrom(new List<O>(), targetSolution))
+            foreach (Sequence<S, I, O> list in empty.SequencesThatMayBuildFrom(new Sequence<S, I, O>(), targetSolution))
                 yield return list;
         }
     }
