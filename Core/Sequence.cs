@@ -60,6 +60,12 @@ namespace Core
             return 0;
         }
 
-        //public override  
+        public override string ToString()
+        {
+            string s = "";
+            foreach (O o in Options)
+                s += o + ",";
+            return s;
+        }
     }
 }

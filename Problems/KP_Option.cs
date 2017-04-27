@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System;
+using Core;
 
 namespace Problems
 {
@@ -13,6 +14,11 @@ namespace Problems
         public override string ToString()
         {
             return Index.ToString();
+        }
+
+        public override bool IsSameAs(KP_Option other)
+        {
+            return Index == other.Index;
         }
     }
 }

@@ -12,8 +12,8 @@ namespace Core
         /// Gets the beta, that is, the function coefficients used to evaluate the goodness of the rule
         /// </summary>
         /// <value>The beta.</value>
-        public double [] Beta { get; private set; }
-        public FunctionGreedyRule(double [] beta)
+        public SortedList<string,double> Beta { get; private set; }
+        public FunctionGreedyRule(SortedList<string, double> beta)
         {
             Beta = beta;
         }
@@ -29,9 +29,18 @@ namespace Core
         {
             double sum = 0;
             int i = 0;
-            foreach (double d in currentSolution.GetAttributesOfOption(option).Values)
-                sum += d * Beta[i++];
+            SortedList<string, double>  attributes = currentSolution.GetAttributesOfOption(option);
+            foreach (string att in attributes.Keys)
+                sum += attributes[att] * Beta[att];
             return sum;
+        }
+
+        public override string ToString()
+        {
+            string s = "";
+            foreach (string att in Beta.Keys)
+                s += att + ": " + Math.Round(Beta[att],4) + "\n";
+            return s;
         }
     }
 }

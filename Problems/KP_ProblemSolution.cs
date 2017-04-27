@@ -82,7 +82,7 @@ namespace Problems
         public override IEnumerable<KP_Option> GetFeasibleOptions()
         {
             for (int i = 0; i < Instance.N; i++)
-                if (Instance.W[i] <= RemainingCapacity)
+                if (Instance.W[i] <= RemainingCapacity && !this.X[i])
                     yield return new KP_Option(i);
         }
 
