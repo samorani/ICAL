@@ -12,7 +12,7 @@ namespace Core
     /// <typeparam name="S"></typeparam>
     /// <typeparam name="I"></typeparam>
     /// <typeparam name="O"></typeparam>
-    public interface IGreedyAlgorithmLearner<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Option<S, I, O>
+    public interface IGreedyAlgorithmLearner<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
         GreedyRule<S, I, O> Learn(List<S> solutions);
     }

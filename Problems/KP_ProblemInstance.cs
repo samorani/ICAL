@@ -11,7 +11,7 @@ namespace Problems
     /// An in instance of the KP01
     /// </summary>
     /// <seealso cref="Core.ProblemInstance"/>
-    public class KP_ProblemInstance : ProblemInstance<KP_ProblemSolution, KP_ProblemInstance, KP_Option>
+    public class KP_ProblemInstance : ProblemInstance<KP_ProblemSolution, KP_ProblemInstance, KP_Action>
     {
         /// <summary>
         /// Gets the size.
@@ -50,14 +50,20 @@ namespace Problems
 
         public override string ToString()
         {
-            string s = "W=[";
-            foreach (double d in W)
-                s += d + ",";
-            s += "], P=[";
-            foreach (double d in P)
-                s += d + ",";
-            s += "], C=" + C;
-            return s;
+            string sw = "W=[";
+            string sp = "P=[";
+            for (int i=0;i<this.W.Length;i++)
+            {
+                string next = i + 1 == this.W.Length ? "]" : ",";
+                sw += W[i] + next;
+                sp += P[i] + next;
+            }
+            return sw + ", " + sp+", C="+C;
+        }
+
+        public override int CompareTo(ProblemInstance<KP_ProblemSolution, KP_ProblemInstance, KP_Action> other)
+        {
+            return this.ToString().CompareTo(other.ToString());
         }
     }
 }

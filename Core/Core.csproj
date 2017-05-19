@@ -49,9 +49,10 @@
   <ItemGroup>
     <Compile Include="CplexGreedyAlgorithmLearner.cs" />
     <Compile Include="FunctionGreedyRule.cs" />
+    <Compile Include="GreedySolver.cs" />
     <Compile Include="IGreedyAlgorithmLearner.cs" />
     <Compile Include="GreedyRule.cs" />
-    <Compile Include="Option.cs" />
+    <Compile Include="Action.cs" />
     <Compile Include="ProblemInstance.cs" />
     <Compile Include="ProblemSolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

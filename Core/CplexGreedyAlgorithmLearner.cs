@@ -2,15 +2,17 @@
 using ILOG.CPLEX;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Core
 {
-    public class CplexGreedyAlgorithmLearner<S, I, O> : IGreedyAlgorithmLearner<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Option<S, I, O>
+    public class CplexGreedyAlgorithmLearner<S, I, O> : IGreedyAlgorithmLearner<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
         Cplex _model;
+        string _descriptionFile = "..\\..\\..\\variables.txt";
         public double ObjectiveValue { get; set; }
         // for each instance i, for each sequence j, s[i,j]
         SortedList<I, SortedList<Sequence<S, I, O>, IIntVar>> _s;
@@ -46,7 +48,7 @@ namespace Core
             _model.Solve();
             _model.WriteSolution("..\\..\\..\\solution.lp");
             ObjectiveValue = _model.ObjValue;
-            Console.Write("ObjVal = " + Math.Round(ObjectiveValue, 4) + ". ");
+            Console.WriteLine("ObjVal = " + Math.Round(ObjectiveValue, 4) + ". \n");
 
             if (!_model.IsPrimalFeasible())
             {
@@ -59,12 +61,35 @@ namespace Core
             foreach (string att in _g.Keys)
                 beta.Add(att, _model.GetValue(_g[att]));
             FunctionGreedyRule<S, I, O> func = new FunctionGreedyRule<S, I, O>(beta);
+
+            // get violations to the rule
+            foreach (I i in _gamma.Keys)
+                foreach (Sequence<S,I,O> j in _gamma[i].Keys)
+                    foreach (int t in _gamma[i][j].Keys)
+                        if (_model.GetValue(_gamma[i][j][t]) > 0.01)
+                        {
+                            // I found a violation at step t of sequence j of instance i
+                            string viol = "******** VIOLATION ********\n";
+
+                            S sol = j.Solutions[t];
+                            viol += "Violation in instance " + i + " sequence "+j+ "\n";
+                            viol += "At step " + t + ", here is the solution:\n";
+                            viol += sol + "\n";
+                            viol += "We should have selected " + j.Actions[t] + ", with score "+ Math.Round(SumproductWithG(sol.GetAttributesOfAction(j.Actions[t])),6) + ". The other actions are:\n";
+                            foreach (O other in sol.GetFeasibleActions())
+                                if (!other.IsSameAs(j.Actions[t]))
+                                    viol += other + ", whose score is " + Math.Round(SumproductWithG(sol.GetAttributesOfAction(other)), 6) + "\n";
+                            Console.Write(viol);
+                        }
             _model.End();
             return func;
         }
 
         private void SetupModel(List<S> solutions)
         {
+            StreamWriter sw = new StreamWriter(_descriptionFile,true);
+            sw.WriteLine("\n======== CONSTRAINTS ========");
+
             // objective
             ILinearNumExpr obj = _model.LinearNumExpr();
             foreach (I instance in _gamma.Keys)
@@ -86,28 +111,31 @@ namespace Core
             }
 
             // constraint (2)
-            i_index = 0;
+            i_index = -1;
             foreach (I i in _gamma.Keys)
             {
-                int j_index = 0;
+                i_index++;
+                int j_index = -1;
 
                 foreach (Sequence<S, I, O> j in _gamma[i].Keys)
+                {
+                    j_index++;
                     foreach (int t in _gamma[i][j].Keys)
                     {
                         // get the object at step t of sequence j
-                        O chosen = j.Options[t];
-                        SortedList<string, double> v_ioj_star = j.Solutions[t].GetAttributesOfOption(chosen);
+                        O chosen = j.Actions[t];
+                        SortedList<string, double> v_ioj_star = j.Solutions[t].GetAttributesOfAction(chosen);
                         int h_index = -1;
-                        foreach (O h in j.Solutions[t].GetFeasibleOptions())
+                        foreach (O h in j.Solutions[t].GetFeasibleActions())
                         {
                             h_index++;
                             if (!h.IsSameAs(chosen))
                             {
                                 // add constraint 2
-                                SortedList<string, double> v_iojh = j.Solutions[t].GetAttributesOfOption(h);
+                                SortedList<string, double> v_iojh = j.Solutions[t].GetAttributesOfAction(h);
                                 double bigM = _eps;
-                                foreach (double val in v_iojh.Values)
-                                    bigM += Math.Abs(val);
+                                for (int v = 0; v < v_iojh.Count; v++)
+                                    bigM += Math.Abs(v_iojh.Values[v] - v_ioj_star.Values[v]);
 
                                 ILinearNumExpr constr = _model.LinearNumExpr();
                                 foreach (string att in v_ioj_star.Keys)
@@ -116,12 +144,14 @@ namespace Core
                                     constr.AddTerm(-v_iojh[att], _g[att]);
                                 constr.AddTerm(bigM, _gamma[i][j][t]);
                                 constr.AddTerm(-bigM, _s[i][j]);
-
-                                _model.AddGe(constr, _eps - bigM, "2_" + (i_index++) + "_" + (j_index++) + "_" + t +
-                                "_" + (h_index++));
+                                string constName = "2_" + i_index + "_" + j_index + "_" + t +
+                                "_" + (h_index++);
+                                sw.WriteLine(constName + ": i=" + i + "; j=" + j + "; t=" + t + "; chosen action=" + chosen + GetAttributesString(v_ioj_star) + " vs " + h + GetAttributesString(v_iojh));
+                                _model.AddGe(constr, _eps - bigM, constName);
                             }
                         }
                     }
+                }
             }
 
             // constraints (4) and (5)
@@ -137,6 +167,22 @@ namespace Core
                 _model.AddGe(expr, 0);
             }
 
+            sw.Close();
+
+        }
+
+        private string GetAttributesString(SortedList<string, double> attributes)
+        {
+            string s = "[";
+            int i = 0;
+            foreach(string att in attributes.Keys)
+            {
+                string end = ",";
+                if (++i == attributes.Count)
+                    end = "]";
+                s += attributes[att] + end;
+            }
+            return s;
         }
 
         private void SetupVariables(List<S> solutions)
@@ -148,6 +194,8 @@ namespace Core
 
             int instanceIndex = 0;
 
+            StreamWriter sw = new StreamWriter(_descriptionFile);
+            sw.WriteLine("======== VARIABLES ========");
             // set up the variables
             foreach (S sol in solutions)
             {
@@ -159,26 +207,50 @@ namespace Core
                 {
                     if (_nattr == 0)
                     {
-                        SortedList<string, double> attributes = sol.GetAttributesOfOption(seq.Options[0]);
+                        SortedList<string, double> attributes = sol.GetAttributesOfAction(seq.Actions[0]);
                         _nattr = attributes.Count;
                         int attIndex = 0;
                         foreach (string attName in attributes.Keys)
                         {
-                            _g.Add(attName, _model.NumVar(-1.0, 1.0, "g_" + (attIndex)));
-                            _a.Add(attName, _model.IntVar(0, 1, "a_" + (attIndex++)));
+                            string gvarname = "g_" + (attIndex);
+                            string avarname = "a_" + (attIndex++);
+                            _g.Add(attName, _model.NumVar(-1.0, 1.0, gvarname));
+                            _a.Add(attName, _model.IntVar(0, 1, avarname));
+                            sw.WriteLine(gvarname + ": g(att=" + attName + ")");
+                            sw.WriteLine(avarname + ": g(att=" + attName + ")");
                         }
                     }
-                    IIntVar s_ij = _model.IntVar(0, 1, "s_" + instanceIndex + "_" + seqIndex);
+                    string svarname = "s_" + instanceIndex + "_" + seqIndex;
+                    IIntVar s_ij = _model.IntVar(0, 1, svarname);
+                    sw.WriteLine(svarname + ": s(i=" + inst + ", j="+seq+")");
+
                     _s[inst].Add(seq, s_ij);
                     _gamma[inst].Add(seq, new SortedList<int, IIntVar>());
                     // make all components of gamma[i,j]
                     for (int t = 0; t < seq.Count; t++)
-                        _gamma[inst][seq].Add(t, _model.IntVar(0, 1, "gamma_" + instanceIndex + "_" + seqIndex + "_" + t));
-
+                    {
+                        string gammavarname = "gamma_" + instanceIndex + "_" + seqIndex + "_" + t;
+                        _gamma[inst][seq].Add(t, _model.IntVar(0, 1, gammavarname ));
+                        sw.WriteLine(gammavarname + ": gamma(i=" + inst + ", j=" + seq + ",t="+t + ")");
+                    }
                     seqIndex++;
                 }
                 instanceIndex++;
             }
+            sw.Close();
+        }
+
+        /// <summary>
+        /// Computes the sumproducts between g and the attributes of an action, assuming that the model has been solved.
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        /// <returns>System.Double.</returns>
+        private double SumproductWithG(SortedList<string,double> attributes)
+        {
+            double score = 0;
+            foreach (string att in attributes.Keys)
+                score += attributes[att] * _model.GetValue(_g[att]);
+            return score;
         }
     }
 }

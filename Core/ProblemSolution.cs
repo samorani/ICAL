@@ -11,8 +11,8 @@ namespace Core
     /// </summary>
     /// <typeparam name="S">The type of ProblemSolution</typeparam>
     /// <typeparam name="I">The type of ProblemInstance</typeparam>
-    /// <typeparam name="O">The type of Option</typeparam>
-    public abstract class ProblemSolution<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Option<S, I, O>
+    /// <typeparam name="O">The type of Action</typeparam>
+    public abstract class ProblemSolution<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
         /// <summary>
         /// Gets the problem instance of this solution.
@@ -33,14 +33,14 @@ namespace Core
                 yield return currentList;
             else
             {
-                // what are the options that I can choose from right now?
-                foreach (O option in GetFeasibleOptions())
-                    if (BringsCloser(option, targetSolution))
+                // what are the actions that I can choose from right now?
+                foreach (O action in GetFeasibleActions())
+                    if (MayLeadToTargetSolution(action, targetSolution))
                     {
-                        S newSol = ChooseOption(option);
+                        S newSol = ChooseAction(action);
                         Sequence<S, I, O> newList = new Sequence<S, I, O>(currentList);
                         // add the solution reached to newList
-                        newList.Add((S)this, option);
+                        newList.Add((S)this, action);
                         foreach (Sequence<S, I, O> l in newSol.SequencesThatMayBuildFrom(newList, targetSolution))
                             yield return l;
                     }
@@ -56,32 +56,38 @@ namespace Core
         protected abstract bool IsSameAs(S other);
 
         /// <summary>
-        /// Returns true if the option brings this solution closer to the targetSolution. This method is used in the 
+        /// Returns true if the action brings this solution closer to the targetSolution. This method is used in the 
         /// procedure of sequence generation to build the sequences that reach the target solution.
         /// </summary>
-        /// <param name="option">The option in consideration.</param>
+        /// <param name="action">The action in consideration.</param>
         /// <param name="targetSolution">The target solution.</param>
-        /// <returns><c>true</c> if the option brings this solution closer to the targetSolution, <c>false</c> otherwise.</returns>
-        protected abstract bool BringsCloser(O option, S targetSolution);
+        /// <returns><c>true</c> if the action brings this solution closer to the targetSolution, <c>false</c> otherwise.</returns>
+        protected abstract bool MayLeadToTargetSolution(O action, S targetSolution);
 
         /// <summary>
-        /// Gets the feasible options of the current solution for the current problem instance
+        /// Gets the feasible actions of the current solution for the current problem instance
         /// </summary>
-        /// <returns>IEnumerable&lt;Option&gt;.</returns>
-        public abstract IEnumerable<O> GetFeasibleOptions();
+        /// <returns>IEnumerable&lt;Action&gt;.</returns>
+        public abstract IEnumerable<O> GetFeasibleActions();
 
         /// <summary>
-        /// Gets the attributes of option.
+        /// Gets the attributes of action.
         /// </summary>
         /// <param name="o">The o.</param>
         /// <returns>the attributes</returns>
-        public abstract SortedList<string, double> GetAttributesOfOption(O o);
+        public abstract SortedList<string, double> GetAttributesOfAction(O o);
 
         /// <summary>
-        /// Returns a copy of this solution where option o is chosen
+        /// Returns a copy of this solution where action o is chosen
         /// </summary>
         /// <param name="o">The o.</param>
-        public abstract S ChooseOption(O o);
+        public abstract S ChooseAction(O o);
+
+        /// <summary>
+        /// Gets the objective value.
+        /// </summary>
+        /// <returns>System.Double.</returns>
+        public abstract double Value { get; protected set; }
 
     }
 }

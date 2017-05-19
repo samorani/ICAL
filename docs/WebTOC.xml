@@ -1,26 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpTOC>
 
-  <HelpTOCNode Id="30a55780-2de2-49b5-8fb7-b2ce532a1cbf" Title="Core Namespace" Url="html/N-Core.htm">
-    <HelpTOCNode Id="ec57f34d-5726-467f-bdf2-965ac1fb81e2" Title="Option(T) Class" Url="html/T-Core.Option-1.htm">
-      <HelpTOCNode Title="Option(T) Methods" Url="html/Methods.T-Core.Option-1.htm" />
-    </HelpTOCNode>
-    <HelpTOCNode Id="5ca39f75-fe75-4b9a-a5fd-8a0226124a5e" Title="ProblemClass Class" Url="html/T-Core.ProblemClass.htm">
-      <HelpTOCNode Title="ProblemClass Members" Url="html/AllMembers.T-Core.ProblemClass.htm" />
-      <HelpTOCNode Title="ProblemClass Constructor " Url="html/M-Core.ProblemClass.-ctor.htm" />
-      <HelpTOCNode Title="ProblemClass Methods" Url="html/Methods.T-Core.ProblemClass.htm" />
-      <HelpTOCNode Id="c9054906-8055-483a-b6dd-f70a6de24f60" Title="ProblemClass Properties" Url="html/Properties.T-Core.ProblemClass.htm">
-        <HelpTOCNode Title="Name Property " Url="html/P-Core.ProblemClass.Name.htm" />
+  <HelpTOCNode Id="45d1c22d-a4a8-4e20-bb7e-3cd70c4f26e2" Title="Core Namespace" Url="html/N-Core.htm">
+    <HelpTOCNode Id="77434865-659c-42ab-bba8-5af042337ef6" Title="Action(S, I, O) Class" Url="html/T-Core.Action-3.htm">
+      <HelpTOCNode Title="Action(S, I, O) Members" Url="html/AllMembers.T-Core.Action-3.htm" />
+      <HelpTOCNode Id="75227afb-ae44-4dcb-a8b0-484073d813d0" Title="Action(S, I, O) Methods" Url="html/Methods.T-Core.Action-3.htm">
+        <HelpTOCNode Title="IsSameAs Method " Url="html/M-Core.Action-3.IsSameAs.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="b6ed4911-23b1-4cb1-838f-d8fadb513ae5" Title="ProblemInstance(T) Class" Url="html/T-Core.ProblemInstance-1.htm">
-      <HelpTOCNode Title="ProblemInstance(T) Methods" Url="html/Methods.T-Core.ProblemInstance-1.htm" />
+    <HelpTOCNode Id="e7f03a03-6593-4c33-9c1b-c143f957c2aa" Title="CplexGreedyAlgorithmLearner(S, I, O) Class" Url="html/T-Core.CplexGreedyAlgorithmLearner-3.htm">
+      <HelpTOCNode Title="CplexGreedyAlgorithmLearner(S, I, O) Members" Url="html/AllMembers.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+      <HelpTOCNode Title="CplexGreedyAlgorithmLearner(S, I, O) Constructor " Url="html/M-Core.CplexGreedyAlgorithmLearner-3.-ctor.htm" />
+      <HelpTOCNode Id="a457f5a4-cea7-452c-a383-c8d0e121d49b" Title="CplexGreedyAlgorithmLearner(S, I, O) Methods" Url="html/Methods.T-Core.CplexGreedyAlgorithmLearner-3.htm">
+        <HelpTOCNode Title="Learn Method " Url="html/M-Core.CplexGreedyAlgorithmLearner-3.Learn.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="a8fcce03-6306-401c-811a-15d192b3341d" Title="CplexGreedyAlgorithmLearner(S, I, O) Properties" Url="html/Properties.T-Core.CplexGreedyAlgorithmLearner-3.htm">
+        <HelpTOCNode Title="ObjectiveValue Property " Url="html/P-Core.CplexGreedyAlgorithmLearner-3.ObjectiveValue.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="ad679755-4665-422a-a176-619533760b9a" Title="FunctionGreedyRule(S, I, O) Class" Url="html/T-Core.FunctionGreedyRule-3.htm">
+      <HelpTOCNode Title="FunctionGreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.FunctionGreedyRule-3.htm" />
+      <HelpTOCNode Title="FunctionGreedyRule(S, I, O) Constructor " Url="html/M-Core.FunctionGreedyRule-3.-ctor.htm" />
+      <HelpTOCNode Id="48acb017-7239-4983-b457-3054324a4c91" Title="FunctionGreedyRule(S, I, O) Methods" Url="html/Methods.T-Core.FunctionGreedyRule-3.htm">
+        <HelpTOCNode Title="EvaluateQuality Method " Url="html/M-Core.FunctionGreedyRule-3.EvaluateQuality.htm" />
+        <HelpTOCNode Title="ToString Method " Url="html/M-Core.FunctionGreedyRule-3.ToString.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="4e8fe04a-6b7c-4bfd-bcbf-d20a180247e7" Title="FunctionGreedyRule(S, I, O) Properties" Url="html/Properties.T-Core.FunctionGreedyRule-3.htm">
+        <HelpTOCNode Title="Beta Property " Url="html/P-Core.FunctionGreedyRule-3.Beta.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="659c5845-9797-49b7-9226-44f16f848d28" Title="GreedyRule(S, I, O) Class" Url="html/T-Core.GreedyRule-3.htm">
+      <HelpTOCNode Title="GreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.GreedyRule-3.htm" />
+      <HelpTOCNode Id="bde19fdf-9e99-489b-a556-cf8010fa264e" Title="GreedyRule(S, I, O) Methods" Url="html/Methods.T-Core.GreedyRule-3.htm">
+        <HelpTOCNode Title="ChooseOption Method " Url="html/M-Core.GreedyRule-3.ChooseOption.htm" />
+        <HelpTOCNode Title="EvaluateQuality Method " Url="html/M-Core.GreedyRule-3.EvaluateQuality.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="4715fa16-945f-4c4e-b683-96fdd81d52cb" Title="GreedySolver(S, I, O) Class" Url="html/T-Core.GreedySolver-3.htm">
+      <HelpTOCNode Title="GreedySolver(S, I, O) Members" Url="html/AllMembers.T-Core.GreedySolver-3.htm" />
+      <HelpTOCNode Id="2328a5a2-44c2-45a3-b80e-103eeec6eda1" Title="GreedySolver(S, I, O) Methods" Url="html/Methods.T-Core.GreedySolver-3.htm">
+        <HelpTOCNode Title="Solve Method " Url="html/M-Core.GreedySolver-3.Solve.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="756a03c0-c890-42af-bc9c-64f0df271bd6" Title="IGreedyAlgorithmLearner(S, I, O) Interface" Url="html/T-Core.IGreedyAlgorithmLearner-3.htm">
+      <HelpTOCNode Title="IGreedyAlgorithmLearner Members" Url="html/AllMembers.T-Core.IGreedyAlgorithmLearner-3.htm" />
+      <HelpTOCNode Id="d2ec8c2d-d953-4149-8680-863018aacfe2" Title="IGreedyAlgorithmLearner Methods" Url="html/Methods.T-Core.IGreedyAlgorithmLearner-3.htm">
+        <HelpTOCNode Title="Learn Method " Url="html/M-Core.IGreedyAlgorithmLearner-3.Learn.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="57a3346f-8bd6-4439-b1e7-088c4934115c" Title="ProblemInstance(S, I, O) Class" Url="html/T-Core.ProblemInstance-3.htm">
+      <HelpTOCNode Title="ProblemInstance(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemInstance-3.htm" />
+      <HelpTOCNode Id="c53c68f7-5228-4975-bc80-e65638f988b3" Title="ProblemInstance(S, I, O) Methods" Url="html/Methods.T-Core.ProblemInstance-3.htm">
+        <HelpTOCNode Title="BuildEmptySolution Method " Url="html/M-Core.ProblemInstance-3.BuildEmptySolution.htm" />
+        <HelpTOCNode Title="CompareTo Method " Url="html/M-Core.ProblemInstance-3.CompareTo.htm" />
+        <HelpTOCNode Title="SequencesThatMayBuild Method " Url="html/M-Core.ProblemInstance-3.SequencesThatMayBuild.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="0a66f810-2a55-4819-8e29-a292ca1ce89c" Title="ProblemSolution(S, I, O) Class" Url="html/T-Core.ProblemSolution-3.htm">
+      <HelpTOCNode Title="ProblemSolution(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemSolution-3.htm" />
+      <HelpTOCNode Id="7993aa21-4613-4f65-bde1-96d26f69c855" Title="ProblemSolution(S, I, O) Methods" Url="html/Methods.T-Core.ProblemSolution-3.htm">
+        <HelpTOCNode Title="ChooseOption Method " Url="html/M-Core.ProblemSolution-3.ChooseOption.htm" />
+        <HelpTOCNode Title="GetAttributesOfOption Method " Url="html/M-Core.ProblemSolution-3.GetAttributesOfOption.htm" />
+        <HelpTOCNode Title="GetFeasibleOptions Method " Url="html/M-Core.ProblemSolution-3.GetFeasibleOptions.htm" />
+        <HelpTOCNode Title="IsSameAs Method " Url="html/M-Core.ProblemSolution-3.IsSameAs.htm" />
+        <HelpTOCNode Title="MayLeadToTargetSolution Method " Url="html/M-Core.ProblemSolution-3.MayLeadToTargetSolution.htm" />
+        <HelpTOCNode Title="SequencesThatMayBuildFrom Method " Url="html/M-Core.ProblemSolution-3.SequencesThatMayBuildFrom.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="a65d8333-94bd-4ee9-babe-27d11f41d67e" Title="ProblemSolution(S, I, O) Properties" Url="html/Properties.T-Core.ProblemSolution-3.htm">
+        <HelpTOCNode Title="Instance Property " Url="html/P-Core.ProblemSolution-3.Instance.htm" />
+        <HelpTOCNode Title="Value Property " Url="html/P-Core.ProblemSolution-3.Value.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="1b3e6e83-e49d-4366-acd8-6c7597b9851c" Title="Sequence(S, I, O) Class" Url="html/T-Core.Sequence-3.htm">
+      <HelpTOCNode Title="Sequence(S, I, O) Members" Url="html/AllMembers.T-Core.Sequence-3.htm" />
+      <HelpTOCNode Id="86751893-8aa0-4951-b46b-6a1d46b2aa92" Title="Sequence(S, I, O) Constructor " Url="html/Overload-Core.Sequence-3.-ctor.htm">
+        <HelpTOCNode Title="Sequence(S, I, O) Constructor " Url="html/M-Core.Sequence-3.-ctor.htm" />
+        <HelpTOCNode Title="Sequence(S, I, O) Constructor (Sequence(S, I, O))" Url="html/M-Core.Sequence-3.-ctor_1.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="7bcc3882-7c90-4561-8598-fa1e1ed8dc08" Title="Sequence(S, I, O) Methods" Url="html/Methods.T-Core.Sequence-3.htm">
+        <HelpTOCNode Title="Add Method " Url="html/M-Core.Sequence-3.Add.htm" />
+        <HelpTOCNode Title="CompareTo Method " Url="html/M-Core.Sequence-3.CompareTo.htm" />
+        <HelpTOCNode Title="ToString Method " Url="html/M-Core.Sequence-3.ToString.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="30e3f8d6-296e-4a56-b2ee-2d64e553abf4" Title="Sequence(S, I, O) Properties" Url="html/Properties.T-Core.Sequence-3.htm">
+        <HelpTOCNode Title="Count Property " Url="html/P-Core.Sequence-3.Count.htm" />
+        <HelpTOCNode Title="Options Property " Url="html/P-Core.Sequence-3.Options.htm" />
+        <HelpTOCNode Title="Solutions Property " Url="html/P-Core.Sequence-3.Solutions.htm" />
+      </HelpTOCNode>
     </HelpTOCNode>
   </HelpTOCNode>
-  <HelpTOCNode Id="1915aec7-06be-4a78-a967-dd4d33ebc583" Title="IGAL Namespace" Url="html/N-IGAL.htm">
-    <HelpTOCNode Id="c29f4d19-e7c3-4c0a-9757-8594cac00be0" Title="Program Class" Url="html/T-IGAL.Program.htm">
+  <HelpTOCNode Id="efd177cb-e6ff-41a4-bf39-98a82a9a5d12" Title="IGAL Namespace" Url="html/N-IGAL.htm">
+    <HelpTOCNode Id="d3aafc35-8b3b-437b-a3ec-4d2db70920d3" Title="Program Class" Url="html/T-IGAL.Program.htm">
       <HelpTOCNode Title="Program Members" Url="html/AllMembers.T-IGAL.Program.htm" />
-      <HelpTOCNode Title="Program Methods" Url="html/Methods.T-IGAL.Program.htm" />
+      <HelpTOCNode Id="a773e92f-098a-4693-890b-b4416555e12d" Title="Program Methods" Url="html/Methods.T-IGAL.Program.htm">
+        <HelpTOCNode Title="Main Method " Url="html/M-IGAL.Program.Main.htm" />
+      </HelpTOCNode>
     </HelpTOCNode>
   </HelpTOCNode>
 </HelpTOC>

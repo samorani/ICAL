@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class FunctionGreedyRule<S, I, O> : GreedyRule<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Option<S, I, O>
+    public class FunctionGreedyRule<S, I, O> : GreedyRule<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
         /// <summary>
         /// Gets the beta, that is, the function coefficients used to evaluate the goodness of the rule
@@ -19,17 +19,17 @@ namespace Core
         }
 
         /// <summary>
-        /// Evaluates the fit of the greedy rule of choosing an option from a certain current solution. It returns the 
+        /// Evaluates the fit of the greedy rule of choosing an action from a certain current solution. It returns the 
         /// sumproduct of the attribute values and the beta coefficients.
         /// </summary>
-        /// <param name="option">The option.</param>
+        /// <param name="action">The action.</param>
         /// <param name="currentSolution">The current solution.</param>
         /// <returns>System.Double.</returns>
-        protected override double EvaluateQuality(O option, S currentSolution)
+        protected override double EvaluateQuality(O action, S currentSolution)
         {
             double sum = 0;
             int i = 0;
-            SortedList<string, double>  attributes = currentSolution.GetAttributesOfOption(option);
+            SortedList<string, double>  attributes = currentSolution.GetAttributesOfAction(action);
             foreach (string att in attributes.Keys)
                 sum += attributes[att] * Beta[att];
             return sum;

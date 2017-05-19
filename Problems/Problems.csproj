@@ -40,9 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KP_Option.cs" />
+    <Compile Include="KP_Action.cs" />
     <Compile Include="KP_ProblemInstance.cs" />
     <Compile Include="KP_ProblemSolution.cs" />
+    <Compile Include="MGDP_ProblemInstance.cs" />
+    <Compile Include="MGDP_Action.cs" />
+    <Compile Include="MGDP_ProblemSolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,71 +1,276 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpKI>
+  <HelpKINode Title="Action(Of S, I, O) class">
+    <HelpKINode Title="Action(S, I, O) Class" Url="html/T-Core.Action-3.htm" />
+    <HelpKINode Title="Action(S, I, O) Members" Url="html/AllMembers.T-Core.Action-3.htm" />
+    <HelpKINode Title="about Action(Of S, I, O) class" Url="html/T-Core.Action-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.Action-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.Action-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Action(Of S, I, O).IsSameAs method" Url="html/M-Core.Action-3.IsSameAs.htm" />
+  <HelpKINode Title="Action&lt;S, I, O&gt; class">
+    <HelpKINode Title="Action(S, I, O) Class" Url="html/T-Core.Action-3.htm" />
+    <HelpKINode Title="Action(S, I, O) Members" Url="html/AllMembers.T-Core.Action-3.htm" />
+    <HelpKINode Title="about Action&lt;S, I, O&gt; class" Url="html/T-Core.Action-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.Action-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.Action-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Action&lt;S, I, O&gt;.IsSameAs method" Url="html/M-Core.Action-3.IsSameAs.htm" />
+  <HelpKINode Title="Add method" Url="html/M-Core.Sequence-3.Add.htm" />
+  <HelpKINode Title="Beta property" Url="html/P-Core.FunctionGreedyRule-3.Beta.htm" />
+  <HelpKINode Title="BuildEmptySolution method" Url="html/M-Core.ProblemInstance-3.BuildEmptySolution.htm" />
+  <HelpKINode Title="ChooseOption method">
+    <HelpKINode Title="ChooseOption Method " Url="html/M-Core.GreedyRule-3.ChooseOption.htm" />
+    <HelpKINode Title="ChooseOption Method " Url="html/M-Core.ProblemSolution-3.ChooseOption.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CompareTo method">
+    <HelpKINode Title="CompareTo Method " Url="html/M-Core.Sequence-3.CompareTo.htm" />
+    <HelpKINode Title="CompareTo Method " Url="html/M-Core.ProblemInstance-3.CompareTo.htm" />
+  </HelpKINode>
   <HelpKINode Title="Core namespace" Url="html/N-Core.htm" />
-  <HelpKINode Title="Core.Option(Of T) class">
-    <HelpKINode Title="Option(T) Class" Url="html/T-Core.Option-1.htm" />
-    <HelpKINode Title="Option(T) Members" Url="html/AllMembers.T-Core.Option-1.htm" />
+  <HelpKINode Title="Core.Action(Of S, I, O) class">
+    <HelpKINode Title="Action(S, I, O) Class" Url="html/T-Core.Action-3.htm" />
+    <HelpKINode Title="Action(S, I, O) Members" Url="html/AllMembers.T-Core.Action-3.htm" />
   </HelpKINode>
-  <HelpKINode Title="Core.Option&lt;T&gt; class">
-    <HelpKINode Title="Option(T) Class" Url="html/T-Core.Option-1.htm" />
-    <HelpKINode Title="Option(T) Members" Url="html/AllMembers.T-Core.Option-1.htm" />
+  <HelpKINode Title="Core.Action&lt;S, I, O&gt; class">
+    <HelpKINode Title="Action(S, I, O) Class" Url="html/T-Core.Action-3.htm" />
+    <HelpKINode Title="Action(S, I, O) Members" Url="html/AllMembers.T-Core.Action-3.htm" />
   </HelpKINode>
-  <HelpKINode Title="Core.ProblemClass class">
-    <HelpKINode Title="ProblemClass Class" Url="html/T-Core.ProblemClass.htm" />
-    <HelpKINode Title="ProblemClass Members" Url="html/AllMembers.T-Core.ProblemClass.htm" />
+  <HelpKINode Title="Core.CplexGreedyAlgorithmLearner(Of S, I, O) class">
+    <HelpKINode Title="CplexGreedyAlgorithmLearner(S, I, O) Class" Url="html/T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="CplexGreedyAlgorithmLearner(S, I, O) Members" Url="html/AllMembers.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
   </HelpKINode>
-  <HelpKINode Title="Core.ProblemInstance(Of T) class">
-    <HelpKINode Title="ProblemInstance(T) Class" Url="html/T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="ProblemInstance(T) Members" Url="html/AllMembers.T-Core.ProblemInstance-1.htm" />
+  <HelpKINode Title="Core.CplexGreedyAlgorithmLearner&lt;S, I, O&gt; class">
+    <HelpKINode Title="CplexGreedyAlgorithmLearner(S, I, O) Class" Url="html/T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="CplexGreedyAlgorithmLearner(S, I, O) Members" Url="html/AllMembers.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
   </HelpKINode>
-  <HelpKINode Title="Core.ProblemInstance&lt;T&gt; class">
-    <HelpKINode Title="ProblemInstance(T) Class" Url="html/T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="ProblemInstance(T) Members" Url="html/AllMembers.T-Core.ProblemInstance-1.htm" />
+  <HelpKINode Title="Core.FunctionGreedyRule(Of S, I, O) class">
+    <HelpKINode Title="FunctionGreedyRule(S, I, O) Class" Url="html/T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="FunctionGreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.FunctionGreedyRule-3.htm" />
   </HelpKINode>
+  <HelpKINode Title="Core.FunctionGreedyRule&lt;S, I, O&gt; class">
+    <HelpKINode Title="FunctionGreedyRule(S, I, O) Class" Url="html/T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="FunctionGreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.FunctionGreedyRule-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.GreedyRule(Of S, I, O) class">
+    <HelpKINode Title="GreedyRule(S, I, O) Class" Url="html/T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="GreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.GreedyRule-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.GreedyRule&lt;S, I, O&gt; class">
+    <HelpKINode Title="GreedyRule(S, I, O) Class" Url="html/T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="GreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.GreedyRule-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.GreedySolver(Of S, I, O) class">
+    <HelpKINode Title="GreedySolver(S, I, O) Class" Url="html/T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="GreedySolver(S, I, O) Members" Url="html/AllMembers.T-Core.GreedySolver-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.GreedySolver&lt;S, I, O&gt; class">
+    <HelpKINode Title="GreedySolver(S, I, O) Class" Url="html/T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="GreedySolver(S, I, O) Members" Url="html/AllMembers.T-Core.GreedySolver-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.IGreedyAlgorithmLearner interface" Url="html/AllMembers.T-Core.IGreedyAlgorithmLearner-3.htm" />
+  <HelpKINode Title="Core.IGreedyAlgorithmLearner(Of S, I, O) interface" Url="html/T-Core.IGreedyAlgorithmLearner-3.htm" />
+  <HelpKINode Title="Core.IGreedyAlgorithmLearner&lt;S, I, O&gt; interface" Url="html/T-Core.IGreedyAlgorithmLearner-3.htm" />
+  <HelpKINode Title="Core.ProblemInstance(Of S, I, O) class">
+    <HelpKINode Title="ProblemInstance(S, I, O) Class" Url="html/T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="ProblemInstance(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemInstance-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.ProblemInstance&lt;S, I, O&gt; class">
+    <HelpKINode Title="ProblemInstance(S, I, O) Class" Url="html/T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="ProblemInstance(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemInstance-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.ProblemSolution(Of S, I, O) class">
+    <HelpKINode Title="ProblemSolution(S, I, O) Class" Url="html/T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="ProblemSolution(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemSolution-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.ProblemSolution&lt;S, I, O&gt; class">
+    <HelpKINode Title="ProblemSolution(S, I, O) Class" Url="html/T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="ProblemSolution(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemSolution-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.Sequence(Of S, I, O) class">
+    <HelpKINode Title="Sequence(S, I, O) Class" Url="html/T-Core.Sequence-3.htm" />
+    <HelpKINode Title="Sequence(S, I, O) Members" Url="html/AllMembers.T-Core.Sequence-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Core.Sequence&lt;S, I, O&gt; class">
+    <HelpKINode Title="Sequence(S, I, O) Class" Url="html/T-Core.Sequence-3.htm" />
+    <HelpKINode Title="Sequence(S, I, O) Members" Url="html/AllMembers.T-Core.Sequence-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Count property" Url="html/P-Core.Sequence-3.Count.htm" />
+  <HelpKINode Title="CplexGreedyAlgorithmLearner(Of S, I, O) class">
+    <HelpKINode Title="CplexGreedyAlgorithmLearner(S, I, O) Class" Url="html/T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="CplexGreedyAlgorithmLearner(S, I, O) Members" Url="html/AllMembers.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="about CplexGreedyAlgorithmLearner(Of S, I, O) class" Url="html/T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="constructor" Url="html/M-Core.CplexGreedyAlgorithmLearner-3.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CplexGreedyAlgorithmLearner(Of S, I, O).CplexGreedyAlgorithmLearner constructor" Url="html/M-Core.CplexGreedyAlgorithmLearner-3.-ctor.htm" />
+  <HelpKINode Title="CplexGreedyAlgorithmLearner(Of S, I, O).Learn method" Url="html/M-Core.CplexGreedyAlgorithmLearner-3.Learn.htm" />
+  <HelpKINode Title="CplexGreedyAlgorithmLearner(Of S, I, O).ObjectiveValue property" Url="html/P-Core.CplexGreedyAlgorithmLearner-3.ObjectiveValue.htm" />
+  <HelpKINode Title="CplexGreedyAlgorithmLearner&lt;S, I, O&gt; class">
+    <HelpKINode Title="CplexGreedyAlgorithmLearner(S, I, O) Class" Url="html/T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="CplexGreedyAlgorithmLearner(S, I, O) Members" Url="html/AllMembers.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="about CplexGreedyAlgorithmLearner&lt;S, I, O&gt; class" Url="html/T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="constructor" Url="html/M-Core.CplexGreedyAlgorithmLearner-3.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Core.CplexGreedyAlgorithmLearner-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CplexGreedyAlgorithmLearner&lt;S, I, O&gt;.CplexGreedyAlgorithmLearner constructor" Url="html/M-Core.CplexGreedyAlgorithmLearner-3.-ctor.htm" />
+  <HelpKINode Title="CplexGreedyAlgorithmLearner&lt;S, I, O&gt;.Learn method" Url="html/M-Core.CplexGreedyAlgorithmLearner-3.Learn.htm" />
+  <HelpKINode Title="CplexGreedyAlgorithmLearner&lt;S, I, O&gt;.ObjectiveValue property" Url="html/P-Core.CplexGreedyAlgorithmLearner-3.ObjectiveValue.htm" />
+  <HelpKINode Title="EvaluateQuality method">
+    <HelpKINode Title="EvaluateQuality Method " Url="html/M-Core.GreedyRule-3.EvaluateQuality.htm" />
+    <HelpKINode Title="EvaluateQuality Method " Url="html/M-Core.FunctionGreedyRule-3.EvaluateQuality.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FunctionGreedyRule(Of S, I, O) class">
+    <HelpKINode Title="FunctionGreedyRule(S, I, O) Class" Url="html/T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="FunctionGreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="about FunctionGreedyRule(Of S, I, O) class" Url="html/T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="constructor" Url="html/M-Core.FunctionGreedyRule-3.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Core.FunctionGreedyRule-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FunctionGreedyRule(Of S, I, O).Beta property" Url="html/P-Core.FunctionGreedyRule-3.Beta.htm" />
+  <HelpKINode Title="FunctionGreedyRule(Of S, I, O).EvaluateQuality method" Url="html/M-Core.FunctionGreedyRule-3.EvaluateQuality.htm" />
+  <HelpKINode Title="FunctionGreedyRule(Of S, I, O).FunctionGreedyRule constructor" Url="html/M-Core.FunctionGreedyRule-3.-ctor.htm" />
+  <HelpKINode Title="FunctionGreedyRule(Of S, I, O).ToString method" Url="html/M-Core.FunctionGreedyRule-3.ToString.htm" />
+  <HelpKINode Title="FunctionGreedyRule&lt;S, I, O&gt; class">
+    <HelpKINode Title="FunctionGreedyRule(S, I, O) Class" Url="html/T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="FunctionGreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="about FunctionGreedyRule&lt;S, I, O&gt; class" Url="html/T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="constructor" Url="html/M-Core.FunctionGreedyRule-3.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.FunctionGreedyRule-3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Core.FunctionGreedyRule-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FunctionGreedyRule&lt;S, I, O&gt;.Beta property" Url="html/P-Core.FunctionGreedyRule-3.Beta.htm" />
+  <HelpKINode Title="FunctionGreedyRule&lt;S, I, O&gt;.EvaluateQuality method" Url="html/M-Core.FunctionGreedyRule-3.EvaluateQuality.htm" />
+  <HelpKINode Title="FunctionGreedyRule&lt;S, I, O&gt;.FunctionGreedyRule constructor" Url="html/M-Core.FunctionGreedyRule-3.-ctor.htm" />
+  <HelpKINode Title="FunctionGreedyRule&lt;S, I, O&gt;.ToString method" Url="html/M-Core.FunctionGreedyRule-3.ToString.htm" />
+  <HelpKINode Title="GetAttributesOfOption method" Url="html/M-Core.ProblemSolution-3.GetAttributesOfOption.htm" />
+  <HelpKINode Title="GetFeasibleOptions method" Url="html/M-Core.ProblemSolution-3.GetFeasibleOptions.htm" />
+  <HelpKINode Title="GreedyRule(Of S, I, O) class">
+    <HelpKINode Title="GreedyRule(S, I, O) Class" Url="html/T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="GreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="about GreedyRule(Of S, I, O) class" Url="html/T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.GreedyRule-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GreedyRule(Of S, I, O).ChooseOption method" Url="html/M-Core.GreedyRule-3.ChooseOption.htm" />
+  <HelpKINode Title="GreedyRule(Of S, I, O).EvaluateQuality method" Url="html/M-Core.GreedyRule-3.EvaluateQuality.htm" />
+  <HelpKINode Title="GreedyRule&lt;S, I, O&gt; class">
+    <HelpKINode Title="GreedyRule(S, I, O) Class" Url="html/T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="GreedyRule(S, I, O) Members" Url="html/AllMembers.T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="about GreedyRule&lt;S, I, O&gt; class" Url="html/T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.GreedyRule-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.GreedyRule-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GreedyRule&lt;S, I, O&gt;.ChooseOption method" Url="html/M-Core.GreedyRule-3.ChooseOption.htm" />
+  <HelpKINode Title="GreedyRule&lt;S, I, O&gt;.EvaluateQuality method" Url="html/M-Core.GreedyRule-3.EvaluateQuality.htm" />
+  <HelpKINode Title="GreedySolver(Of S, I, O) class">
+    <HelpKINode Title="GreedySolver(S, I, O) Class" Url="html/T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="GreedySolver(S, I, O) Members" Url="html/AllMembers.T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="about GreedySolver(Of S, I, O) class" Url="html/T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.GreedySolver-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GreedySolver(Of S, I, O).Solve method" Url="html/M-Core.GreedySolver-3.Solve.htm" />
+  <HelpKINode Title="GreedySolver&lt;S, I, O&gt; class">
+    <HelpKINode Title="GreedySolver(S, I, O) Class" Url="html/T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="GreedySolver(S, I, O) Members" Url="html/AllMembers.T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="about GreedySolver&lt;S, I, O&gt; class" Url="html/T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.GreedySolver-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.GreedySolver-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GreedySolver&lt;S, I, O&gt;.Solve method" Url="html/M-Core.GreedySolver-3.Solve.htm" />
   <HelpKINode Title="IGAL namespace" Url="html/N-IGAL.htm" />
   <HelpKINode Title="IGAL.Program class">
     <HelpKINode Title="Program Class" Url="html/T-IGAL.Program.htm" />
     <HelpKINode Title="Program Members" Url="html/AllMembers.T-IGAL.Program.htm" />
   </HelpKINode>
-  <HelpKINode Title="Name property" Url="html/P-Core.ProblemClass.Name.htm" />
-  <HelpKINode Title="Option(Of T) class">
-    <HelpKINode Title="Option(T) Class" Url="html/T-Core.Option-1.htm" />
-    <HelpKINode Title="Option(T) Members" Url="html/AllMembers.T-Core.Option-1.htm" />
-    <HelpKINode Title="about Option(Of T) class" Url="html/T-Core.Option-1.htm" />
-    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.Option-1.htm" />
-    <HelpKINode Title="methods" Url="html/Methods.T-Core.Option-1.htm" />
+  <HelpKINode Title="IGreedyAlgorithmLearner interface">
+    <HelpKINode Title="IGreedyAlgorithmLearner Members" Url="html/AllMembers.T-Core.IGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.IGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.IGreedyAlgorithmLearner-3.htm" />
   </HelpKINode>
-  <HelpKINode Title="Option&lt;T&gt; class">
-    <HelpKINode Title="Option(T) Class" Url="html/T-Core.Option-1.htm" />
-    <HelpKINode Title="Option(T) Members" Url="html/AllMembers.T-Core.Option-1.htm" />
-    <HelpKINode Title="about Option&lt;T&gt; class" Url="html/T-Core.Option-1.htm" />
-    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.Option-1.htm" />
-    <HelpKINode Title="methods" Url="html/Methods.T-Core.Option-1.htm" />
+  <HelpKINode Title="IGreedyAlgorithmLearner(Of S, I, O) interface">
+    <HelpKINode Title="IGreedyAlgorithmLearner(S, I, O) Interface" Url="html/T-Core.IGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="about IGreedyAlgorithmLearner(Of S, I, O) interface" Url="html/T-Core.IGreedyAlgorithmLearner-3.htm" />
   </HelpKINode>
-  <HelpKINode Title="ProblemClass class">
-    <HelpKINode Title="ProblemClass Class" Url="html/T-Core.ProblemClass.htm" />
-    <HelpKINode Title="ProblemClass Members" Url="html/AllMembers.T-Core.ProblemClass.htm" />
-    <HelpKINode Title="about ProblemClass class" Url="html/T-Core.ProblemClass.htm" />
-    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.ProblemClass.htm" />
-    <HelpKINode Title="constructor" Url="html/M-Core.ProblemClass.-ctor.htm" />
-    <HelpKINode Title="methods" Url="html/Methods.T-Core.ProblemClass.htm" />
-    <HelpKINode Title="properties" Url="html/Properties.T-Core.ProblemClass.htm" />
+  <HelpKINode Title="IGreedyAlgorithmLearner(Of S, I, O).Learn method" Url="html/M-Core.IGreedyAlgorithmLearner-3.Learn.htm" />
+  <HelpKINode Title="IGreedyAlgorithmLearner&lt;S, I, O&gt; interface">
+    <HelpKINode Title="IGreedyAlgorithmLearner(S, I, O) Interface" Url="html/T-Core.IGreedyAlgorithmLearner-3.htm" />
+    <HelpKINode Title="about IGreedyAlgorithmLearner&lt;S, I, O&gt; interface" Url="html/T-Core.IGreedyAlgorithmLearner-3.htm" />
   </HelpKINode>
-  <HelpKINode Title="ProblemClass.Name property" Url="html/P-Core.ProblemClass.Name.htm" />
-  <HelpKINode Title="ProblemClass.ProblemClass constructor" Url="html/M-Core.ProblemClass.-ctor.htm" />
-  <HelpKINode Title="ProblemInstance(Of T) class">
-    <HelpKINode Title="ProblemInstance(T) Class" Url="html/T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="ProblemInstance(T) Members" Url="html/AllMembers.T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="about ProblemInstance(Of T) class" Url="html/T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="methods" Url="html/Methods.T-Core.ProblemInstance-1.htm" />
+  <HelpKINode Title="IGreedyAlgorithmLearner&lt;S, I, O&gt;.Learn method" Url="html/M-Core.IGreedyAlgorithmLearner-3.Learn.htm" />
+  <HelpKINode Title="Instance property" Url="html/P-Core.ProblemSolution-3.Instance.htm" />
+  <HelpKINode Title="IsSameAs method">
+    <HelpKINode Title="IsSameAs Method " Url="html/M-Core.Action-3.IsSameAs.htm" />
+    <HelpKINode Title="IsSameAs Method " Url="html/M-Core.ProblemSolution-3.IsSameAs.htm" />
   </HelpKINode>
-  <HelpKINode Title="ProblemInstance&lt;T&gt; class">
-    <HelpKINode Title="ProblemInstance(T) Class" Url="html/T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="ProblemInstance(T) Members" Url="html/AllMembers.T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="about ProblemInstance&lt;T&gt; class" Url="html/T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.ProblemInstance-1.htm" />
-    <HelpKINode Title="methods" Url="html/Methods.T-Core.ProblemInstance-1.htm" />
+  <HelpKINode Title="Learn method">
+    <HelpKINode Title="Learn Method " Url="html/M-Core.IGreedyAlgorithmLearner-3.Learn.htm" />
+    <HelpKINode Title="Learn Method " Url="html/M-Core.CplexGreedyAlgorithmLearner-3.Learn.htm" />
   </HelpKINode>
+  <HelpKINode Title="Main method" Url="html/M-IGAL.Program.Main.htm" />
+  <HelpKINode Title="MayLeadToTargetSolution method" Url="html/M-Core.ProblemSolution-3.MayLeadToTargetSolution.htm" />
+  <HelpKINode Title="ObjectiveValue property" Url="html/P-Core.CplexGreedyAlgorithmLearner-3.ObjectiveValue.htm" />
+  <HelpKINode Title="Options property" Url="html/P-Core.Sequence-3.Options.htm" />
+  <HelpKINode Title="ProblemInstance(Of S, I, O) class">
+    <HelpKINode Title="ProblemInstance(S, I, O) Class" Url="html/T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="ProblemInstance(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="about ProblemInstance(Of S, I, O) class" Url="html/T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.ProblemInstance-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProblemInstance(Of S, I, O).BuildEmptySolution method" Url="html/M-Core.ProblemInstance-3.BuildEmptySolution.htm" />
+  <HelpKINode Title="ProblemInstance(Of S, I, O).CompareTo method" Url="html/M-Core.ProblemInstance-3.CompareTo.htm" />
+  <HelpKINode Title="ProblemInstance(Of S, I, O).SequencesThatMayBuild method" Url="html/M-Core.ProblemInstance-3.SequencesThatMayBuild.htm" />
+  <HelpKINode Title="ProblemInstance&lt;S, I, O&gt; class">
+    <HelpKINode Title="ProblemInstance(S, I, O) Class" Url="html/T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="ProblemInstance(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="about ProblemInstance&lt;S, I, O&gt; class" Url="html/T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.ProblemInstance-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.ProblemInstance-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProblemInstance&lt;S, I, O&gt;.BuildEmptySolution method" Url="html/M-Core.ProblemInstance-3.BuildEmptySolution.htm" />
+  <HelpKINode Title="ProblemInstance&lt;S, I, O&gt;.CompareTo method" Url="html/M-Core.ProblemInstance-3.CompareTo.htm" />
+  <HelpKINode Title="ProblemInstance&lt;S, I, O&gt;.SequencesThatMayBuild method" Url="html/M-Core.ProblemInstance-3.SequencesThatMayBuild.htm" />
+  <HelpKINode Title="ProblemSolution(Of S, I, O) class">
+    <HelpKINode Title="ProblemSolution(S, I, O) Class" Url="html/T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="ProblemSolution(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="about ProblemSolution(Of S, I, O) class" Url="html/T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Core.ProblemSolution-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProblemSolution(Of S, I, O).ChooseOption method" Url="html/M-Core.ProblemSolution-3.ChooseOption.htm" />
+  <HelpKINode Title="ProblemSolution(Of S, I, O).GetAttributesOfOption method" Url="html/M-Core.ProblemSolution-3.GetAttributesOfOption.htm" />
+  <HelpKINode Title="ProblemSolution(Of S, I, O).GetFeasibleOptions method" Url="html/M-Core.ProblemSolution-3.GetFeasibleOptions.htm" />
+  <HelpKINode Title="ProblemSolution(Of S, I, O).Instance property" Url="html/P-Core.ProblemSolution-3.Instance.htm" />
+  <HelpKINode Title="ProblemSolution(Of S, I, O).IsSameAs method" Url="html/M-Core.ProblemSolution-3.IsSameAs.htm" />
+  <HelpKINode Title="ProblemSolution(Of S, I, O).MayLeadToTargetSolution method" Url="html/M-Core.ProblemSolution-3.MayLeadToTargetSolution.htm" />
+  <HelpKINode Title="ProblemSolution(Of S, I, O).SequencesThatMayBuildFrom method" Url="html/M-Core.ProblemSolution-3.SequencesThatMayBuildFrom.htm" />
+  <HelpKINode Title="ProblemSolution(Of S, I, O).Value property" Url="html/P-Core.ProblemSolution-3.Value.htm" />
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt; class">
+    <HelpKINode Title="ProblemSolution(S, I, O) Class" Url="html/T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="ProblemSolution(S, I, O) Members" Url="html/AllMembers.T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="about ProblemSolution&lt;S, I, O&gt; class" Url="html/T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.ProblemSolution-3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Core.ProblemSolution-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt;.ChooseOption method" Url="html/M-Core.ProblemSolution-3.ChooseOption.htm" />
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt;.GetAttributesOfOption method" Url="html/M-Core.ProblemSolution-3.GetAttributesOfOption.htm" />
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt;.GetFeasibleOptions method" Url="html/M-Core.ProblemSolution-3.GetFeasibleOptions.htm" />
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt;.Instance property" Url="html/P-Core.ProblemSolution-3.Instance.htm" />
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt;.IsSameAs method" Url="html/M-Core.ProblemSolution-3.IsSameAs.htm" />
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt;.MayLeadToTargetSolution method" Url="html/M-Core.ProblemSolution-3.MayLeadToTargetSolution.htm" />
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt;.SequencesThatMayBuildFrom method" Url="html/M-Core.ProblemSolution-3.SequencesThatMayBuildFrom.htm" />
+  <HelpKINode Title="ProblemSolution&lt;S, I, O&gt;.Value property" Url="html/P-Core.ProblemSolution-3.Value.htm" />
   <HelpKINode Title="Program class">
     <HelpKINode Title="Program Class" Url="html/T-IGAL.Program.htm" />
     <HelpKINode Title="Program Members" Url="html/AllMembers.T-IGAL.Program.htm" />
@@ -73,4 +278,46 @@
     <HelpKINode Title="all members" Url="html/AllMembers.T-IGAL.Program.htm" />
     <HelpKINode Title="methods" Url="html/Methods.T-IGAL.Program.htm" />
   </HelpKINode>
+  <HelpKINode Title="Program.Main method" Url="html/M-IGAL.Program.Main.htm" />
+  <HelpKINode Title="Sequence(Of S, I, O) class">
+    <HelpKINode Title="Sequence(S, I, O) Class" Url="html/T-Core.Sequence-3.htm" />
+    <HelpKINode Title="Sequence(S, I, O) Members" Url="html/AllMembers.T-Core.Sequence-3.htm" />
+    <HelpKINode Title="about Sequence(Of S, I, O) class" Url="html/T-Core.Sequence-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.Sequence-3.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload-Core.Sequence-3.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.Sequence-3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Core.Sequence-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Sequence(Of S, I, O).Add method" Url="html/M-Core.Sequence-3.Add.htm" />
+  <HelpKINode Title="Sequence(Of S, I, O).CompareTo method" Url="html/M-Core.Sequence-3.CompareTo.htm" />
+  <HelpKINode Title="Sequence(Of S, I, O).Count property" Url="html/P-Core.Sequence-3.Count.htm" />
+  <HelpKINode Title="Sequence(Of S, I, O).Options property" Url="html/P-Core.Sequence-3.Options.htm" />
+  <HelpKINode Title="Sequence(Of S, I, O).Sequence constructor" Url="html/Overload-Core.Sequence-3.-ctor.htm" />
+  <HelpKINode Title="Sequence(Of S, I, O).Solutions property" Url="html/P-Core.Sequence-3.Solutions.htm" />
+  <HelpKINode Title="Sequence(Of S, I, O).ToString method" Url="html/M-Core.Sequence-3.ToString.htm" />
+  <HelpKINode Title="Sequence&lt;S, I, O&gt; class">
+    <HelpKINode Title="Sequence(S, I, O) Class" Url="html/T-Core.Sequence-3.htm" />
+    <HelpKINode Title="Sequence(S, I, O) Members" Url="html/AllMembers.T-Core.Sequence-3.htm" />
+    <HelpKINode Title="about Sequence&lt;S, I, O&gt; class" Url="html/T-Core.Sequence-3.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers.T-Core.Sequence-3.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload-Core.Sequence-3.-ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods.T-Core.Sequence-3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties.T-Core.Sequence-3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Sequence&lt;S, I, O&gt;.Add method" Url="html/M-Core.Sequence-3.Add.htm" />
+  <HelpKINode Title="Sequence&lt;S, I, O&gt;.CompareTo method" Url="html/M-Core.Sequence-3.CompareTo.htm" />
+  <HelpKINode Title="Sequence&lt;S, I, O&gt;.Count property" Url="html/P-Core.Sequence-3.Count.htm" />
+  <HelpKINode Title="Sequence&lt;S, I, O&gt;.Options property" Url="html/P-Core.Sequence-3.Options.htm" />
+  <HelpKINode Title="Sequence&lt;S, I, O&gt;.Sequence constructor" Url="html/Overload-Core.Sequence-3.-ctor.htm" />
+  <HelpKINode Title="Sequence&lt;S, I, O&gt;.Solutions property" Url="html/P-Core.Sequence-3.Solutions.htm" />
+  <HelpKINode Title="Sequence&lt;S, I, O&gt;.ToString method" Url="html/M-Core.Sequence-3.ToString.htm" />
+  <HelpKINode Title="SequencesThatMayBuild method" Url="html/M-Core.ProblemInstance-3.SequencesThatMayBuild.htm" />
+  <HelpKINode Title="SequencesThatMayBuildFrom method" Url="html/M-Core.ProblemSolution-3.SequencesThatMayBuildFrom.htm" />
+  <HelpKINode Title="Solutions property" Url="html/P-Core.Sequence-3.Solutions.htm" />
+  <HelpKINode Title="Solve method" Url="html/M-Core.GreedySolver-3.Solve.htm" />
+  <HelpKINode Title="ToString method">
+    <HelpKINode Title="ToString Method " Url="html/M-Core.FunctionGreedyRule-3.ToString.htm" />
+    <HelpKINode Title="ToString Method " Url="html/M-Core.Sequence-3.ToString.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Value property" Url="html/P-Core.ProblemSolution-3.Value.htm" />
 </HelpKI>

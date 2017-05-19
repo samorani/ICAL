@@ -9,7 +9,7 @@ namespace Core
     /// <summary>
     /// Represents a problem instance of a certain class of problems
     /// </summary>
-    public abstract class ProblemInstance<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Option<S, I, O>
+    public abstract class ProblemInstance<S, I, O> : IComparable<ProblemInstance<S, I, O>> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
 
         /// <summary>
@@ -17,9 +17,11 @@ namespace Core
         /// </summary>
         public abstract S BuildEmptySolution();
 
+        public abstract int CompareTo(ProblemInstance<S, I, O> other);
+
         /// <summary>
-        /// Returns a list of sequences of options that may be used to build a certain target solution. It initializes an empty solution; then, 
-        /// it builds all sequences of options that can build the target solution. 
+        /// Returns a list of sequences of actions that may be used to build a certain target solution. It initializes an empty solution; then, 
+        /// it builds all sequences of actions that can build the target solution. 
         /// </summary>
         /// <param name="targetSolution">The target solution.</param>
         /// <returns>IEnumerable&lt;List&lt;O&gt;&gt;.</returns>

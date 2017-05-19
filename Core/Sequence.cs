@@ -7,51 +7,51 @@ using System.Threading.Tasks;
 namespace Core
 {
     /// <summary>
-    /// A sequence of options taken when building a solution.
+    /// A sequence of actions taken when building a solution.
     /// </summary>
     /// <typeparam name="S"></typeparam>
     /// <typeparam name="I"></typeparam>
     /// <typeparam name="O"></typeparam>
     public class Sequence<S, I, O> : IComparable<Sequence<S, I, O>> where S : ProblemSolution<S, I, O>,  
-        new() where I : ProblemInstance<S, I, O> where O : Option<S, I, O>
+        new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
         public List<S> Solutions { get; private set; }
-        public List<O> Options { get; private set; }
+        public List<O> Actions { get; private set; }
         public Sequence()
         {
             Solutions = new List<S>();
-            Options = new List<O>();
+            Actions = new List<O>();
         }
 
         public Sequence(Sequence<S, I, O> other) : this()
         {
             foreach (S s in other.Solutions)
                 this.Solutions.Add(s);
-            foreach (O o in other.Options)
-                this.Options.Add(o);
+            foreach (O o in other.Actions)
+                this.Actions.Add(o);
         }
 
         /// <summary>
-        /// Adds the specified solution and option. (At step t, we have a solution and chose an option)
+        /// Adds the specified solution and action. (At step t, we have a solution and chose an action)
         /// </summary>
         /// <param name="solution">The solution.</param>
-        /// <param name="option">The option.</param>
-        public void Add(S solution, O option)
+        /// <param name="action">The action.</param>
+        public void Add(S solution, O action)
         {
-            Options.Add(option);
+            Actions.Add(action);
             Solutions.Add(solution);
         }
 
-        public int Count { get { return Options.Count; } }
+        public int Count { get { return Actions.Count; } }
 
         public int CompareTo(Sequence<S, I, O> other)
         {
-            for (int i = 0; i < Options.Count; i++)
-                if (other.Options.Count <= i)
+            for (int i = 0; i < Actions.Count; i++)
+                if (other.Actions.Count <= i)
                     return 1;
                 else
                 {
-                    int comp = other.Options[i].ToString().CompareTo(this.Options[i].ToString());
+                    int comp = other.Actions[i].ToString().CompareTo(this.Actions[i].ToString());
                     if (comp == 1)
                         return 1;
                     else if (comp == -1)
@@ -62,9 +62,9 @@ namespace Core
 
         public override string ToString()
         {
-            string s = "";
-            foreach (O o in Options)
-                s += o + ",";
+            string s = "[";
+            for(int i=0;i<Actions.Count;i++)
+                s += Actions[i] + (i+1 == Actions.Count? "]": ",");
             return s;
         }
     }
