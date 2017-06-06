@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core;
+using System.IO;
 
 namespace Problems
 {
@@ -61,9 +62,5 @@ namespace Problems
             return sw + ", " + sp+", C="+C;
         }
 
-        public override int CompareTo(ProblemInstance<KP_ProblemSolution, KP_ProblemInstance, KP_Action> other)
-        {
-            return this.ToString().CompareTo(other.ToString());
-        }
     }
 }

@@ -17,7 +17,13 @@ namespace Core
         /// </summary>
         public abstract S BuildEmptySolution();
 
-        public abstract int CompareTo(ProblemInstance<S, I, O> other);
+        public int CompareTo(ProblemInstance<S, I, O> other)
+        {
+            return this.ToString().CompareTo(other.ToString());
+        }
+
+        public abstract override string ToString();
+
 
         /// <summary>
         /// Returns a list of sequences of actions that may be used to build a certain target solution. It initializes an empty solution; then, 

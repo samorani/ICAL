@@ -41,11 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KP_Action.cs" />
+    <Compile Include="KP_InstanceReader.cs" />
     <Compile Include="KP_ProblemInstance.cs" />
     <Compile Include="KP_ProblemSolution.cs" />
-    <Compile Include="MGDP_ProblemInstance.cs" />
-    <Compile Include="MGDP_Action.cs" />
-    <Compile Include="MGDP_ProblemSolution.cs" />
+    <Compile Include="CCP_ProblemInstance.cs" />
+    <Compile Include="CCP_Action.cs" />
+    <Compile Include="CCP_ProblemSolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

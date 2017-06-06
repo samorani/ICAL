@@ -17,5 +17,11 @@ namespace Core
         /// <param name="other">The other.</param>
         /// <returns><c>true</c> if this action is the same as other; otherwise, <c>false</c>.</returns>
         public abstract bool IsSameAs(O other);
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public abstract override string ToString();
     }
 }

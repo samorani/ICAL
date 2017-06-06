@@ -89,5 +89,6 @@ namespace Core
         /// <returns>System.Double.</returns>
         public abstract double Value { get; protected set; }
 
+        public abstract override string ToString();
     }
 }
