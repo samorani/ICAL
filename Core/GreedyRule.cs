@@ -15,24 +15,23 @@ namespace Core
     public abstract class GreedyRule<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
         /// <summary>
-        /// Chooses the best action among those available for the current solution.
+        /// Returns the possible actions, from the best to the worst
         /// </summary>
-        /// <param name="currentSolution">The current solution.</param>
-        /// <returns>O.</returns>
-        public O ChooseAction(S currentSolution)
+        /// <param name="solution">The solution.</param>
+        /// <returns>IEnumerable&lt;O&gt;.</returns>
+        public IEnumerable<O> Best2WorstActions(S solution)
         {
-            double bestVal = Double.MinValue;
-            O bestAction = null;
-            foreach (O action in currentSolution.GetFeasibleActions())
-            {
-                double val = EvaluateQuality(action, currentSolution);
-                if (val > bestVal)
-                {
-                    bestVal = val;
-                    bestAction = action;
-                }
-            }
-            return bestAction;
+            // first, compute the value of all actions
+            List<KeyValuePair<O, double>> actions = new List<KeyValuePair<O, double>>();
+            foreach (O action in solution.GetFeasibleActions())
+                actions.Add(new KeyValuePair<O, double>(action, EvaluateQuality(action, solution)));
+
+            // sort the by decreasing values
+            actions.Sort((pair1, pair2) => -pair1.Value.CompareTo(pair2.Value));
+
+            // return from best to worst
+            foreach (KeyValuePair<O, double> kv in actions)
+                yield return kv.Key;
         }
 
         /// <summary>

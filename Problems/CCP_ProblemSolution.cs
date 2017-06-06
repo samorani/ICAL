@@ -10,6 +10,12 @@ namespace Problems
     public class CCP_ProblemSolution :
         ProblemSolution<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>
     {
+        private int _totalAssignedObjects = 0;
+        public override bool IsFeasible()
+        {
+            return _totalAssignedObjects == Instance.n;
+        }
+
         /// <summary>
         /// Gets the cluster number of an object.
         /// </summary>
@@ -42,6 +48,7 @@ namespace Problems
         public CCP_ProblemSolution(CCP_ProblemInstance inst)
         {
             Instance = inst;
+            _totalAssignedObjects = 0;
             X = new int[inst.n];
             for (int i = 0; i < inst.n; i++)
                 X[i] = -1;
@@ -58,7 +65,10 @@ namespace Problems
         {
             x.CopyTo(X, 0);
             for (int i = 0; i < x.Length; i++)
+            {
                 ObjectsInCluster[x[i]].Add(i);
+                _totalAssignedObjects += x[i] != -1 ? 1 : 0;
+            }
             // set the weights and value
             for (int k = 0; k < inst.p; k++)
             {
@@ -81,6 +91,7 @@ namespace Problems
             Instance = other.Instance;
             Value = other.Value;
             other.CurWeights.CopyTo(CurWeights,0);
+            _totalAssignedObjects = other._totalAssignedObjects;
             for (int i = 0; i < Instance.n; i++)
                 X[i] = other.X[i];
             for (int k = 0; k < Instance.p; k++)
@@ -90,6 +101,8 @@ namespace Problems
         public override CCP_ProblemSolution ChooseAction(CCP_Action o)
         {
             CCP_ProblemSolution toRet = new CCP_ProblemSolution(this);
+            if (toRet.X[o.Object] == -1)
+                _totalAssignedObjects++;
             toRet.ObjectsInCluster[o.Cluster].Add(o.Object);
             toRet.X[o.Object] = o.Cluster;
             // update value

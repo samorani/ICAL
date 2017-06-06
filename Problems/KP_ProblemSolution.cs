@@ -16,7 +16,10 @@ namespace Problems
         /// <value>The current selection.</value>
         public bool [] X { get; private set; }
 
-
+        public override bool IsFeasible()
+        {
+            return true;
+        }
 
         public double RemainingCapacity { get; set; }
 

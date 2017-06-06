@@ -48,6 +48,12 @@ namespace Core
         }
 
         /// <summary>
+        /// Determines whether this instance is feasible.
+        /// </summary>
+        /// <returns><c>true</c> if this instance is feasible; otherwise, <c>false</c>.</returns>
+        public abstract bool IsFeasible();
+
+        /// <summary>
         /// Determines whether the current solution is the same as another solution
         /// </summary>
         /// <param name="other">The other solution.</param>
