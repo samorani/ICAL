@@ -102,7 +102,7 @@ namespace Problems
         {
             CCP_ProblemSolution toRet = new CCP_ProblemSolution(this);
             if (toRet.X[o.Object] == -1)
-                _totalAssignedObjects++;
+                toRet._totalAssignedObjects++;
             toRet.ObjectsInCluster[o.Cluster].Add(o.Object);
             toRet.X[o.Object] = o.Cluster;
             // update value

@@ -12,9 +12,10 @@ namespace IGAL
     {
         public static void Main(string[] args)
         {
-            KP_Main<KP_ProblemSolution, KP_ProblemInstance, KP_Action> experiments = 
-                new KP_Main<KP_ProblemSolution,KP_ProblemInstance,KP_Action>();
-            experiments.RunExperiments(KP_Training(),new KP_InstanceReader());
+            CCP_Main.CCPMain();
+            //KP_Main<KP_ProblemSolution, KP_ProblemInstance, KP_Action> experiments = 
+            //    new KP_Main<KP_ProblemSolution,KP_ProblemInstance,KP_Action>();
+            //experiments.RunExperiments(KP_Training(),new KP_InstanceReader());
         }
 
         private static List<KP_ProblemSolution> KP_Training()

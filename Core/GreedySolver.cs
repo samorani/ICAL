@@ -36,6 +36,7 @@ namespace Core
         public IEnumerable<S> PerformNextStep(S curSol, GreedyRule<S, I, O> rule)
         {
             bool atLeastOnePossibleAction = false;
+            Console.WriteLine("At " + curSol);
             foreach (O opt in rule.Best2WorstActions(curSol))
             {
                 atLeastOnePossibleAction = true;
@@ -47,6 +48,9 @@ namespace Core
                 // we are done. If the solution is feasible, return it, if not do nothing (will backtrack)
                 yield return curSol;
             }
+            if (!atLeastOnePossibleAction & !curSol.IsFeasible())
+                Console.WriteLine("Infeasible: " + curSol);
+
         }
     }
 }

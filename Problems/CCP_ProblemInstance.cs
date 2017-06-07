@@ -62,15 +62,15 @@ namespace Problems
             string s = "";
             s += "n=" + n + ",";
             s += "p=" + p + ",";
-            s += "L=" + L + ",";
-            s += "U=" + U + ",";
+            s += "L=" + Math.Round(L,2) + ",";
+            s += "U=" + Math.Round(U,2) + ",";
             s += "c=[";
             for (int i = 0; i < n; i++)
                 for (int j = i + 1; j < n; j++)
-                    s += "(" + i + "," + j + ")->" + c[i, j] +  (i  == n-2 && j  == n-1 ? "] " : ",");
+                    s += "(" + i + "," + j + ")->" + Math.Round(c[i, j],2) +  (i  == n-2 && j  == n-1 ? "] " : ",");
             s += "w=[";
-            for (int k = 0; k < p; k++)
-                s += w[k] + (k == p - 1 ? "]" : ",");
+            for (int i = 0; i < n; i++)
+                s += Math.Round(w[i],2) + (i == n - 1 ? "]" : ",");
             return s;
         }
     }
