@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KP_Main.cs" />
+    <Compile Include="ExperimentsFramework.cs" />
     <Compile Include="CCP_Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,13 +53,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CCP\CCP.csproj">
+      <Project>{c026d06e-9171-415d-8573-96529982e5cc}</Project>
+      <Name>CCP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{cfa4fe64-babd-4c78-b878-1564ab89b582}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Problems\Problems.csproj">
-      <Project>{b49c3ea5-5768-4844-a834-fcf09a94b399}</Project>
-      <Name>Problems</Name>
+    <ProjectReference Include="..\KP\KP.csproj">
+      <Project>{8995ca6c-097e-4a98-af5c-9b843c6ef10d}</Project>
+      <Name>KP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Core;
-using Problems;
+using CCP;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -14,7 +14,7 @@ namespace Test
         public void CPPBuildAttributesAndSelectActions()
         {
             CCP_ProblemInstance inst = new CCP_ProblemInstance(4, 2, new double[,] { { 0, 10, 3, 5 },
-            {10,0,5,6 }, {3,5,0,20 }, {5,6,20,0 } }, new double[] { 1, 2, 2, 1 }, 2, 4);
+            {10,0,5,6 }, {3,5,0,20 }, {5,6,20,0 } }, new double[] { 1, 2, 2, 1 }, 2, 4, "noname");
 
             Assert.AreEqual(20, inst.c[2, 3]);
             Assert.AreEqual(10, inst.c[1, 0]);
@@ -99,7 +99,7 @@ namespace Test
         {
 
             CCP_ProblemInstance inst = new CCP_ProblemInstance(4, 2, new double[,] { { 0, 10, 3, 5 },
-            {10,0,5,6 }, {3,5,0,20 }, {5,6,20,0 } }, new double[] { 1, 2, 2, 1 }, 2, 4);
+            {10,0,5,6 }, {3,5,0,20 }, {5,6,20,0 } }, new double[] { 1, 2, 2, 1 }, 2, 4, "noname");
             CCP_ProblemSolution sol = new CCP_ProblemSolution(inst);
             CCP_ProblemSolution target = new CCP_ProblemSolution(inst, new int[] {0,0,1,1 } );
             Assert.AreEqual(3, target.CurWeights[0]);

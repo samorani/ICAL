@@ -50,8 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CPP_InstanceGenerator.cs" />
-    <Compile Include="CPP_InstanceSolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -62,10 +60,6 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{cfa4fe64-babd-4c78-b878-1564ab89b582}</Project>
       <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Problems\Problems.csproj">
-      <Project>{b49c3ea5-5768-4844-a834-fcf09a94b399}</Project>
-      <Name>Problems</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Core;
-using Problems;
+using KP;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -13,7 +13,7 @@ namespace Test
         [TestMethod]
         public void KPBuildAttributesAndSelectActions()
         {
-            KP_ProblemInstance inst = new KP_ProblemInstance(new double[] { 1, 2, 3, 4 }, new double[] { 2, 2, 2, 1 }, 4);
+            KP_ProblemInstance inst = new KP_ProblemInstance(new double[] { 1, 2, 3, 4 }, new double[] { 2, 2, 2, 1 }, 4,"inst");
             Assert.AreEqual(4, inst.C);
             Assert.AreEqual(4, inst.N);
 
@@ -61,7 +61,7 @@ namespace Test
         [TestMethod]
         public void KPTestSequences()
         {
-            KP_ProblemInstance inst = new KP_ProblemInstance(new double[] { 1, 2, 3, 4 }, new double[] { 2, 2, 2, 1 }, 6);
+            KP_ProblemInstance inst = new KP_ProblemInstance(new double[] { 1, 2, 3, 4 }, new double[] { 2, 2, 2, 1 }, 6,"inst");
             KP_ProblemSolution sol = new KP_ProblemSolution(inst);
             KP_ProblemSolution target = new KP_ProblemSolution(inst, new bool[] {true,true,true,false });
             Assert.AreEqual(0, target.RemainingCapacity);

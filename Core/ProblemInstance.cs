@@ -24,6 +24,11 @@ namespace Core
 
         public abstract override string ToString();
 
+        /// <summary>
+        /// A short name for the instance
+        /// </summary>
+        /// <value>The name.</value>
+        public abstract string GetShortName();
 
         /// <summary>
         /// Returns a list of sequences of actions that may be used to build a certain target solution. It initializes an empty solution; then, 
