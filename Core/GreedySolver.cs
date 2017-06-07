@@ -14,34 +14,39 @@ namespace Core
     /// <typeparam name="O"></typeparam>
     public class GreedySolver<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
+        /// <summary>
+        /// Solves the specified instance. At each step, it picks the best action according to the rule. The algorithm 
+        /// stops when no action is available any more. In that case, if the final solution is infeasible, the algorithm will 
+        /// backtrack its choices and select the second best, third best, etc. action.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <param name="rule">The rule.</param>
+        /// <returns>S.</returns>
         public S Solve(I instance, GreedyRule<S,I,O> rule)
         {
             S sol = instance.BuildEmptySolution();
-            while (true)
+
+            foreach (S finalSol in PerformNextStep(sol,rule))
             {
-                O chosenOpt = null;
-                foreach (O opt in rule.Best2WorstActions(sol))
-                {
-                    chosenOpt = opt;
-                    break;
-                }
-                if (chosenOpt == null)
-                    break;
-                else
-                    sol = sol.ChooseAction(chosenOpt);
+                return finalSol;
             }
-            return sol;
+            return null;
         }
 
-        //public S AddOneComponent(S curSol, GreedyRule<S, I, O> rule)
-        //{
-        //    O chosenOpt = rule.ChooseAction(curSol);
-        //    if (chosenOpt != null)
-        //        return AddOneComponent(curSol.ChooseAction(chosenOpt), rule);
-        //    else
-        //    {
-        //        // chosenOpt is null. That means that either we are done or we cannot build a feasible solution from here
-        //    }
-        //}
+        public IEnumerable<S> PerformNextStep(S curSol, GreedyRule<S, I, O> rule)
+        {
+            bool atLeastOnePossibleAction = false;
+            foreach (O opt in rule.Best2WorstActions(curSol))
+            {
+                atLeastOnePossibleAction = true;
+                foreach (S s2 in PerformNextStep(curSol.ChooseAction(opt), rule))
+                    yield return s2;
+            }
+            if (!atLeastOnePossibleAction & curSol.IsFeasible())
+            {
+                // we are done. If the solution is feasible, return it, if not do nothing (will backtrack)
+                yield return curSol;
+            }
+        }
     }
 }
