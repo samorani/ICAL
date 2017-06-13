@@ -25,15 +25,18 @@ namespace Core
         int _nattr = 0;
         double _lambda = 0;
         double _eps = 0.001;
+        int _maxSeconds;
 
-        public CplexGreedyAlgorithmLearner(double lambda)
+        public CplexGreedyAlgorithmLearner(double lambda, int timeoutSeconds)
         {
             _lambda = lambda;
+            _maxSeconds = timeoutSeconds;
         }
 
         public GreedyRule<S, I, O> Learn(List<S> solutions)
         {
             _model = new Cplex();
+            _model.SetParam(Cplex.IntParam.TimeLimit, _maxSeconds);
 
             SetupVariables(solutions);
             SetupModel(solutions);
@@ -199,6 +202,7 @@ namespace Core
             // set up the variables
             foreach (S sol in solutions)
             {
+                Console.WriteLine("Setting up variables for " + sol.Instance);
                 int seqIndex = 0;
                 I inst = sol.Instance;
                 _s.Add(inst, new SortedList<Sequence<S, I, O>, IIntVar>());
@@ -234,6 +238,8 @@ namespace Core
                         sw.WriteLine(gammavarname + ": gamma(i=" + inst + ", j=" + seq + ",t="+t + ")");
                     }
                     seqIndex++;
+                    if (seqIndex % 100 == 0)
+                        Console.WriteLine("Explored " + seqIndex + " sequences");
                 }
                 instanceIndex++;
             }

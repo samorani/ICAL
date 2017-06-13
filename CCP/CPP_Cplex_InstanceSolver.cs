@@ -12,15 +12,20 @@ namespace CCP
     /// <summary>
     /// Solves the CPP with CPlex
     /// </summary>
-    public class CPP_InstanceSolver: ISolver<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>
+    public class CPP_Cplex_InstanceSolver: ISolver<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>
     {
         Cplex _model;
         IIntVar[,] _x;
+        int _maxSeconds;
+        public CPP_Cplex_InstanceSolver(int  maxSeconds)
+        {
+            _maxSeconds = maxSeconds;
+        }
 
         public CCP_ProblemSolution Solve(CCP_ProblemInstance inst)
         {
             _model = new Cplex();
-
+            _model.SetParam(Cplex.IntParam.TimeLimit, _maxSeconds);
             // set up variables
             _x = new IIntVar[inst.n, inst.p];
             for (int i = 0; i < inst.n; i++)

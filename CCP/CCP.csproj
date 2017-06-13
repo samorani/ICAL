@@ -47,11 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CCP_Action.cs" />
+    <Compile Include="CCP_Grasp_Solver.cs" />
     <Compile Include="CCP_InstanceReader.cs" />
     <Compile Include="CCP_ProblemInstance.cs" />
     <Compile Include="CCP_ProblemSolution.cs" />
     <Compile Include="CCP_InstanceGenerator.cs" />
-    <Compile Include="CCP_InstanceSolver.cs" />
+    <Compile Include="CPP_Cplex_InstanceSolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

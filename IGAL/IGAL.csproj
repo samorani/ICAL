@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KP_Main.cs" />
     <Compile Include="ExperimentsFramework.cs" />
     <Compile Include="CCP_Main.cs" />
     <Compile Include="Program.cs" />
