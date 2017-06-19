@@ -66,12 +66,11 @@ namespace KP
         {
             int i = o.Index;
             SortedList<string, double> attributes = new SortedList<string, double>();
-            attributes.Add("profit", Instance.P[i]);
-            attributes.Add("weight", Instance.W[i]);
+            attributes.Add("p", Instance.P[i]);
+            attributes.Add("w", Instance.W[i]);
             attributes.Add("p/w", Instance.P[i] / Instance.W[i]);
-            attributes.Add("w/p", Instance.W[i] / Instance.P[i]);
-            attributes.Add("new remaining capacity", RemainingCapacity - Instance.W[i]);
-            //attributes.Add("new value", Value + Instance.P[i]);
+            attributes.Add("w/c", Instance.W[i] / this.RemainingCapacity);
+            attributes.Add("pw/c", Instance.P[i] * Instance.W[i] / this.RemainingCapacity);
             return attributes;
         }
 

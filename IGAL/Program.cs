@@ -13,8 +13,8 @@ namespace IGAL
     {
         public static void Main(string[] args)
         {
-            CCP_Main.CCPMain();
-            //KP_Main.KPMain();
+            //CCP_Main.CCPMain();
+            KP_Main.KPMain();
         }
     }
 }

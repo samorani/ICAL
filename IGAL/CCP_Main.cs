@@ -44,9 +44,13 @@ namespace IGAL
 
             double lambda = 0.001;
             int maxSeconds = 60;
+            int maxAttributes = 1;
 
+            CPP_Cplex_InstanceSolver trainingSetSolver = new CPP_Cplex_InstanceSolver(maxSeconds);
+            IGreedyAlgorithmLearner<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> greedyLearner = new CplexGreedyAlgorithmLearner<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>(lambda, maxSeconds,maxAttributes);
             ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> fw = new ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>();
-            fw.RunExperiments(lambda, trainingDir, testDir,resultFile, new CCP_InstanceReader(), new CCP_Grasp_Solver(0,0.05), maxSeconds);
+            fw.RunExperiments(trainingDir, testDir,resultFile, new CCP_InstanceReader(),
+                trainingSetSolver,greedyLearner,maxSeconds);
             //foreach (FileInfo f in d.GetFiles())
             //    training.Add()
 

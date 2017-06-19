@@ -48,9 +48,12 @@ namespace IGAL
 
             double lambda = 0.0;
             int maxSeconds = 60;
+            int maxAttributes = 2;
 
+            IGreedyAlgorithmLearner<KP_ProblemSolution, KP_ProblemInstance, KP_Action> greedyLearner = 
+                new CplexGreedyAlgorithmLearner<KP_ProblemSolution, KP_ProblemInstance, KP_Action>(lambda, maxSeconds, maxAttributes);
             ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
-            fw.RunExperiments(lambda, trainingSet, testDir,resultFile, new KP_InstanceReader(), maxSeconds);
+            fw.RunExperiments(trainingSet, testDir,resultFile, new KP_InstanceReader(), greedyLearner,maxSeconds);
         }
     }
 }

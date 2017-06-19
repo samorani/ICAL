@@ -26,11 +26,13 @@ namespace Core
         double _lambda = 0;
         double _eps = 0.001;
         int _maxSeconds;
+        int _maxAttributes;
 
-        public CplexGreedyAlgorithmLearner(double lambda, int timeoutSeconds)
+        public CplexGreedyAlgorithmLearner(double lambda, int timeoutSeconds, int maxAttributes)
         {
             _lambda = lambda;
             _maxSeconds = timeoutSeconds;
+            _maxAttributes = maxAttributes;
         }
 
         public GreedyRule<S, I, O> Learn(List<S> solutions)
@@ -169,6 +171,12 @@ namespace Core
                 expr.AddTerm(1, _g[att]);
                 _model.AddGe(expr, 0);
             }
+
+            // max attributes constraint
+            ILinearNumExpr expr6 = _model.LinearNumExpr();
+            foreach (string att in _a.Keys)
+                expr6.AddTerm(1, _a[att]);
+            _model.AddLe(expr6, _maxAttributes + 0.0001, "max_attributes");
 
             sw.Close();
 
