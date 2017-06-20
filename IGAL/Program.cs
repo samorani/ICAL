@@ -13,8 +13,15 @@ namespace IGAL
     {
         public static void Main(string[] args)
         {
-            CCP_Main.CCPMain();
+            DataTableTest();
+            //CCP_Main.CCPMain();
             //KP_Main.KPMain();
+        }
+
+        private static void DataTableTest()
+        {
+            Test.DataTest dt = new Test.DataTest();
+            dt.TestTable();
         }
     }
 }
