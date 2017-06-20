@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataSupport;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,9 +30,9 @@ namespace Core
         {
             double sum = 0;
             int i = 0;
-            SortedList<string, double>  attributes = currentSolution.GetAttributesOfAction(action);
-            foreach (string att in attributes.Keys)
-                sum += attributes[att] * Beta[att];
+            Row  attributes = currentSolution.GetAttributesOfAction(action);
+            foreach (Column col in attributes.AttributeValues.Keys)
+                sum += attributes[col.Name] * Beta[col.Name];
             return sum;
         }
 

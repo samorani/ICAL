@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core;
+using DataSupport;
 
 namespace CCP
 {
@@ -113,36 +114,44 @@ namespace CCP
             return toRet;
         }
 
-        public override SortedList<string, double> GetAttributesOfAction(CCP_Action o)
+        public override Row GetAttributesOfAction(CCP_Action o)
         {
-            SortedList<string, double> att = new SortedList<string, double>();
+            List<Column> columns = new List<Column>();
+            columns.Add(new Column("empty", "", ColumnType.Bool));
+            columns.Add(new Column("objectsThatWillFitHere", "#", ColumnType.Numeric));
+            columns.Add(new Column("clustersWhereObjCanFit", "#", ColumnType.Numeric));
+            columns.Add(new Column("makesFeasible", "", ColumnType.Bool));
+            columns.Add(new Column("newval", "$", ColumnType.Numeric));
+            columns.Add(new Column("relative_w", "lb", ColumnType.Numeric));
+            columns.Add(new Column("relative_stage", "#", ColumnType.Numeric));
+            Row att = new Row(columns);
 
             double newVal = this.Value;
 
             // is this an empty cluster?
-            att.Add("empty", this.ObjectsInCluster[o.Cluster].Count == 0 ? 1 : 0);
+            att["empty"] = this.ObjectsInCluster[o.Cluster].Count == 0 ? 1 : 0;
 
             // how many available objects can fit here after the assignment?
             int objectsThatWillFitHere = 0;
             for (int i = 0; i < Instance.n; i++)
                 if (this.X[i] == -1 && i != o.Object && this.Instance.w[i] <= Instance.U - CurWeights[o.Cluster] - Instance.w[o.Object])
                     objectsThatWillFitHere++;
-            att.Add("objectsThatWillFitHere", objectsThatWillFitHere / (Instance.n + 0.0));
+            att["objectsThatWillFitHere"] = objectsThatWillFitHere / (Instance.n + 0.0);
 
             // in how many other clusters can this object fit?
             int clustersWhereObjCanFit = 0;
             for (int k = 0; k < Instance.p; k++)
                 if (k!= o.Cluster && this.Instance.w[o.Object] <= Instance.U - CurWeights[k])
                     clustersWhereObjCanFit++;
-            att.Add("clustersWhereObjCanFit", clustersWhereObjCanFit / (Instance.p + 0.0));
+            att["clustersWhereObjCanFit"] = clustersWhereObjCanFit / (Instance.p + 0.0);
 
             //bool makesInfeasible = CurWeights[o.Cluster] + Instance.w[o.Object] > Instance.U;
             //att.Add("makesInfeasible", makesInfeasible ? 1.0 : 0.0);
             bool makesFeasible = Instance.L > CurWeights[o.Cluster] && Instance.L <= CurWeights[o.Cluster] + Instance.w[o.Object];
-            att.Add("makesFeasible", makesFeasible ? 1.0 : 0.0);
+            att["makesFeasible"] = makesFeasible ? 1.0 : 0.0;
             foreach (int i in ObjectsInCluster[o.Cluster])
                 newVal += Instance.c[i, o.Object];
-            att.Add("newval", newVal);
+            att["newval"] = newVal;
 
             // how many other objects in that cluster (out of n/p)
             //double otherObjInC = ObjectsInCluster[o.Cluster].Count;
@@ -150,17 +159,11 @@ namespace CCP
 
 
             // RELATIVE WEIGHT
-            att.Add("relative_w", this.Instance.w[o.Object] / (Instance.U - CurWeights[o.Cluster]));
+            att ["relative_w"] = this.Instance.w[o.Object] / (Instance.U - CurWeights[o.Cluster]);
 
             // stage out of n
-            att.Add("relative_stage", this._totalAssignedObjects / (this.Instance.n));
-            SortedList<string, double> att2 = new SortedList<string, double>(att);
-            // interactions
-            //foreach (KeyValuePair<string, double> kv1 in att)
-            //    foreach (KeyValuePair<string, double> kv2 in att)
-            //        if (kv1.Key != kv2.Key)
-            //            att2.Add(kv1.Key + "_" + kv2.Key, kv1.Value * kv2.Value);
-            return att2;
+            att["relative_stage"] = this._totalAssignedObjects / (this.Instance.n);
+            return att;
         }
 
         /// <summary>

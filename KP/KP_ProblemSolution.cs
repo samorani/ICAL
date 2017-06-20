@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core;
+using DataSupport;
 
 namespace KP
 {
@@ -62,16 +63,21 @@ namespace KP
         /// </summary>
         /// <param name="o">The o.</param>
         /// <returns>System.Double[].</returns>
-        public override SortedList<string,double> GetAttributesOfAction(KP_Action o)
+        public override Row GetAttributesOfAction(KP_Action o)
         {
             int i = o.Index;
-            SortedList<string, double> attributes = new SortedList<string, double>();
-            attributes.Add("profit", Instance.P[i]);
-            attributes.Add("weight", Instance.W[i]);
-            attributes.Add("p/w", Instance.P[i] / Instance.W[i]);
-            attributes.Add("w/p", Instance.W[i] / Instance.P[i]);
-            attributes.Add("new remaining capacity", RemainingCapacity - Instance.W[i]);
-            //attributes.Add("new value", Value + Instance.P[i]);
+            List<Column> columns = new List<Column>();
+            columns.Add(new Column("p", "$", ColumnType.Numeric));
+            columns.Add(new Column("w", "lb", ColumnType.Numeric));
+            columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
+            columns.Add(new Column("w/p", "lb/$", ColumnType.Numeric));
+            columns.Add(new Column("new remaining capacity", "lb", ColumnType.Numeric));
+            Row attributes = new Row(columns);
+            attributes["p"] = Instance.P[i];
+            attributes["w"] = Instance.W[i];
+            attributes["p/w"] = Instance.P[i] / Instance.W[i];
+            attributes["w/p"] = Instance.W[i] / Instance.P[i];
+            attributes["new remaining capacity"] = RemainingCapacity - Instance.W[i];
             return attributes;
         }
 

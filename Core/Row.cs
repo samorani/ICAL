@@ -13,6 +13,8 @@ namespace DataSupport
     {
         public SortedList<Column, double> AttributeValues { get; }
         private SortedList<string, Column> _columnsByName;
+        public int Count { get { return AttributeValues.Count; } }
+
 
         public Row(List<Column> columns)
         {

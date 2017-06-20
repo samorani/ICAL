@@ -4,6 +4,7 @@ using Core;
 using KP;
 using System.Collections.Generic;
 using System.Diagnostics;
+using DataSupport;
 
 namespace Test
 {
@@ -27,9 +28,9 @@ namespace Test
 
             // build the option to select the third object
             KP_Action opt = new KP_Action(2);
-            SortedList<string,double> attr = sol.GetAttributesOfAction(opt);
-            Assert.AreEqual(2, attr["profit"]);
-            Assert.AreEqual(3, attr["weight"]);
+            Row attr = sol.GetAttributesOfAction(opt);
+            Assert.AreEqual(2, attr["p"]);
+            Assert.AreEqual(3, attr["w"]);
             Assert.AreEqual(2.0/3.0, attr["p/w"]);
             Assert.AreEqual(3.0/2.0, attr["w/p"]);
             Assert.AreEqual(1, attr["new remaining capacity"]);
@@ -47,8 +48,8 @@ namespace Test
             // build the option to select the first object
             opt = new KP_Action(0);
             attr = sol2.GetAttributesOfAction(opt);
-            Assert.AreEqual(2, attr["profit"]);
-            Assert.AreEqual(1, attr["weight"]);
+            Assert.AreEqual(2, attr["p"]);
+            Assert.AreEqual(1, attr["w"]);
             Assert.AreEqual(2.0 / 1.0, attr["p/w"]);
             Assert.AreEqual(1.0 / 2.0, attr["w/p"]);
             Assert.AreEqual(0, attr["new remaining capacity"]);

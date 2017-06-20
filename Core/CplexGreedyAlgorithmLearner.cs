@@ -1,4 +1,5 @@
-﻿using ILOG.Concert;
+﻿using DataSupport;
+using ILOG.Concert;
 using ILOG.CPLEX;
 using System;
 using System.Collections.Generic;
@@ -127,7 +128,7 @@ namespace Core
                     {
                         // get the object at step t of sequence j
                         O chosen = j.Actions[t];
-                        SortedList<string, double> v_ioj_star = j.Solutions[t].GetAttributesOfAction(chosen);
+                        Row v_ioj_star = j.Solutions[t].GetAttributesOfAction(chosen);
                         int h_index = -1;
                         foreach (O h in j.Solutions[t].GetFeasibleActions())
                         {
@@ -135,16 +136,16 @@ namespace Core
                             if (!h.IsSameAs(chosen))
                             {
                                 // add constraint 2
-                                SortedList<string, double> v_iojh = j.Solutions[t].GetAttributesOfAction(h);
+                                Row v_iojh = j.Solutions[t].GetAttributesOfAction(h);
                                 double bigM = _eps;
-                                for (int v = 0; v < v_iojh.Count; v++)
-                                    bigM += Math.Abs(v_iojh.Values[v] - v_ioj_star.Values[v]);
+                                foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
+                                    bigM += Math.Abs(v_iojh[c] - v_ioj_star[c]);
 
                                 ILinearNumExpr constr = _model.LinearNumExpr();
-                                foreach (string att in v_ioj_star.Keys)
-                                    constr.AddTerm(v_ioj_star[att], _g[att]);
-                                foreach (string att in v_iojh.Keys)
-                                    constr.AddTerm(-v_iojh[att], _g[att]);
+                                foreach (DataSupport.Column c in v_ioj_star.AttributeValues.Keys)
+                                    constr.AddTerm(v_ioj_star[c], _g[c.Name]);
+                                foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
+                                    constr.AddTerm(-v_iojh[c], _g[c.Name]);
                                 constr.AddTerm(bigM, _gamma[i][j][t]);
                                 constr.AddTerm(-bigM, _s[i][j]);
                                 string constName = "2_" + i_index + "_" + j_index + "_" + t +
@@ -174,16 +175,16 @@ namespace Core
 
         }
 
-        private string GetAttributesString(SortedList<string, double> attributes)
+        private string GetAttributesString(Row attributes)
         {
             string s = "[";
             int i = 0;
-            foreach(string att in attributes.Keys)
+            foreach(DataSupport.Column col in attributes.AttributeValues.Keys)
             {
                 string end = ",";
                 if (++i == attributes.Count)
                     end = "]";
-                s += attributes[att] + end;
+                s += attributes[col] + end;
             }
             return s;
         }
@@ -211,17 +212,17 @@ namespace Core
                 {
                     if (_nattr == 0)
                     {
-                        SortedList<string, double> attributes = sol.GetAttributesOfAction(seq.Actions[0]);
+                        Row attributes = sol.GetAttributesOfAction(seq.Actions[0]);
                         _nattr = attributes.Count;
                         int attIndex = 0;
-                        foreach (string attName in attributes.Keys)
+                        foreach (DataSupport.Column col in attributes.AttributeValues.Keys)
                         {
                             string gvarname = "g_" + (attIndex);
                             string avarname = "a_" + (attIndex++);
-                            _g.Add(attName, _model.NumVar(-1.0, 1.0, gvarname));
-                            _a.Add(attName, _model.IntVar(0, 1, avarname));
-                            sw.WriteLine(gvarname + ": g(att=" + attName + ")");
-                            sw.WriteLine(avarname + ": g(att=" + attName + ")");
+                            _g.Add(col.Name, _model.NumVar(-1.0, 1.0, gvarname));
+                            _a.Add(col.Name, _model.IntVar(0, 1, avarname));
+                            sw.WriteLine(gvarname + ": g(att=" + col.Name + ")");
+                            sw.WriteLine(avarname + ": g(att=" + col.Name + ")");
                         }
                     }
                     string svarname = "s_" + instanceIndex + "_" + seqIndex;
@@ -251,11 +252,11 @@ namespace Core
         /// </summary>
         /// <param name="attributes">The attributes.</param>
         /// <returns>System.Double.</returns>
-        private double SumproductWithG(SortedList<string,double> attributes)
+        private double SumproductWithG(Row attributes)
         {
             double score = 0;
-            foreach (string att in attributes.Keys)
-                score += attributes[att] * _model.GetValue(_g[att]);
+            foreach (DataSupport.Column col in attributes.AttributeValues.Keys)
+                score += attributes[col.Name] * _model.GetValue(_g[col.Name]);
             return score;
         }
     }

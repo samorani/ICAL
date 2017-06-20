@@ -81,7 +81,7 @@ namespace Core
         /// </summary>
         /// <param name="o">The o.</param>
         /// <returns>the attributes</returns>
-        public abstract SortedList<string, double> GetAttributesOfAction(O o);
+        public abstract DataSupport.Row GetAttributesOfAction(O o);
 
         /// <summary>
         /// Returns a copy of this solution where action o is chosen
