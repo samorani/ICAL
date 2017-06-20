@@ -50,7 +50,7 @@ namespace Test
                 row["p/w"] = row["p"] / row["w"];
             Console.WriteLine(t);
 
-            Console.WriteLine(t);
+            Console.WriteLine(t); 
         }
     }
 }
