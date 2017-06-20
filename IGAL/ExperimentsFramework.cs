@@ -10,19 +10,15 @@ namespace IGAL
 {
     public class ExperimentsFW<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Core.Action<S, I, O>
     {
+        public double _lambda = 0.0;
         public int _maxSeconds = 5;
         string _resultFile;
-        ISolver<S, I, O> _trainingSetSolver;
-        IGreedyAlgorithmLearner<S, I, O> _learner;
-
-        public void RunExperiments(string trainingDirectory, string testDirectory, string resultFile,
-    InstanceReader<S, I, O> instanceReader, ISolver<S, I, O> trainingSetSolver,
-    IGreedyAlgorithmLearner<S,I,O> learner,int maxSeconds)
+        ISolver<S, I, O> _solver;
+        public void RunExperiments(double lambda, string trainingDirectory, string testDirectory, string resultFile,
+    InstanceReader<S, I, O> instanceReader, ISolver<S, I, O> solver,
+    int maxSeconds)
         {
-            _trainingSetSolver = trainingSetSolver;
-            _learner = learner;
-            _maxSeconds = maxSeconds;
-
+            _solver = solver;
             List<S> trainingSet = new List<S>();
             DirectoryInfo d = new DirectoryInfo(trainingDirectory);
             foreach (FileInfo f in d.GetFiles())
@@ -30,7 +26,7 @@ namespace IGAL
                 I inst = instanceReader.LoadInstanceFromFile(f.FullName);
                 //try
                 //{
-                    S sol = trainingSetSolver.Solve(inst);
+                    S sol = solver.Solve(inst);
                 if (sol != null)
                     trainingSet.Add(sol);
                 //}
@@ -41,16 +37,15 @@ namespace IGAL
                 //    Console.WriteLine("**************");
                 //}
             }
-            RunExperiments(trainingSet, testDirectory, resultFile, instanceReader,learner,maxSeconds);
+            RunExperiments(lambda, trainingSet, testDirectory, resultFile, instanceReader, maxSeconds);
         }
 
-        public void RunExperiments(List<S> trainingSet, string testDirectory, string resultFile,
-            InstanceReader<S, I, O> instanceReader,  IGreedyAlgorithmLearner<S, I, O> learner,
-            int maxSeconds)
+        public void RunExperiments(double lambda, List<S> trainingSet, string testDirectory, string resultFile,
+            InstanceReader<S, I, O> instanceReader, int maxSeconds)
         {
-            _learner = learner;
-            _resultFile = resultFile;
+            _lambda = lambda;
             _maxSeconds = maxSeconds;
+            _resultFile = resultFile;
 
             // train
             GreedyRule<S, I, O> rule = Train(trainingSet);
@@ -74,9 +69,9 @@ namespace IGAL
             {
                 Console.Write("Solving " + instance.GetShortName() + ": ");
                 DateTime begin = DateTime.Now;
-                ISolver<S, I, O> solver = new GreedySolver<S, I, O>(rule, _maxSeconds);
-                //S sol = solver.Solve(instance);
-                S sol = _trainingSetSolver.Solve(instance);
+                //ISolver<S, I, O> greedySolver = _solver;
+                ISolver<S, I, O> greedySolver = new GreedySolver<S, I, O>(rule, _maxSeconds);
+                S sol = greedySolver.Solve(instance);
                 DateTime end = DateTime.Now;
                 string toWrite = "";
                 if (sol != null)
@@ -84,7 +79,6 @@ namespace IGAL
                 else
                     toWrite = instance.GetShortName() + "\t" + "infeasible" + "\t" + (end - begin).TotalMilliseconds;
                 Console.WriteLine(toWrite);
-                Console.WriteLine(sol);
                 sw = new StreamWriter(_resultFile, true);
                 sw.WriteLine(toWrite);
                 sw.Close();
@@ -94,7 +88,8 @@ namespace IGAL
 
         public GreedyRule<S, I, O> Train(List<S> training)
         {
-            GreedyRule<S, I, O> rule = _learner.Learn(training);
+            CplexGreedyAlgorithmLearner<S, I, O> learner = new CplexGreedyAlgorithmLearner<S, I, O>(_lambda, _maxSeconds);
+            GreedyRule<S, I, O> rule = learner.Learn(training);
             Console.WriteLine("\n******** RULE ********");
             Console.WriteLine(rule.ToString());
 
