@@ -35,7 +35,7 @@ namespace DataSupport
                     int currentSymbol = 0;
                     for (int i = 0; i < f.Length; i++)
                         if (f[i] == 'x')
-                            actualF += permutation[currentSymbol++].Name;
+                            actualF += "[" + permutation[currentSymbol++].Name + "]";
                         else
                             actualF += f[i];
 

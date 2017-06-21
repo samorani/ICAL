@@ -142,29 +142,29 @@ namespace Core
                                 dt.AddRow(v_iojh);
                             }
 
+                        // Expand
+                        //dt = new AttributeExpander().ExpandAttributes(dt);
 
-                        for (int h_index = 0; h_index < dt.Rows.Count; h_index++)
+                        for (int h_index = 1; h_index < dt.Rows.Count; h_index++) // skip v_ioj_star
                         {
-                            Row v_iojh =  dt.Rows[h_index];
-                            if (!v_iojh.Equals(v_ioj_star))
-                            {
-                                // add constraint 2
-                                double bigM = _eps;
-                                foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
-                                    bigM += Math.Abs(v_iojh[c] - v_ioj_star[c]);
+                            Row v_iojh = dt.Rows[h_index];
+                            v_ioj_star = dt.Rows[0];
+                            // add constraint 2
+                            double bigM = _eps;
+                            foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
+                                bigM += Math.Abs(v_iojh[c] - v_ioj_star[c]);
 
-                                ILinearNumExpr constr = _model.LinearNumExpr();
-                                foreach (DataSupport.Column c in v_ioj_star.AttributeValues.Keys)
-                                    constr.AddTerm(v_ioj_star[c], _g[c.Name]);
-                                foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
-                                    constr.AddTerm(-v_iojh[c], _g[c.Name]);
-                                constr.AddTerm(bigM, _gamma[i][j][t]);
-                                constr.AddTerm(-bigM, _s[i][j]);
-                                string constName = "2_" + i_index + "_" + j_index + "_" + t +
-                                "_" + (h_index);
-                                sw.WriteLine(constName + ": i=" + i + "; j=" + j + "; t=" + t + "; chosen action=" + chosen + GetAttributesString(v_ioj_star) + " vs " + feasibleActions[h_index] + GetAttributesString(v_iojh));
-                                _model.AddGe(constr, _eps - bigM, constName);
-                            }
+                            ILinearNumExpr constr = _model.LinearNumExpr();
+                            foreach (DataSupport.Column c in v_ioj_star.AttributeValues.Keys)
+                                constr.AddTerm(v_ioj_star[c], _g[c.Name]);
+                            foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
+                                constr.AddTerm(-v_iojh[c], _g[c.Name]);
+                            constr.AddTerm(bigM, _gamma[i][j][t]);
+                            constr.AddTerm(-bigM, _s[i][j]);
+                            string constName = "2_" + i_index + "_" + j_index + "_" + t +
+                            "_" + (h_index);
+                            sw.WriteLine(constName + ": i=" + i + "; j=" + j + "; t=" + t + "; chosen action=" + chosen + GetAttributesString(v_ioj_star) + " vs " + feasibleActions[h_index] + GetAttributesString(v_iojh));
+                            _model.AddGe(constr, _eps - bigM, constName);
                         }
                     }
                 }

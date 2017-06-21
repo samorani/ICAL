@@ -46,8 +46,7 @@ namespace Core
                 t.AddRow(attributes);
             }
 
-            // TODO: Expand
-            // ...
+            //t = new AttributeExpander().ExpandAttributes(t);
 
 
             // for each row, compute its value
