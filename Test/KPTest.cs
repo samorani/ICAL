@@ -59,6 +59,7 @@ namespace Test
             options = new List<KP_Action>(sol3.GetFeasibleActions());
             Assert.AreEqual(0, options.Count);
         }
+
         [TestMethod]
         public void KPTestSequences()
         {
