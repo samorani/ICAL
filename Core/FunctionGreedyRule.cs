@@ -30,6 +30,7 @@ namespace Core
             List<KeyValuePair<O, double>> actions = new List<KeyValuePair<O, double>>();
 
             // make table
+            DateTime now = DateTime.Now;
             Table t = new Table(new List<Column>());
             bool firstIteration = true;
             foreach (O action in currentSolution.GetFeasibleActions())
@@ -45,10 +46,13 @@ namespace Core
                 }
                 t.AddRow(attributes);
             }
+            Console.Write("Create table: " + Math.Round((DateTime.Now - now).TotalMilliseconds, 0) + "\t");
 
-            //t = new AttributeExpander().ExpandAttributes(t);
+            now = DateTime.Now;
+            t = new AttributeExpander().ExpandAttributes(t);
+            Console.Write("Attribute expansion: " + Math.Round( (DateTime.Now - now).TotalMilliseconds,0) + "\t");
 
-
+            now = DateTime.Now;
             // for each row, compute its value
             for (int i = 0; i < t.Rows.Count; i++)
             {
@@ -58,6 +62,7 @@ namespace Core
                     sum += attributes[col.Name] * Beta[col.Name];
                 actions[i] = new KeyValuePair<O, double>(actions[i].Key, sum);
             }
+            Console.Write("Compute value: " + Math.Round((DateTime.Now - now).TotalMilliseconds, 0) + "\n");
 
             //foreach (O action in currentSolution.GetFeasibleActions())
             //{

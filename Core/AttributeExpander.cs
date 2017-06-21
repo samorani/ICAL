@@ -18,12 +18,18 @@ namespace DataSupport
         public AttributeExpander()
         {
             //Formulas.Add("x");
+            Formulas.Add("x/x");
             Formulas.Add("x*x");
+            Formulas.Add("x-x");
+            Formulas.Add("x+x");
             Formulas.Add("(x+x)/x");
         }
         public Table ExpandAttributes(Table t1)
         {
             List<Column> originalColumns = new List<Column>(t1.Columns);
+            SortedList<string, Expression> toAdd = new SortedList<string, Expression>();
+
+            // find all expressions to build and put them in toAdd
             foreach (string f in Formulas)
             {
                 // count the x's
@@ -39,26 +45,29 @@ namespace DataSupport
                         else
                             actualF += f[i];
 
-                    Console.WriteLine(actualF);
+                    //Console.WriteLine(actualF);
                     Expression e = new Expression(actualF);
-                    
-                    // compute it for each row
-                    Column nc = new Column(actualF, "", ColumnType.Numeric); // TODO: fix units of measurement
-                    t1.AddColumn(nc);
-                    foreach (Row r in t1.Rows)
-                    {
-                        foreach (Column c in permutation)
-                            e.Parameters[c.Name] = r[c];
-                        var v = e.Evaluate();
-                        r[nc] = (double) v;
-                    }
-                    Console.WriteLine(t1);
-
-                    //Console.ReadLine();
-
-
+                    foreach (Column c in permutation)
+                        e.Parameters[c.Name] = 0;
+                    toAdd.Add(actualF, e);
                 }
             }
+
+            // compute each expression for each row
+            foreach (KeyValuePair<string,Expression> kv in toAdd)
+            {
+                Column nc = new Column(kv.Key, "", ColumnType.Numeric); // TODO: fix units of measurement
+                t1.AddColumn(nc);
+                List<string> parameters = new List<string>(kv.Value.Parameters.Keys);
+                foreach (Row r in t1.Rows)
+                {
+                    foreach (string c in parameters)
+                        kv.Value.Parameters[c] = r[c];
+                    var v = kv.Value.Evaluate();
+                    r[nc] = (double)v;
+                }
+            }
+
             // binarize the data set. Each attribute is whether that row maximizes it
             Table toReturn = new Table(new List<Column>());
             foreach (Row r in t1.Rows)

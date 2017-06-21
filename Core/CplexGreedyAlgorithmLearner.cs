@@ -79,10 +79,10 @@ namespace Core
                             viol += "Violation in instance " + i + " sequence "+j+ "\n";
                             viol += "At step " + t + ", here is the solution:\n";
                             viol += sol + "\n";
-                            viol += "We should have selected " + j.Actions[t] + ", with score "+ Math.Round(SumproductWithG(sol.GetAttributesOfAction(j.Actions[t])),6) + ". The other actions are:\n";
+                            viol += "We should have selected " + j.Actions[t] + ". The other actions are:\n";
                             foreach (O other in sol.GetFeasibleActions())
                                 if (!other.IsSameAs(j.Actions[t]))
-                                    viol += other + ", whose score is " + Math.Round(SumproductWithG(sol.GetAttributesOfAction(other)), 6) + "\n";
+                                    viol += other + "\n";
                             Console.Write(viol);
                         }
             _model.End();
@@ -106,6 +106,8 @@ namespace Core
             }
 
             // constraint (2) and g and a
+            _g = new SortedList<string, INumVar>();
+            _a = new SortedList<string, INumVar>();
             i_index = -1;
             foreach (I i in _gamma.Keys)
             {
@@ -134,12 +136,29 @@ namespace Core
                             }
 
                         // Expand
-                        //dt = new AttributeExpander().ExpandAttributes(dt);
+                        dt = new AttributeExpander().ExpandAttributes(dt);
 
                         for (int h_index = 1; h_index < dt.Rows.Count; h_index++) // skip v_ioj_star
                         {
                             Row v_iojh = dt.Rows[h_index];
                             v_ioj_star = dt.Rows[0];
+
+                            // add _g and _a variables in the first iteration
+                            if (_nattr == 0)
+                            {
+                                _nattr = v_iojh.Count;
+                                int attIndex = 0;
+                                foreach (DataSupport.Column col in v_iojh.AttributeValues.Keys)
+                                {
+                                    string gvarname = "g_" + (attIndex);
+                                    string avarname = "a_" + (attIndex++);
+                                    _g.Add(col.Name, _model.NumVar(-1.0, 1.0, gvarname));
+                                    _a.Add(col.Name, _model.IntVar(0, 1, avarname));
+                                    sw.WriteLine(gvarname + ": g(att=" + col.Name + ")");
+                                    sw.WriteLine(avarname + ": g(att=" + col.Name + ")");
+                                }
+                            }
+
                             // add constraint 2
                             double bigM = _eps;
                             foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
@@ -205,8 +224,6 @@ namespace Core
         private void SetupVariablesExceptGA(List<S> solutions)
         {
             _s = new SortedList<I, SortedList<Sequence<S, I, O>, IIntVar>>();
-            _g = new SortedList<string, INumVar>();
-            _a = new SortedList<string, INumVar>();
             _gamma = new SortedList<I, SortedList<Sequence<S, I, O>, SortedList<int, IIntVar>>>();
 
             int instanceIndex = 0;
@@ -223,21 +240,6 @@ namespace Core
                 _gamma.Add(inst, new SortedList<Sequence<S, I, O>, SortedList<int, IIntVar>>());
                 foreach (Sequence<S,I,O> seq in inst.SequencesThatMayBuild(sol))
                 {
-                    if (_nattr == 0)
-                    {
-                        Row attributes = sol.GetAttributesOfAction(seq.Actions[0]);
-                        _nattr = attributes.Count;
-                        int attIndex = 0;
-                        foreach (DataSupport.Column col in attributes.AttributeValues.Keys)
-                        {
-                            string gvarname = "g_" + (attIndex);
-                            string avarname = "a_" + (attIndex++);
-                            _g.Add(col.Name, _model.NumVar(-1.0, 1.0, gvarname));
-                            _a.Add(col.Name, _model.IntVar(0, 1, avarname));
-                            sw.WriteLine(gvarname + ": g(att=" + col.Name + ")");
-                            sw.WriteLine(avarname + ": g(att=" + col.Name + ")");
-                        }
-                    }
                     string svarname = "s_" + instanceIndex + "_" + seqIndex;
                     IIntVar s_ij = _model.IntVar(0, 1, svarname);
                     sw.WriteLine(svarname + ": s(i=" + inst + ", j="+seq+")");
