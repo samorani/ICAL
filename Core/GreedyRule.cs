@@ -22,9 +22,7 @@ namespace Core
         public IEnumerable<O> Best2WorstActions(S solution)
         {
             // first, compute the value of all actions
-            List<KeyValuePair<O, double>> actions = new List<KeyValuePair<O, double>>();
-            foreach (O action in solution.GetFeasibleActions())
-                actions.Add(new KeyValuePair<O, double>(action, EvaluateQuality(action, solution)));
+            List<KeyValuePair<O, double>> actions = GetActionValues(solution);
 
             // sort the by decreasing values
             actions.Sort((pair1, pair2) => -pair1.Value.CompareTo(pair2.Value));
@@ -35,12 +33,11 @@ namespace Core
         }
 
         /// <summary>
-        /// Evaluates the fit of the greedy rule of choosing an action from a certain current solution. The higher the score, 
+        /// Evaluates the fit of the greedy rule of choosing all actions from a certain current solution. The higher the score, 
         /// the more inclined to select that action.
         /// </summary>
-        /// <param name="action">The action.</param>
         /// <param name="currentSolution">The current solution.</param>
         /// <returns>System.Double.</returns>
-        protected abstract double EvaluateQuality(O action, S currentSolution);
+        protected abstract List<KeyValuePair<O, double>> GetActionValues(S currentSolution);
     }
 }

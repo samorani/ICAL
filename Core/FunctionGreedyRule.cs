@@ -20,20 +20,55 @@ namespace Core
         }
 
         /// <summary>
-        /// Evaluates the fit of the greedy rule of choosing an action from a certain current solution. It returns the 
+        /// Evaluates the fit of the greedy rule of choosing each action from a certain current solution. It returns the 
         /// sumproduct of the attribute values and the beta coefficients.
         /// </summary>
-        /// <param name="action">The action.</param>
         /// <param name="currentSolution">The current solution.</param>
         /// <returns>System.Double.</returns>
-        protected override double EvaluateQuality(O action, S currentSolution)
+        protected override List<KeyValuePair<O, double>> GetActionValues(S currentSolution)
         {
-            double sum = 0;
-            int i = 0;
-            Row  attributes = currentSolution.GetAttributesOfAction(action);
-            foreach (Column col in attributes.AttributeValues.Keys)
-                sum += attributes[col.Name] * Beta[col.Name];
-            return sum;
+            List<KeyValuePair<O, double>> actions = new List<KeyValuePair<O, double>>();
+
+            // make table
+            Table t = new Table(new List<Column>());
+            bool firstIteration = true;
+            foreach (O action in currentSolution.GetFeasibleActions())
+            {
+                Row attributes = currentSolution.GetAttributesOfAction(action);
+                actions.Add(new KeyValuePair<O, double>(action, Double.NaN));
+                // add columns to table
+                if (firstIteration)
+                {
+                    firstIteration = false;
+                    foreach (Column c in attributes.AttributeValues.Keys)
+                        t.AddColumn(c);
+                }
+                t.AddRow(attributes);
+            }
+
+            // TODO: Expand
+            // ...
+
+
+            // for each row, compute its value
+            for (int i = 0; i < t.Rows.Count; i++)
+            {
+                double sum = 0;
+                Row attributes = t.Rows[i];
+                foreach (Column col in attributes.AttributeValues.Keys)
+                    sum += attributes[col.Name] * Beta[col.Name];
+                actions[i] = new KeyValuePair<O, double>(actions[i].Key, sum);
+            }
+
+            //foreach (O action in currentSolution.GetFeasibleActions())
+            //{
+            //    double sum = 0;
+            //    Row attributes = currentSolution.GetAttributesOfAction(action);
+            //    foreach (Column col in attributes.AttributeValues.Keys)
+            //        sum += attributes[col.Name] * Beta[col.Name];
+            //    actions.Add(new KeyValuePair<O, double>(action, sum));
+            //}
+            return actions;
         }
 
         public override string ToString()
