@@ -37,6 +37,10 @@
     <Reference Include="ILOG.CPLEX">
       <HintPath>..\DLLs\ILOG.CPLEX.dll</HintPath>
     </Reference>
+    <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
+      <HintPath>..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeExpander.cs" />
     <Compile Include="Column.cs" />
     <Compile Include="CplexGreedyAlgorithmLearner.cs" />
     <Compile Include="FunctionGreedyRule.cs" />
@@ -62,6 +67,9 @@
     <Compile Include="Row.cs" />
     <Compile Include="Sequence.cs" />
     <Compile Include="Table.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

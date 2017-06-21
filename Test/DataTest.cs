@@ -11,6 +11,7 @@ namespace Test
     [TestClass]
     public class DataTest
     {
+
         [TestMethod]
         public void TestTable()
         {
@@ -51,6 +52,27 @@ namespace Test
             Console.WriteLine(t);
 
             Console.WriteLine(t); 
+        }
+
+        [TestMethod]
+        public void TestExpander()
+        {
+            List<Column> cols = new List<Column>();
+            cols.Add(new Column("w", "lb", ColumnType.Numeric));
+            cols.Add(new Column("p", "$", ColumnType.Numeric));
+            cols.Add(new Column("cap", "lb", ColumnType.Numeric));
+            Table t = new Table(cols);
+            t.AddRow(new Row(cols));
+            t.AddRow(new Row(cols));
+            t[0, "w"] = 3;
+            t[0, "p"] = 1;
+            t[0, "cap"] = 3;
+            t[1, "w"] = 10;
+            t[1, "p"] = 5;
+            t[0, "cap"] = 2;
+            Console.WriteLine(t);
+            AttributeExpander exp = new AttributeExpander();
+            Console.WriteLine(exp.ExpandAttributes(t));
         }
     }
 }

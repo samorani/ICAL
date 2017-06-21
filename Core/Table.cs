@@ -12,6 +12,7 @@ namespace DataSupport
         private SortedList<string, Column> _columnsByName;
         public List<Row> Rows { get; }
 
+
         public Table(List<Column> columns)
         {
             Columns = new List<Column>();
