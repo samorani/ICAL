@@ -129,14 +129,26 @@ namespace Core
                         // get the object at step t of sequence j
                         O chosen = j.Actions[t];
                         Row v_ioj_star = j.Solutions[t].GetAttributesOfAction(chosen);
-                        int h_index = -1;
-                        foreach (O h in j.Solutions[t].GetFeasibleActions())
-                        {
-                            h_index++;
+                        List<DataSupport.Column> columns = new List<DataSupport.Column>(v_ioj_star.AttributeValues.Keys);
+
+                        // put everything in a table. At row 0 we have the chosen action.
+                        Table dt = new Table(columns);
+                        dt.AddRow(v_ioj_star);
+                        List<O> feasibleActions = new List<O>(j.Solutions[t].GetFeasibleActions());
+                        foreach (O h in feasibleActions)
                             if (!h.IsSameAs(chosen))
                             {
-                                // add constraint 2
                                 Row v_iojh = j.Solutions[t].GetAttributesOfAction(h);
+                                dt.AddRow(v_iojh);
+                            }
+
+
+                        for (int h_index = 0; h_index < dt.Rows.Count; h_index++)
+                        {
+                            Row v_iojh =  dt.Rows[h_index];
+                            if (!v_iojh.Equals(v_ioj_star))
+                            {
+                                // add constraint 2
                                 double bigM = _eps;
                                 foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
                                     bigM += Math.Abs(v_iojh[c] - v_ioj_star[c]);
@@ -149,8 +161,8 @@ namespace Core
                                 constr.AddTerm(bigM, _gamma[i][j][t]);
                                 constr.AddTerm(-bigM, _s[i][j]);
                                 string constName = "2_" + i_index + "_" + j_index + "_" + t +
-                                "_" + (h_index++);
-                                sw.WriteLine(constName + ": i=" + i + "; j=" + j + "; t=" + t + "; chosen action=" + chosen + GetAttributesString(v_ioj_star) + " vs " + h + GetAttributesString(v_iojh));
+                                "_" + (h_index);
+                                sw.WriteLine(constName + ": i=" + i + "; j=" + j + "; t=" + t + "; chosen action=" + chosen + GetAttributesString(v_ioj_star) + " vs " + feasibleActions[h_index] + GetAttributesString(v_iojh));
                                 _model.AddGe(constr, _eps - bigM, constName);
                             }
                         }
