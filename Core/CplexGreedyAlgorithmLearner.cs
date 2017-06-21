@@ -39,7 +39,7 @@ namespace Core
             _model = new Cplex();
             _model.SetParam(Cplex.IntParam.TimeLimit, _maxSeconds);
 
-            SetupVariables(solutions);
+            SetupVariablesExceptGA(solutions);
             SetupModel(solutions);
             return Solve();
         }
@@ -94,15 +94,6 @@ namespace Core
             StreamWriter sw = new StreamWriter(_descriptionFile,true);
             sw.WriteLine("\n======== CONSTRAINTS ========");
 
-            // objective
-            ILinearNumExpr obj = _model.LinearNumExpr();
-            foreach (I instance in _gamma.Keys)
-                foreach (Sequence<S, I, O> seq in _gamma[instance].Keys)
-                    foreach (int t in _gamma[instance][seq].Keys)
-                        obj.AddTerm(1, _gamma[instance][seq][t]);
-            foreach (string att in _a.Keys)
-                obj.AddTerm(_lambda, _a[att]);
-            _model.AddMinimize(obj);
 
             // constraint (1)
             int i_index = 0;
@@ -114,7 +105,7 @@ namespace Core
                 _model.AddEq(1.0, constr, "C1_" + (i_index++));
             }
 
-            // constraint (2)
+            // constraint (2) and g and a
             i_index = -1;
             foreach (I i in _gamma.Keys)
             {
@@ -170,6 +161,16 @@ namespace Core
                 }
             }
 
+            // objective
+            ILinearNumExpr obj = _model.LinearNumExpr();
+            foreach (I instance in _gamma.Keys)
+                foreach (Sequence<S, I, O> seq in _gamma[instance].Keys)
+                    foreach (int t in _gamma[instance][seq].Keys)
+                        obj.AddTerm(1, _gamma[instance][seq][t]);
+            foreach (string att in _a.Keys)
+                obj.AddTerm(_lambda, _a[att]);
+            _model.AddMinimize(obj);
+
             // constraints (4) and (5)
             foreach (string att in _a.Keys)
             {
@@ -201,7 +202,7 @@ namespace Core
             return s;
         }
 
-        private void SetupVariables(List<S> solutions)
+        private void SetupVariablesExceptGA(List<S> solutions)
         {
             _s = new SortedList<I, SortedList<Sequence<S, I, O>, IIntVar>>();
             _g = new SortedList<string, INumVar>();
