@@ -24,5 +24,10 @@ namespace DataSupport
             this.Dimension = dimension;
             ColumnType = type;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

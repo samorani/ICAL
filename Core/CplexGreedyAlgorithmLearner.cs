@@ -27,11 +27,15 @@ namespace Core
         double _lambda = 0;
         double _eps = 0.001;
         int _maxSeconds;
+        bool Expand = false;
+        int _maxAttributes;
 
-        public CplexGreedyAlgorithmLearner(double lambda, int timeoutSeconds)
+        public CplexGreedyAlgorithmLearner(double lambda, int timeoutSeconds, bool expandAttributes, int maxAttributes = Int32.MaxValue)
         {
             _lambda = lambda;
             _maxSeconds = timeoutSeconds;
+            Expand = expandAttributes;
+            _maxAttributes = maxAttributes;
         }
 
         public GreedyRule<S, I, O> Learn(List<S> solutions)
@@ -64,7 +68,7 @@ namespace Core
             SortedList<string, double> beta = new SortedList<string, double>();
             foreach (string att in _g.Keys)
                 beta.Add(att, _model.GetValue(_g[att]));
-            FunctionGreedyRule<S, I, O> func = new FunctionGreedyRule<S, I, O>(beta);
+            FunctionGreedyRule<S, I, O> func = new FunctionGreedyRule<S, I, O>(beta, Expand);
 
             // get violations to the rule
             foreach (I i in _gamma.Keys)
@@ -109,6 +113,7 @@ namespace Core
             _g = new SortedList<string, INumVar>();
             _a = new SortedList<string, INumVar>();
             i_index = -1;
+            AttributeExpander exp = new AttributeExpander();
             foreach (I i in _gamma.Keys)
             {
                 i_index++;
@@ -136,7 +141,14 @@ namespace Core
                             }
 
                         // Expand
-                        dt = new AttributeExpander().ExpandAttributes(dt);
+                        if (Expand)
+                        {
+                            if (i_index == 0)
+                                exp.BuildAttributeExpressions(columns);
+
+                            // expand the attributes
+                            dt = exp.ExpandAttributes(dt);
+                        }
 
                         for (int h_index = 1; h_index < dt.Rows.Count; h_index++) // skip v_ioj_star
                         {
@@ -176,6 +188,12 @@ namespace Core
                             sw.WriteLine(constName + ": i=" + i + "; j=" + j + "; t=" + t + "; chosen action=" + chosen + GetAttributesString(v_ioj_star) + " vs " + feasibleActions[h_index] + GetAttributesString(v_iojh));
                             _model.AddGe(constr, _eps - bigM, constName);
                         }
+
+                        // max attributes constraint
+                        ILinearNumExpr sumAttr = _model.LinearNumExpr();
+                        foreach (IIntVar iv in _a.Values)
+                            sumAttr.AddTerm(1, iv);
+                        _model.AddLe(sumAttr, _maxAttributes,"max_attributes");
                     }
                 }
             }

@@ -46,11 +46,13 @@ namespace IGAL
 
             List<KP_ProblemSolution>  trainingSet = GenerateTrainingSet();
 
-            double lambda = 0.0;
+            double lambda = 0.000;
             int maxSeconds = 60;
+            bool expandAttributes = true;
+            int maxAttributes = 3;
 
             ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
-            fw.RunExperiments(lambda, trainingSet, testDir,resultFile, new KP_InstanceReader(), maxSeconds);
+            fw.RunExperiments(lambda, trainingSet, testDir,resultFile, new KP_InstanceReader(), maxSeconds,expandAttributes, maxAttributes);
         }
     }
 }

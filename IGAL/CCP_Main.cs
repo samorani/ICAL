@@ -44,29 +44,16 @@ namespace IGAL
 
             double lambda = 0.001;
             int maxSeconds = 60;
+            bool expandAttributes = false;
+            int maxAttributes = 3;
 
             ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> fw = new ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>();
-            fw.RunExperiments(lambda, trainingDir, testDir,resultFile, new CCP_InstanceReader(), new CCP_Grasp_Solver(0,0.05), maxSeconds);
-            //foreach (FileInfo f in d.GetFiles())
-            //    training.Add()
 
-            //CCP_ProblemInstance i1 = new CCP_ProblemInstance(4, 2, new double[,] { { 0, 10, 3, 5 },
-            //{10,0,5,6 }, {3,5,0,20 }, {5,6,20,0 } }, new double[] { 1, 2, 2, 1 }, 2, 4);
-            //CCP_ProblemSolution s1 = new CCP_ProblemSolution(i1, new int[] { 0, 0, 1, 1 });
-            //CCP_ProblemInstance i2 = new CCP_ProblemInstance(4, 2, new double[,] { { 0, 1, 0, 0 },
-            //{1,0,0,0 }, {0,0,0,0 }, {0,0,0,0 } }, new double[] { 2, 2, 3, 3 }, 5, 5);
-            //CCP_ProblemSolution s2 = new CCP_ProblemSolution(i2, new int[] { 0, 1, 0, 1 });
-            //training.Add(s1);
-            ////training.Add(s2);
-            //CplexGreedyAlgorithmLearner<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> learner = 
-            //    new CplexGreedyAlgorithmLearner<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>(lambda);
+            // solve using learner
+            fw.RunExperiments(lambda, trainingDir, testDir, resultFile, new CCP_InstanceReader(), new CCP_Grasp_Solver(0, 0.05), maxSeconds, expandAttributes, maxAttributes);
 
-            //GreedyRule<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> rule = learner.Learn(training);
-            //Console.WriteLine("\n******** RULE ********");
-            //Console.WriteLine(rule.ToString());
-
-            //GreedySolver<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> solver = new GreedySolver<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>();
-            //Console.WriteLine(solver.Solve(i2, rule));
+            // solve using GRASP
+            //fw.RunExperiments(lambda, trainingDir, testDir, resultFile, new CCP_InstanceReader(), new CCP_Grasp_Solver(0, 0.05), maxSeconds);
         }
     }
 }

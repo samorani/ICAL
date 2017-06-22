@@ -16,7 +16,7 @@ namespace IGAL
         ISolver<S, I, O> _solver;
         public void RunExperiments(double lambda, string trainingDirectory, string testDirectory, string resultFile,
     InstanceReader<S, I, O> instanceReader, ISolver<S, I, O> solver,
-    int maxSeconds)
+    int maxSeconds, bool expandAttributes, int maxAttributes)
         {
             _solver = solver;
             List<S> trainingSet = new List<S>();
@@ -37,18 +37,18 @@ namespace IGAL
                 //    Console.WriteLine("**************");
                 //}
             }
-            RunExperiments(lambda, trainingSet, testDirectory, resultFile, instanceReader, maxSeconds);
+            RunExperiments(lambda, trainingSet, testDirectory, resultFile, instanceReader, maxSeconds, expandAttributes, maxAttributes);
         }
 
         public void RunExperiments(double lambda, List<S> trainingSet, string testDirectory, string resultFile,
-            InstanceReader<S, I, O> instanceReader, int maxSeconds)
+            InstanceReader<S, I, O> instanceReader, int maxSeconds, bool expandAttributes, int maxAttributes)
         {
             _lambda = lambda;
             _maxSeconds = maxSeconds;
             _resultFile = resultFile;
 
             // train
-            GreedyRule<S, I, O> rule = Train(trainingSet);
+            GreedyRule<S, I, O> rule = Train(trainingSet, expandAttributes, maxAttributes);
 
             List<I> testSet = new List<I>();
             DirectoryInfo d = new DirectoryInfo(testDirectory);
@@ -86,9 +86,9 @@ namespace IGAL
             }
         }
 
-        public GreedyRule<S, I, O> Train(List<S> training)
+        public GreedyRule<S, I, O> Train(List<S> training, bool expandAttributes, int maxAttributes)
         {
-            CplexGreedyAlgorithmLearner<S, I, O> learner = new CplexGreedyAlgorithmLearner<S, I, O>(_lambda, _maxSeconds);
+            CplexGreedyAlgorithmLearner<S, I, O> learner = new CplexGreedyAlgorithmLearner<S, I, O>(_lambda, _maxSeconds, expandAttributes, maxAttributes);
             GreedyRule<S, I, O> rule = learner.Learn(training);
             Console.WriteLine("\n******** RULE ********");
             Console.WriteLine(rule.ToString());

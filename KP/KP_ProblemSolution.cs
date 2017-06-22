@@ -66,18 +66,23 @@ namespace KP
         public override Row GetAttributesOfAction(KP_Action o)
         {
             int i = o.Index;
+
+            // simple columns
             List<Column> columns = new List<Column>();
             columns.Add(new Column("p", "$", ColumnType.Numeric));
             columns.Add(new Column("w", "lb", ColumnType.Numeric));
-            //columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
-            //columns.Add(new Column("w/p", "lb/$", ColumnType.Numeric));
-            columns.Add(new Column("new remaining capacity", "lb", ColumnType.Numeric));
+            columns.Add(new Column("newC", "lb", ColumnType.Numeric));
             Row attributes = new Row(columns);
             attributes["p"] = Instance.P[i];
             attributes["w"] = Instance.W[i];
+            attributes["newC"] = RemainingCapacity - Instance.W[i];
+
+            // test columns
+            //List<Column> columns = new List<Column>();
+            //columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
+            //Row attributes = new Row(columns);
             //attributes["p/w"] = Instance.P[i] / Instance.W[i];
-            //attributes["w/p"] = Instance.W[i] / Instance.P[i];
-            attributes["new remaining capacity"] = RemainingCapacity - Instance.W[i];
+
             return attributes;
         }
 

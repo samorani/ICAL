@@ -96,5 +96,10 @@ namespace DataSupport
                 s += r + "\n";
             return s;
         }
+
+        public void RemoveColumn(Column c)
+        {
+            Columns.Remove(c);
+        }
     }
 }

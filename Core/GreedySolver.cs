@@ -49,11 +49,13 @@ namespace Core
             //Console.WriteLine("At " + curSol);
             foreach (O opt in rule.Best2WorstActions(curSol))
             {
-                //Console.WriteLine("Best action is " + opt);
+                //Console.WriteLine(++_curStep + ": Best action is " + opt);
                 atLeastOnePossibleAction = true;
+                //if (_curStep++ % 100 == 0)
+                //    Console.WriteLine(_curStep - 1);
+
                 foreach (S s2 in PerformNextStep(curSol.ChooseAction(opt), rule))
                 {
-                    //Console.WriteLine(++_curStep);
                     yield return s2;
                 }
             }

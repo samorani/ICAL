@@ -14,9 +14,25 @@ namespace Core
         /// </summary>
         /// <value>The beta.</value>
         public SortedList<string,double> Beta { get; private set; }
-        public FunctionGreedyRule(SortedList<string, double> beta)
+        AttributeExpander _exp;
+        HashSet<string> _zeroColumns;
+        bool Expand = false;
+
+        public FunctionGreedyRule(SortedList<string, double> beta, bool expandAttributes)
         {
+            Expand = expandAttributes;
             Beta = beta;
+            _zeroColumns = new HashSet<string>();
+            HashSet<string> appearingOnce = new HashSet<string>();
+            if (Expand)
+            {
+                foreach (string att in beta.Keys)
+                    if (beta[att] == 0 && appearingOnce.Contains(att.Substring(4)))
+                        _zeroColumns.Add(att.Substring(4));
+                    else if (beta[att] == 0 && !appearingOnce.Contains(att.Substring(4)))
+                        appearingOnce.Add(att.Substring(4));
+                _exp = null;
+            }
         }
 
         /// <summary>
@@ -46,11 +62,19 @@ namespace Core
                 }
                 t.AddRow(attributes);
             }
-            Console.Write("Create table: " + Math.Round((DateTime.Now - now).TotalMilliseconds, 0) + "\t");
+            //Console.Write("Create table: " + Math.Round((DateTime.Now - now).TotalMilliseconds, 0) + "\t");
 
-            now = DateTime.Now;
-            t = new AttributeExpander().ExpandAttributes(t);
-            Console.Write("Attribute expansion: " + Math.Round( (DateTime.Now - now).TotalMilliseconds,0) + "\t");
+            if (Expand)
+            {
+                if (_exp == null)
+                {
+                    _exp = new AttributeExpander();
+                    _exp.BuildAttributeExpressions(t.Columns);
+                    _exp.ZeroColumns = _zeroColumns;
+                }
+
+                t = _exp.ExpandAttributes(t);
+            }
 
             now = DateTime.Now;
             // for each row, compute its value
@@ -60,18 +84,12 @@ namespace Core
                 Row attributes = t.Rows[i];
                 foreach (Column col in attributes.AttributeValues.Keys)
                     sum += attributes[col.Name] * Beta[col.Name];
+                if (sum > 0)
+                    Console.Write("");
                 actions[i] = new KeyValuePair<O, double>(actions[i].Key, sum);
             }
-            Console.Write("Compute value: " + Math.Round((DateTime.Now - now).TotalMilliseconds, 0) + "\n");
+            //Console.Write("Compute value: " + Math.Round((DateTime.Now - now).TotalMilliseconds, 0) + "\n");
 
-            //foreach (O action in currentSolution.GetFeasibleActions())
-            //{
-            //    double sum = 0;
-            //    Row attributes = currentSolution.GetAttributesOfAction(action);
-            //    foreach (Column col in attributes.AttributeValues.Keys)
-            //        sum += attributes[col.Name] * Beta[col.Name];
-            //    actions.Add(new KeyValuePair<O, double>(action, sum));
-            //}
             return actions;
         }
 
@@ -80,6 +98,10 @@ namespace Core
             string s = "";
             foreach (string att in Beta.Keys)
                 s += att + ": " + Math.Round(Beta[att],4) + "\n";
+            s += "\n=============\nNON-ZERO COEFFICIENTS:\n";
+            foreach (string att in Beta.Keys)
+                if (Beta[att] != 0)
+                    s += att + ": " + Math.Round(Beta[att], 4) + "\n";
             return s;
         }
     }

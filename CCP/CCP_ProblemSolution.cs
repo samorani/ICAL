@@ -120,10 +120,9 @@ namespace CCP
             columns.Add(new Column("empty", "", ColumnType.Bool));
             columns.Add(new Column("objectsThatWillFitHere", "#", ColumnType.Numeric));
             columns.Add(new Column("clustersWhereObjCanFit", "#", ColumnType.Numeric));
-            columns.Add(new Column("makesFeasible", "", ColumnType.Bool));
             columns.Add(new Column("newval", "$", ColumnType.Numeric));
-            columns.Add(new Column("relative_w", "lb", ColumnType.Numeric));
-            columns.Add(new Column("relative_stage", "#", ColumnType.Numeric));
+            columns.Add(new Column("w", "lb", ColumnType.Numeric));
+            columns.Add(new Column("new_c", "lb", ColumnType.Numeric));
             Row att = new Row(columns);
 
             double newVal = this.Value;
@@ -145,24 +144,16 @@ namespace CCP
                     clustersWhereObjCanFit++;
             att["clustersWhereObjCanFit"] = clustersWhereObjCanFit / (Instance.p + 0.0);
 
-            //bool makesInfeasible = CurWeights[o.Cluster] + Instance.w[o.Object] > Instance.U;
-            //att.Add("makesInfeasible", makesInfeasible ? 1.0 : 0.0);
-            bool makesFeasible = Instance.L > CurWeights[o.Cluster] && Instance.L <= CurWeights[o.Cluster] + Instance.w[o.Object];
-            att["makesFeasible"] = makesFeasible ? 1.0 : 0.0;
             foreach (int i in ObjectsInCluster[o.Cluster])
                 newVal += Instance.c[i, o.Object];
             att["newval"] = newVal;
 
-            // how many other objects in that cluster (out of n/p)
-            //double otherObjInC = ObjectsInCluster[o.Cluster].Count;
-            //att.Add("otherObjInC", otherObjInC / ((Instance.n + 0.0) / (Instance.p + 0.0)));
-
-
-            // RELATIVE WEIGHT
-            att ["relative_w"] = this.Instance.w[o.Object] / (Instance.U - CurWeights[o.Cluster]);
+            // WEIGHT
+            att["w"] = this.Instance.w[o.Object];
+            // Remaining capacity of cluster after assignment
+            att["new_c"] = CurWeights[o.Cluster] - this.Instance.w[o.Object];
 
             // stage out of n
-            att["relative_stage"] = this._totalAssignedObjects / (this.Instance.n);
             return att;
         }
 
