@@ -46,7 +46,7 @@ namespace IGAL
 
             List<KP_ProblemSolution>  trainingSet = GenerateTrainingSet();
 
-            double lambda = 0.0;
+            double lambda = 0.7;
             int maxSeconds = 60;
 
             ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();

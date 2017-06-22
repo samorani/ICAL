@@ -13,9 +13,9 @@ namespace IGAL
     {
         public static void Main(string[] args)
         {
-            DataTableTest();
+            //DataTableTest();
             //CCP_Main.CCPMain();
-            //KP_Main.KPMain();
+            KP_Main.KPMain();
         }
 
         private static void DataTableTest()
