@@ -80,22 +80,30 @@ namespace KP
             // test columns
             List<Column> columns = new List<Column>();
             columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
+            columns.Add(new Column("w/p", "lb/$", ColumnType.Numeric));
+            columns.Add(new Column("p/c", "$/lb", ColumnType.Numeric));
+            columns.Add(new Column("c/p", "lb/$", ColumnType.Numeric));
             columns.Add(new Column("p", "$", ColumnType.Numeric));
             columns.Add(new Column("w", "", ColumnType.Numeric));
             columns.Add(new Column("newC", "lb", ColumnType.Numeric));
             columns.Add(new Column("objectsThatFit", "#", ColumnType.Numeric));
-            columns.Add(new Column("newC", "lb", ColumnType.Numeric));
-            columns.Add(new Column("newC", "lb", ColumnType.Numeric));
-            columns.Add(new Column("newC", "lb", ColumnType.Numeric));
             double p = Instance.P[i];
             double w = Instance.W[i];
             double c = RemainingCapacity - Instance.W[i];
             Row attributes = new Row(columns);
-            attributes["p/w"] = p/w;
+            attributes["p/w"] = p / w;
+            attributes["w/p"] = w / p;
+            attributes["p/c"] = p / c;
+            attributes["c/p"] = c/p;
             attributes["p"] = p;
             attributes["w"] = w / c;
             attributes["newC"] = c;
+            int tot = 0;
+            for (int j = 0; j < X.Length; j++)
+                if (!X[j] && Instance.W[j] < c)
+                    tot++;
 
+            attributes["objectsThatFit"] = tot / (Instance.N + 0.0);
             return attributes;
         }
 

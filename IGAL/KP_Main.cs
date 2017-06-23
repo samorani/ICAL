@@ -63,17 +63,17 @@ namespace IGAL
             string trainingDir = @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\myinstances";
             string testDir = @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\instances";
             //List<KP_ProblemSolution> trainingSet = GenerateTrainingSet();
-            List<KP_ProblemInstance> trainingSet = LoadMyInstances(trainingDir, new string[] { "weakly" },new int[] { 5 }, 1, 2);
-            List<KP_ProblemInstance> testSet = LoadMyInstances(testDir, new string[] { "knapsack_weakly_corr" }, new int[] { 100, 300, 1000,3000 }, 1, 50);
+            List<KP_ProblemInstance> trainingSet = LoadMyInstances(trainingDir, new string[] { "strongly" },new int[] { 10}, 1, 2);
+            List<KP_ProblemInstance> testSet = LoadMyInstances(testDir, new string[] { "knapsack_strongly_corr" }, new int[] { 100, 300, 1000 }, 1, 50);
             List<KP_ProblemSolution> trainingSetSolutions = new List<KP_ProblemSolution>();
             KP_CPlex_solver exactSolver = new KP_CPlex_solver();
             foreach (KP_ProblemInstance i in trainingSet)
                 trainingSetSolutions.Add(exactSolver.Solve(i));
 
-            double lambda = 0.001;
+            double lambda = .01;
             int maxSeconds = 120;
             bool expandAttributes = false;
-            int maxAttributes = 2;
+            int maxAttributes = 200;
 
             ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
             //fw.Solver = new KP_SimpleGreedyRuleSolver();
