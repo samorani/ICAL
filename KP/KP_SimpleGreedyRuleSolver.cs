@@ -27,12 +27,14 @@ namespace KP
                 int bestIndex = -1;
                 for (int i = 0; i < n; i++)
                     foreach (int obj in available)
-                        if (w[obj] <= c && p[obj] / w[obj] > maxPW)
+                    {
+                        double val = p[obj] / w[obj];
+                        if (w[obj] <= c && val > maxPW)
                         {
-                            maxPW = p[obj] / w[obj];
+                            maxPW = val;
                             bestIndex = obj;
                         }
-
+                    }
                 // finished?
                 if (bestIndex == -1)
                     return new KP_ProblemSolution(instance,x);

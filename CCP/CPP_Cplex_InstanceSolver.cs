@@ -62,6 +62,8 @@ namespace CCP
             // Solve
             _model.ExportModel("..\\..\\..\\model.lp");
             _model.Solve();
+            if (!_model.IsPrimalFeasible())
+                return null;
 
             CCP_ProblemSolution sol = new CCP_ProblemSolution(inst);
             for (int i = 0; i < inst.n; i++)

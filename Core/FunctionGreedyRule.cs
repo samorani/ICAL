@@ -66,13 +66,15 @@ namespace Core
 
             if (Expand)
             {
-                if (_exp == null)
+                lock (this)
                 {
-                    _exp = new AttributeExpander();
-                    _exp.BuildAttributeExpressions(t.Columns);
-                    _exp.ZeroColumns = _zeroColumns;
+                    if (_exp == null)
+                    {
+                        _exp = new AttributeExpander();
+                        _exp.BuildAttributeExpressions(t.Columns);
+                        _exp.ZeroColumns = _zeroColumns;
+                    }
                 }
-
                 t = _exp.ExpandAttributes(t);
             }
 

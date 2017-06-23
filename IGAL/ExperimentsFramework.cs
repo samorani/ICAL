@@ -61,6 +61,19 @@ namespace IGAL
             Test(rule, testSet);
         }
 
+        public void RunExperiments(double lambda, List<S> trainingSet, List<I> testSet, string resultFile,
+            InstanceReader<S, I, O> instanceReader, int maxSeconds, bool expandAttributes, int maxAttributes)
+        {
+            _lambda = lambda;
+            _maxSeconds = maxSeconds;
+            _resultFile = resultFile;
+
+            // train
+            GreedyRule<S, I, O> rule = Train(trainingSet, expandAttributes, maxAttributes);
+
+            Test(rule, testSet);
+        }
+
         private void Test(GreedyRule<S, I, O> rule, List<I> testSet)
         {
             StreamWriter sw = new StreamWriter(_resultFile);
@@ -141,7 +154,7 @@ namespace IGAL
 
         public GreedyRule<S, I, O> Train(List<S> training, bool expandAttributes, int maxAttributes)
         {
-            CplexGreedyAlgorithmLearner<S, I, O> learner = new CplexGreedyAlgorithmLearner<S, I, O>(_lambda, _maxSeconds * 10, expandAttributes, maxAttributes);
+            CplexGreedyAlgorithmLearner<S, I, O> learner = new CplexGreedyAlgorithmLearner<S, I, O>(_lambda, _maxSeconds, expandAttributes, maxAttributes);
             GreedyRule<S, I, O> rule = learner.Learn(training);
             Console.WriteLine("\n******** RULE ********");
             Console.WriteLine(rule.ToString());
