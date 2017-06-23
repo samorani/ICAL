@@ -13,6 +13,7 @@ namespace Core
     public class CplexGreedyAlgorithmLearner<S, I, O> : IGreedyAlgorithmLearner<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
         Cplex _model;
+        bool _debug = false;
         string _descriptionFile = "..\\..\\..\\variables.txt";
         public double ObjectiveValue { get; set; }
         // for each instance i, for each sequence j, s[i,j]
@@ -118,14 +119,20 @@ namespace Core
             {
                 i_index++;
                 int j_index = -1;
+                if (_debug)
+                    Console.WriteLine("Instance: " + i.ToString());
 
                 foreach (Sequence<S, I, O> j in _gamma[i].Keys)
                 {
                     j_index++;
+                    if (_debug)
+                        Console.WriteLine("Sequence: " + j.ToString());
                     foreach (int t in _gamma[i][j].Keys)
                     {
                         // get the object at step t of sequence j
                         O chosen = j.Actions[t];
+                        if (_debug)
+                            Console.WriteLine("Get object: " + chosen);
                         Row v_ioj_star = j.Solutions[t].GetAttributesOfAction(chosen);
                         List<DataSupport.Column> columns = new List<DataSupport.Column>(v_ioj_star.AttributeValues.Keys);
 
@@ -139,6 +146,8 @@ namespace Core
                                 Row v_iojh = j.Solutions[t].GetAttributesOfAction(h);
                                 dt.AddRow(v_iojh);
                             }
+                        if (_debug)
+                             Console.WriteLine("ORIGINAL TABLE:\n" + dt);
 
                         // Expand
                         if (Expand)
@@ -149,7 +158,11 @@ namespace Core
                             // expand the attributes
                             dt = exp.ExpandAttributes(dt);
                         }
-
+                        if (_debug)
+                        {
+                            Console.WriteLine("MODIFIED TABLE:\n" + dt + "\n... ");
+                            Console.ReadLine();
+                        }
                         for (int h_index = 1; h_index < dt.Rows.Count; h_index++) // skip v_ioj_star
                         {
                             Row v_iojh = dt.Rows[h_index];
