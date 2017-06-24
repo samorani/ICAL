@@ -98,10 +98,11 @@ namespace IGAL
                     DateTime begin = DateTime.Now;
 
                     ISolver<S, I, O> solver = Solver == null ? new GreedySolver<S, I, O>(rule, _maxSeconds) : Solver;
+                    Console.WriteLine("Solving " + inst.GetShortName());
                     S sol = solver.Solve(inst);
                     DateTime end = DateTime.Now;
                     double millis = (end - begin).TotalMilliseconds;
-                    queue2.Add(new Tuple<I, S, double, double>(inst, sol, sol.Value, millis));
+                    queue2.Add(new Tuple<I, S, double, double>(inst, sol, sol == null? 0 : sol.Value, millis));
                 }
             })).ToArray();
 

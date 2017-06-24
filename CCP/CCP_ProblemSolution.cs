@@ -116,16 +116,21 @@ namespace CCP
 
         public override Row GetAttributesOfAction(CCP_Action o)
         {
+            // compute total weight
+            double totW = Instance.p * Instance.U;
+
+
             List<Column> columns = new List<Column>();
             columns.Add(new Column("empty", "", ColumnType.Bool));
             columns.Add(new Column("objectsThatWillFitHere", "#", ColumnType.Numeric));
             columns.Add(new Column("clustersWhereObjCanFit", "#", ColumnType.Numeric));
-            columns.Add(new Column("newval", "$", ColumnType.Numeric));
+            columns.Add(new Column("p", "$", ColumnType.Numeric));
             columns.Add(new Column("w", "lb", ColumnType.Numeric));
-            columns.Add(new Column("new_c", "lb", ColumnType.Numeric));
+            columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
+            //columns.Add(new Column("new_c", "lb", ColumnType.Numeric));
             Row att = new Row(columns);
 
-            double newVal = this.Value;
+            double p = 0;
 
             // is this an empty cluster?
             att["empty"] = this.ObjectsInCluster[o.Cluster].Count == 0 ? 1 : 0;
@@ -145,13 +150,14 @@ namespace CCP
             att["clustersWhereObjCanFit"] = clustersWhereObjCanFit / (Instance.p + 0.0);
 
             foreach (int i in ObjectsInCluster[o.Cluster])
-                newVal += Instance.c[i, o.Object];
-            att["newval"] = newVal;
+                p += Instance.c[i, o.Object];
+            att["p"] = p;// / Instance.TotalReward;
 
             // WEIGHT
-            att["w"] = this.Instance.w[o.Object];
+            att["w"] = this.Instance.w[o.Object] / totW;
+            att["p/w"] = att["p"] / att["w"];
             // Remaining capacity of cluster after assignment
-            att["new_c"] = CurWeights[o.Cluster] - this.Instance.w[o.Object];
+            //att["new_c"] = (CurWeights[o.Cluster] - this.Instance.w[o.Object]) / this.Instance.U;
 
             // stage out of n
             return att;

@@ -53,6 +53,7 @@
     <Compile Include="CCP_ProblemSolution.cs" />
     <Compile Include="CCP_InstanceGenerator.cs" />
     <Compile Include="CPP_Cplex_InstanceSolver.cs" />
+    <Compile Include="HandoverObjectiveComputer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
