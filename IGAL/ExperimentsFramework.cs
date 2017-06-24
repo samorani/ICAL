@@ -77,6 +77,7 @@ namespace IGAL
         private void Test(GreedyRule<S, I, O> rule, List<I> testSet)
         {
             StreamWriter sw = new StreamWriter(_resultFile);
+            sw.WriteLine("RULE:\n" + rule + "\n==============\n");
             sw.WriteLine("INSTANCE\tVALUE\tTIME(MILLISECONDS)");
             sw.Close();
 

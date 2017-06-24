@@ -77,7 +77,7 @@ namespace KP
             //attributes["w"] = Instance.W[i];
             //attributes["newC"] = RemainingCapacity - Instance.W[i];
 
-            // test columns
+            // complex columns
             List<Column> columns = new List<Column>();
             columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
             columns.Add(new Column("w/p", "lb/$", ColumnType.Numeric));
@@ -91,19 +91,26 @@ namespace KP
             double w = Instance.W[i];
             double c = RemainingCapacity - Instance.W[i];
             Row attributes = new Row(columns);
-            attributes["p/w"] = p / w;
-            attributes["w/p"] = w / p;
-            attributes["p/c"] = p / c;
-            attributes["c/p"] = c/p;
-            attributes["p"] = p;
-            attributes["w"] = w / c;
-            attributes["newC"] = c;
             int tot = 0;
+            double totProfit = 0;
+            double totWeight = 0;
             for (int j = 0; j < X.Length; j++)
+            {
                 if (!X[j] && Instance.W[j] < c)
                     tot++;
-
+                totProfit += Instance.P[j];
+                totWeight += Instance.W[j];
+            }
             attributes["objectsThatFit"] = tot / (Instance.N + 0.0);
+            attributes["p/w"] = (p/ totProfit) / (w / totWeight);
+            attributes["w/p"] = (w / totWeight) / (p / totProfit);
+            attributes["p/c"] = (p / totProfit) / (c / totWeight);
+            attributes["c/p"] = (c/totWeight) / (p / totProfit);
+            attributes["p"] = (p / totProfit);
+            attributes["w"] = (w / totWeight);
+            attributes["newC"] = c / totWeight;
+
+
             return attributes;
         }
 

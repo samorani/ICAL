@@ -62,27 +62,42 @@ namespace IGAL
         {
             string trainingDir = @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\myinstances";
             string testDir = @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\instances";
-            //List<KP_ProblemSolution> trainingSet = GenerateTrainingSet();
-            List<KP_ProblemInstance> trainingSet = LoadMyInstances(trainingDir, new string[] { "strongly" },new int[] { 10}, 1, 2);
-            List<KP_ProblemInstance> testSet = LoadMyInstances(testDir, new string[] { "knapsack_strongly_corr" }, new int[] { 100, 300, 1000 }, 1, 50);
-            List<KP_ProblemSolution> trainingSetSolutions = new List<KP_ProblemSolution>();
-            KP_CPlex_solver exactSolver = new KP_CPlex_solver();
-            foreach (KP_ProblemInstance i in trainingSet)
-                trainingSetSolutions.Add(exactSolver.Solve(i));
+            foreach (string trainingTypeInstance in new string[] { "strongly", "subset", "weakly",  "uncorr" })
+            {
+                string testType = "";
+                if (trainingTypeInstance == "strongly")
+                    testType = "knapsack_strongly_corr";
+                if (trainingTypeInstance == "subset")
+                    testType = "knapsack_subset_sum";
+                if (trainingTypeInstance == "weakly")
+                    testType = "knapsack_weakly_corr";
+                if (trainingTypeInstance == "uncorr")
+                    testType = "knapsack_uncorrelated";
 
-            double lambda = .01;
-            int maxSeconds = 120;
-            bool expandAttributes = false;
-            int maxAttributes = 200;
+                //List<KP_ProblemSolution> trainingSet = GenerateTrainingSet();
+                List<KP_ProblemInstance> trainingSet = LoadMyInstances(trainingDir, new string[] { trainingTypeInstance }, new int[] { 5 }, 1, 10);
+                List<KP_ProblemInstance> testSet = LoadMyInstances(testDir, new string[] { testType }, new int[] { 100, 300, 1000, 3000 }, 1, 50);
+                List<KP_ProblemSolution> trainingSetSolutions = new List<KP_ProblemSolution>();
+                KP_CPlex_solver exactSolver = new KP_CPlex_solver();
+                foreach (KP_ProblemInstance i in trainingSet)
+                    trainingSetSolutions.Add(exactSolver.Solve(i));
 
-            ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
-            //fw.Solver = new KP_SimpleGreedyRuleSolver();
-            //fw.Solver = new KP_CPlex_solver();
-            string resultFile = GetDrive() + @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\";
-            resultFile += "KP knapsack_weakly_corr " + maxAttributes + ".txt";
-            fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds, expandAttributes, maxAttributes);
+                foreach (int maxAttributes in new int[] { 1, 2, 20 })
+                {
+                    double lambda = .01;
+                    int maxSeconds = 600;
+                    bool expandAttributes = false;
+                    //int maxAttributes = 20;
+
+                    ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
+                    //fw.Solver = new KP_SimpleGreedyRuleSolver();
+                    //fw.Solver = new KP_CPlex_solver();
+                    string resultFile = GetDrive() + @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\";
+                    resultFile += "KP knapsack_"+trainingTypeInstance+"_corr " + maxAttributes + ".txt";
+                    fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds, expandAttributes, maxAttributes);
+                }
+            }
         }
-
         private static string GetDrive()
         {
             string drive = "e:\\";
