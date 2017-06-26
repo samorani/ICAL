@@ -26,7 +26,7 @@ namespace IGAL
             CPP_InstanceGenerator generator = new CPP_InstanceGenerator(1, 10, 1, .5, 3);
             for (int p = 2; p < 3; p++)
                 for (int n = 4; n < 5; n++)
-                    for (seed = 0; seed < 5; seed++)
+                    for (seed = 0; seed < 10; seed++)
                     {
                         CCP_ProblemInstance inst = generator.GenerateInstance(n, p, seed);
                         inst.WriteToFile(trainingDir + @"\train_" + n + "_" + p + "_" + seed + ".txt");
@@ -47,14 +47,14 @@ namespace IGAL
 
             string trainingDir = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\training";
             string testDir = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\instances";
-            string resultFile = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\CCP 1 attributes.txt";
 
             List<CCP_ProblemSolution>  trainingSet = GenerateTrainingSet(trainingDir);
 
             double lambda = 0.001;
-            int maxSeconds = 60;
+            int maxSeconds = 120;
             bool expandAttributes = false;
-            int maxAttributes = 20;
+            int maxAttributes = 1;
+            string resultFile = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\CCP "+maxAttributes + " att.txt";
 
             ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> fw = new ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>();
 

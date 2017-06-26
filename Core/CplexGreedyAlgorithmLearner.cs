@@ -16,6 +16,8 @@ namespace Core
         bool _debug = false;
         string _descriptionFile = "..\\..\\..\\variables.txt";
         public double ObjectiveValue { get; set; }
+        public double OptimalityGap { get; private set; }
+        public double LowerBound { get; private set; }
         // for each instance i, for each sequence j, s[i,j]
         SortedList<I, SortedList<Sequence<S, I, O>, IIntVar>> _s;
         // for each attribute name, g[v]
@@ -54,10 +56,14 @@ namespace Core
             _model.ExportModel("..\\..\\..\\model.lp");
             Console.Write("Solving... ");
             //_model.SetOut(null);
+            //_model.Use(new MyCallBack(_maxAttributes,_lambda));
             _model.Solve();
             _model.WriteSolution("..\\..\\..\\solution.lp");
             ObjectiveValue = _model.ObjValue;
+            OptimalityGap = Math.Round(_model.GetMIPRelativeGap(),6);
+            LowerBound = Math.Round(_model.GetBestObjValue(),6);
             Console.WriteLine("ObjVal = " + Math.Round(ObjectiveValue, 4) + ". \n");
+            Console.WriteLine("OptimalityGap = " + Math.Round(OptimalityGap, 4) + ". \n");
 
             if (!_model.IsPrimalFeasible())
             {
@@ -305,5 +311,34 @@ namespace Core
                 score += attributes[col.Name] * _model.GetValue(_g[col.Name]);
             return score;
         }
+
+        ///// <summary>
+        ///// Class MyCallBack. Prunes the current node if its lower bound is impossible
+        ///// </summary>
+        ///// <seealso cref="ILOG.CPLEX.Cplex.BranchCallback" />
+        //protected class MyCallBack : Cplex.BranchCallback
+        //{
+        //    int _nattr;
+        //    double _lambda;
+        //    public MyCallBack(int nattributes, double lambda)
+        //    {
+        //        _nattr = nattributes;
+        //        _lambda = lambda;
+        //    }
+        //    public override void Main()
+        //    {
+        //        if (_nattr >= 9)
+        //            return;
+        //        double d = this.GetBestObjValue();
+        //        double fract = d - Math.Floor(d);
+        //        //Console.WriteLine("I am inside the callback. LB = " + d +". Fractional part = "+fract);
+        //        if (fract > _lambda * _nattr + 0.0000000001)
+        //        {
+        //            //Console.WriteLine("Prune!");
+        //            //Console.ReadLine();
+        //            this.Prune();
+        //        }
+        //    }
+        //}
     }
 }

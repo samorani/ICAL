@@ -76,8 +76,7 @@ namespace IGAL
 
         private void Test(GreedyRule<S, I, O> rule, List<I> testSet)
         {
-            StreamWriter sw = new StreamWriter(_resultFile);
-            sw.WriteLine("RULE:\n" + rule + "\n==============\n");
+            StreamWriter sw = new StreamWriter(_resultFile,true);
             sw.WriteLine("INSTANCE\tVALUE\tTIME(MILLISECONDS)");
             sw.Close();
 
@@ -158,8 +157,16 @@ namespace IGAL
         {
             CplexGreedyAlgorithmLearner<S, I, O> learner = new CplexGreedyAlgorithmLearner<S, I, O>(_lambda, _maxSeconds, expandAttributes, maxAttributes);
             GreedyRule<S, I, O> rule = learner.Learn(training);
-            Console.WriteLine("\n******** RULE ********");
-            Console.WriteLine(rule.ToString());
+            string msg = "\n******** LEARNING ********\n" +
+            "Objective: " + learner.ObjectiveValue + "\n" +
+            "Lower bound: " + learner.LowerBound + "\n" +
+            "Optimality gap: " + learner.OptimalityGap + "\n" +
+            "\n******** RULE ********" + "\n" +
+            rule.ToString() + "\n";
+            StreamWriter sw = new StreamWriter(_resultFile);
+            sw.WriteLine(msg);
+            sw.Close();
+            Console.WriteLine(msg);
 
             return rule;
         }
