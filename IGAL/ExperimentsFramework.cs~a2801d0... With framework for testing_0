@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core;
+<<<<<<< HEAD:IGAL/KP_Main.cs
 using CCP;
 using KP;
+=======
+>>>>>>> a2801d0... With framework for testing:IGAL/ExperimentsFramework.cs
 using System.IO;
 
 namespace IGAL
 {
+<<<<<<< HEAD:IGAL/KP_Main.cs
     class KP_Main
     {
         private static List<KP_ProblemSolution> GenerateTrainingSet()
@@ -53,51 +57,95 @@ namespace IGAL
                                 //    return training;
                             }
             }
+=======
+    public class ExperimentsFW<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Core.Action<S, I, O>
+    {
+        public double lambda = 0.0;
+        public int _maxSeconds = 5;
+        string _InstancesDirectory = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\instances";
+        string _resultFile = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\results.txt";
+>>>>>>> a2801d0... With framework for testing:IGAL/ExperimentsFramework.cs
 
             return training;
 
+<<<<<<< HEAD:IGAL/KP_Main.cs
         }
 
         public static void KPMain()
         {
             string trainingDir = @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\myinstances";
             string testDir = @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\instances";
-            foreach (string trainingTypeInstance in new string[] { "strongly", "subset", "weakly",  "uncorr" })
+            //List<KP_ProblemSolution> trainingSet = GenerateTrainingSet();
+            List<KP_ProblemInstance> trainingSet = LoadMyInstances(trainingDir, new string[] { "weakly" },new int[] { 5 }, 1, 2);
+            List<KP_ProblemInstance> testSet = LoadMyInstances(testDir, new string[] { "knapsack_weakly_corr" }, new int[] { 100, 300, 1000,3000 }, 1, 50);
+            List<KP_ProblemSolution> trainingSetSolutions = new List<KP_ProblemSolution>();
+            KP_CPlex_solver exactSolver = new KP_CPlex_solver();
+            foreach (KP_ProblemInstance i in trainingSet)
+                trainingSetSolutions.Add(exactSolver.Solve(i));
+
+            double lambda = 0.001;
+            int maxSeconds = 120;
+            bool expandAttributes = false;
+            int maxAttributes = 2;
+
+            ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
+            //fw.Solver = new KP_SimpleGreedyRuleSolver();
+            //fw.Solver = new KP_CPlex_solver();
+            string resultFile = GetDrive() + @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\";
+            resultFile += "KP knapsack_weakly_corr " + maxAttributes + ".txt";
+            fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds, expandAttributes, maxAttributes);
+=======
+        public void RunExperiments(string trainingDirectory, string testDirectory, InstanceReader<S, I, O> instanceReader, ISolver<S, I, O> solver)
+        {
+            List<S> trainingSet = new List<S>();
+            DirectoryInfo d = new DirectoryInfo(trainingDirectory);
+            foreach (FileInfo f in d.GetFiles())
             {
-                string testType = "";
-                if (trainingTypeInstance == "strongly")
-                    testType = "knapsack_strongly_corr";
-                if (trainingTypeInstance == "subset")
-                    testType = "knapsack_subset_sum";
-                if (trainingTypeInstance == "weakly")
-                    testType = "knapsack_weakly_corr";
-                if (trainingTypeInstance == "uncorr")
-                    testType = "knapsack_uncorrelated";
-
-                //List<KP_ProblemSolution> trainingSet = GenerateTrainingSet();
-                List<KP_ProblemInstance> trainingSet = LoadMyInstances(trainingDir, new string[] { trainingTypeInstance }, new int[] { 5 }, 1, 10);
-                List<KP_ProblemInstance> testSet = LoadMyInstances(testDir, new string[] { testType }, new int[] { 100, 300, 1000, 3000 }, 1, 50);
-                List<KP_ProblemSolution> trainingSetSolutions = new List<KP_ProblemSolution>();
-                KP_CPlex_solver exactSolver = new KP_CPlex_solver();
-                foreach (KP_ProblemInstance i in trainingSet)
-                    trainingSetSolutions.Add(exactSolver.Solve(i));
-
-                foreach (int maxAttributes in new int[] { 1, 2, 20 })
-                {
-                    double lambda = .01;
-                    int maxSeconds = 600;
-                    bool expandAttributes = false;
-                    //int maxAttributes = 20;
-
-                    ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
-                    //fw.Solver = new KP_SimpleGreedyRuleSolver();
-                    //fw.Solver = new KP_CPlex_solver();
-                    string resultFile = GetDrive() + @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\";
-                    resultFile += "KP knapsack_"+trainingTypeInstance+"_corr " + maxAttributes + ".txt";
-                    fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds, expandAttributes, maxAttributes);
-                }
+                I inst = instanceReader.LoadInstanceFromFile(f.FullName);
+                S sol = solver.Solve(inst);
+                trainingSet.Add(sol);
             }
+
+            // train
+            GreedyRule<S, I, O> rule = Train(trainingSet);
+
+            List<I> testSet = new List<I>();
+            d = new DirectoryInfo(testDirectory);
+            foreach (FileInfo f in d.GetFiles())
+            {
+                I inst = instanceReader.LoadInstanceFromFile(f.FullName);
+                testSet.Add(inst);
+            }
+            Test(rule, testSet);
         }
+
+        private void Test(GreedyRule<S, I, O> rule, List<I> testSet)
+        {
+            DirectoryInfo d = new DirectoryInfo(_InstancesDirectory);
+            StreamWriter sw = new StreamWriter(_resultFile);
+            sw.WriteLine("INSTANCE\tVALUE\tTIME(MILLISECONDS)");
+            sw.Close();
+            foreach (I instance in testSet)
+            {
+                Console.Write("Solving " + instance.GetShortName() + ": ");
+                DateTime begin = DateTime.Now;
+                GreedySolver<S, I, O> greedySolver = new GreedySolver<S, I, O>(rule, _maxSeconds);
+                S sol = greedySolver.Solve(instance);
+                DateTime end = DateTime.Now;
+                string toWrite = "";
+                if (sol != null)
+                    toWrite = instance.GetShortName() + "\t" + sol.Value + "\t" + (end - begin).TotalMilliseconds;
+                else
+                    toWrite = instance.GetShortName() + "\t" + "infeasible" + "\t" + (end - begin).TotalMilliseconds;
+                Console.WriteLine(toWrite);
+                sw = new StreamWriter(_resultFile, true);
+                sw.WriteLine(toWrite);
+                sw.Close();
+
+            }
+>>>>>>> a2801d0... With framework for testing:IGAL/ExperimentsFramework.cs
+        }
+
         private static string GetDrive()
         {
             string drive = "e:\\";

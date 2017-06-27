@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pandas
+namespace DataSupport
 {
     public class Table
     {
         public List<Column> Columns { get; }
         private SortedList<string, Column> _columnsByName;
         public List<Row> Rows { get; }
+
 
         public Table(List<Column> columns)
         {
@@ -94,6 +95,11 @@ namespace Pandas
             foreach (Row r in Rows)
                 s += r + "\n";
             return s;
+        }
+
+        public void RemoveColumn(Column c)
+        {
+            Columns.Remove(c);
         }
     }
 }

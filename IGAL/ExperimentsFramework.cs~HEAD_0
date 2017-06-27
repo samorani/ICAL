@@ -76,7 +76,7 @@ namespace IGAL
 
         private void Test(GreedyRule<S, I, O> rule, List<I> testSet)
         {
-            StreamWriter sw = new StreamWriter(_resultFile,true);
+            StreamWriter sw = new StreamWriter(_resultFile);
             sw.WriteLine("INSTANCE\tVALUE\tTIME(MILLISECONDS)");
             sw.Close();
 
@@ -97,11 +97,10 @@ namespace IGAL
                     DateTime begin = DateTime.Now;
 
                     ISolver<S, I, O> solver = Solver == null ? new GreedySolver<S, I, O>(rule, _maxSeconds) : Solver;
-                    Console.WriteLine("Solving " + inst.GetShortName());
                     S sol = solver.Solve(inst);
                     DateTime end = DateTime.Now;
                     double millis = (end - begin).TotalMilliseconds;
-                    queue2.Add(new Tuple<I, S, double, double>(inst, sol, sol == null? 0 : sol.Value, millis));
+                    queue2.Add(new Tuple<I, S, double, double>(inst, sol, sol.Value, millis));
                 }
             })).ToArray();
 
@@ -157,16 +156,8 @@ namespace IGAL
         {
             CplexGreedyAlgorithmLearner<S, I, O> learner = new CplexGreedyAlgorithmLearner<S, I, O>(_lambda, _maxSeconds, expandAttributes, maxAttributes);
             GreedyRule<S, I, O> rule = learner.Learn(training);
-            string msg = "\n******** LEARNING ********\n" +
-            "Objective: " + learner.ObjectiveValue + "\n" +
-            "Lower bound: " + learner.LowerBound + "\n" +
-            "Optimality gap: " + learner.OptimalityGap + "\n" +
-            "\n******** RULE ********" + "\n" +
-            rule.ToString() + "\n";
-            StreamWriter sw = new StreamWriter(_resultFile);
-            sw.WriteLine(msg);
-            sw.Close();
-            Console.WriteLine(msg);
+            Console.WriteLine("\n******** RULE ********");
+            Console.WriteLine(rule.ToString());
 
             return rule;
         }

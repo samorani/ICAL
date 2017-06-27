@@ -66,10 +66,6 @@
       <Project>{8995ca6c-097e-4a98-af5c-9b843c6ef10d}</Project>
       <Name>KP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pandas\Pandas.csproj">
-      <Project>{12edf8e9-b02a-48a6-a2b7-1e8de666e48f}</Project>
-      <Name>Pandas</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Test\Test.csproj">
       <Project>{4fd94f56-a8a3-4d24-814e-594ded42ede5}</Project>
       <Name>Test</Name>

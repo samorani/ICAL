@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pandas
+namespace DataSupport
 {
     public enum ColumnType { Numeric, Bool, None};
     public struct Column : IComparable<Column>
@@ -23,6 +23,11 @@ namespace Pandas
             Name = name;
             this.Dimension = dimension;
             ColumnType = type;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

@@ -4,13 +4,14 @@ using Core;
 using CCP;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Pandas;
+using DataSupport;
 
 namespace Test
 {
     [TestClass]
     public class DataTest
     {
+
         [TestMethod]
         public void TestTable()
         {
@@ -50,7 +51,28 @@ namespace Test
                 row["p/w"] = row["p"] / row["w"];
             Console.WriteLine(t);
 
+            Console.WriteLine(t); 
+        }
+
+        [TestMethod]
+        public void TestExpander()
+        {
+            List<Column> cols = new List<Column>();
+            cols.Add(new Column("w", "lb", ColumnType.Numeric));
+            cols.Add(new Column("p", "$", ColumnType.Numeric));
+            cols.Add(new Column("c", "lb", ColumnType.Numeric));
+            Table t = new Table(cols);
+            t.AddRow(new Row(cols));
+            t.AddRow(new Row(cols));
+            t[0, "w"] = 3;
+            t[0, "p"] = 1;
+            t[0, "c"] = 3;
+            t[1, "w"] = 10;
+            t[1, "p"] = 5;
+            t[1, "c"] = 2;
             Console.WriteLine(t);
+            AttributeExpander exp = new AttributeExpander();
+            Console.WriteLine(exp.ExpandAttributes(t));
         }
     }
 }

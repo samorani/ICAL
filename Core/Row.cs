@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pandas
+namespace DataSupport
 {
     /// <summary>
     /// Class Row. It is a Dictionary of (Column, value) pairs
@@ -13,6 +13,8 @@ namespace Pandas
     {
         public SortedList<Column, double> AttributeValues { get; }
         private SortedList<string, Column> _columnsByName;
+        public int Count { get { return AttributeValues.Count; } }
+
 
         public Row(List<Column> columns)
         {

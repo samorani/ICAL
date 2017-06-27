@@ -4,6 +4,7 @@ using Core;
 using CCP;
 using System.Collections.Generic;
 using System.Diagnostics;
+using DataSupport;
 
 namespace Test
 {
@@ -36,7 +37,7 @@ namespace Test
 
             // what if we assign object 0 to cluster 0?
             CCP_Action a = new CCP_Action(0, 0);
-            SortedList<string, double> attr = sol.GetAttributesOfAction(a);
+            Row attr = sol.GetAttributesOfAction(a);
             //Assert.AreEqual(0, attr["curval"]);
             Assert.AreEqual(0, attr["newval"]);
 

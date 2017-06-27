@@ -35,6 +35,21 @@ namespace CCP
         /// </summary>
         /// <value>The w.</value>
         public double[] w { get; set; }
+        private double _totalReward = 0;
+        public double TotalReward
+        {
+            get
+            {
+                if (_totalReward == 0)
+                    lock (this)
+                    {
+                        for (int i = 0; i < n; i++)
+                            for (int j = 0; j < n; j++)
+                                _totalReward += c[i, j];
+                    }
+                return _totalReward;
+            }
+        }
 
         public double U { get; set; }
         public double L { get; set; }

@@ -12,20 +12,29 @@ namespace IGAL
 {
     class CCP_Main
     {
-        private static void GenerateTrainingSet(string trainingDir)
+        private static List<CCP_ProblemSolution> GenerateTrainingSet(string trainingDir)
         {
             int seed = 0;
+            List<CCP_ProblemSolution> solutions = new List<CCP_ProblemSolution>();
             DirectoryInfo di = new DirectoryInfo(trainingDir);
             foreach (FileInfo file in di.GetFiles())
             {
                 file.Delete();
             }
 
-            CPP_InstanceGenerator generator = new CPP_InstanceGenerator(1, 3, 1, .2, 3);
-            for (int p = 2; p < 4; p++)
-                for (int n = 4; n < 6; n++)
-                    for (seed = 0; seed < 2; seed++)
-            generator.GenerateInstance(n, p, seed).WriteToFile(trainingDir + @"\train_" + n + "_" + p + "_" + seed + ".txt");
+            CPP_Cplex_InstanceSolver solver = new CPP_Cplex_InstanceSolver(60);
+            CPP_InstanceGenerator generator = new CPP_InstanceGenerator(1, 10, 1, .5, 3);
+            for (int p = 2; p < 3; p++)
+                for (int n = 4; n < 5; n++)
+                    for (seed = 0; seed < 10; seed++)
+                    {
+                        CCP_ProblemInstance inst = generator.GenerateInstance(n, p, seed);
+                        inst.WriteToFile(trainingDir + @"\train_" + n + "_" + p + "_" + seed + ".txt");
+                        CCP_ProblemSolution sol = solver.Solve(inst);
+                        if (sol != null)
+                            solutions.Add(sol);
+                    }
+            return solutions;
         }
 
         public static void CCPMain()
@@ -38,35 +47,20 @@ namespace IGAL
 
             string trainingDir = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\training";
             string testDir = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\instances";
-            string resultFile = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\results.txt";
 
-            GenerateTrainingSet(trainingDir);
+            List<CCP_ProblemSolution>  trainingSet = GenerateTrainingSet(trainingDir);
 
             double lambda = 0.001;
-            int maxSeconds = 60;
+            int maxSeconds = 120;
+            bool expandAttributes = false;
+            int maxAttributes = 1;
+            string resultFile = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\CCP "+maxAttributes + " att.txt";
 
             ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> fw = new ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>();
-            fw.RunExperiments(lambda, trainingDir, testDir,resultFile, new CCP_InstanceReader(), new CCP_Grasp_Solver(0,0.05), maxSeconds);
-            //foreach (FileInfo f in d.GetFiles())
-            //    training.Add()
 
-            //CCP_ProblemInstance i1 = new CCP_ProblemInstance(4, 2, new double[,] { { 0, 10, 3, 5 },
-            //{10,0,5,6 }, {3,5,0,20 }, {5,6,20,0 } }, new double[] { 1, 2, 2, 1 }, 2, 4);
-            //CCP_ProblemSolution s1 = new CCP_ProblemSolution(i1, new int[] { 0, 0, 1, 1 });
-            //CCP_ProblemInstance i2 = new CCP_ProblemInstance(4, 2, new double[,] { { 0, 1, 0, 0 },
-            //{1,0,0,0 }, {0,0,0,0 }, {0,0,0,0 } }, new double[] { 2, 2, 3, 3 }, 5, 5);
-            //CCP_ProblemSolution s2 = new CCP_ProblemSolution(i2, new int[] { 0, 1, 0, 1 });
-            //training.Add(s1);
-            ////training.Add(s2);
-            //CplexGreedyAlgorithmLearner<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> learner = 
-            //    new CplexGreedyAlgorithmLearner<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>(lambda);
-
-            //GreedyRule<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> rule = learner.Learn(training);
-            //Console.WriteLine("\n******** RULE ********");
-            //Console.WriteLine(rule.ToString());
-
-            //GreedySolver<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> solver = new GreedySolver<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>();
-            //Console.WriteLine(solver.Solve(i2, rule));
+            // solve using learner
+            //fw.Solver = new CCP_Grasp_Solver(0, 0.05);
+            fw.RunExperiments(lambda, trainingSet, testDir, resultFile, new CCP_InstanceReader(), maxSeconds, expandAttributes, maxAttributes);
         }
     }
 }

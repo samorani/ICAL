@@ -21,7 +21,7 @@ namespace IGAL
         private static void DataTableTest()
         {
             Test.DataTest dt = new Test.DataTest();
-            dt.TestTable();
+            dt.TestExpander();
         }
     }
 }
