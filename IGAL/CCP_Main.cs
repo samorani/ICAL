@@ -7,6 +7,7 @@ using Core;
 using CCP;
 using KP;
 using System.IO;
+using DataSupport;
 
 namespace IGAL
 {
@@ -52,15 +53,15 @@ namespace IGAL
 
             double lambda = 0.001;
             int maxSeconds = 120;
-            bool expandAttributes = false;
             int maxAttributes = 1;
             string resultFile = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\CCP "+maxAttributes + " att.txt";
+            AbstractTableModifier modifier = null;
 
             ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> fw = new ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>();
 
             // solve using learner
             //fw.Solver = new CCP_Grasp_Solver(0, 0.05);
-            fw.RunExperiments(lambda, trainingSet, testDir, resultFile, new CCP_InstanceReader(), maxSeconds, expandAttributes, maxAttributes);
+            fw.RunExperiments(lambda, trainingSet, testDir, resultFile, new CCP_InstanceReader(), maxSeconds, modifier, maxAttributes);
         }
     }
 }

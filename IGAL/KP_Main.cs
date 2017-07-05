@@ -7,6 +7,7 @@ using Core;
 using CCP;
 using KP;
 using System.IO;
+using DataSupport;
 
 namespace IGAL
 {
@@ -86,15 +87,15 @@ namespace IGAL
                 {
                     double lambda = .01;
                     int maxSeconds = 600;
-                    bool expandAttributes = false;
                     //int maxAttributes = 20;
+                    AbstractTableModifier modifier = null;
 
                     ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
                     //fw.Solver = new KP_SimpleGreedyRuleSolver();
                     //fw.Solver = new KP_CPlex_solver();
                     string resultFile = GetDrive() + @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\";
                     resultFile += "KP knapsack_"+trainingTypeInstance+"_corr " + maxAttributes + ".txt";
-                    fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds, expandAttributes, maxAttributes);
+                    fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds, modifier, maxAttributes);
                 }
             }
         }

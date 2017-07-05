@@ -14,25 +14,12 @@ namespace Core
         /// </summary>
         /// <value>The beta.</value>
         public SortedList<string,double> Beta { get; private set; }
-        AttributeExpander _exp;
-        HashSet<string> _zeroColumns;
-        bool Expand = false;
+        AbstractTableModifier _tableModifier;
 
-        public FunctionGreedyRule(SortedList<string, double> beta, bool expandAttributes)
+        public FunctionGreedyRule(SortedList<string, double> beta, AbstractTableModifier modifier = null)
         {
-            Expand = expandAttributes;
             Beta = beta;
-            _zeroColumns = new HashSet<string>();
-            HashSet<string> appearingOnce = new HashSet<string>();
-            if (Expand)
-            {
-                foreach (string att in beta.Keys)
-                    if (beta[att] == 0 && appearingOnce.Contains(att.Substring(4)))
-                        _zeroColumns.Add(att.Substring(4));
-                    else if (beta[att] == 0 && !appearingOnce.Contains(att.Substring(4)))
-                        appearingOnce.Add(att.Substring(4));
-                _exp = null;
-            }
+            _tableModifier = modifier;
         }
 
         /// <summary>
@@ -64,18 +51,12 @@ namespace Core
             }
             //Console.Write("Create table: " + Math.Round((DateTime.Now - now).TotalMilliseconds, 0) + "\t");
 
-            if (Expand)
+            if (_tableModifier != null)
             {
                 lock (this)
                 {
-                    if (_exp == null)
-                    {
-                        _exp = new AttributeExpander();
-                        _exp.BuildAttributeExpressions(t.Columns);
-                        _exp.ZeroColumns = _zeroColumns;
-                    }
+                    t = _tableModifier.Modify(t);
                 }
-                t = _exp.ExpandAttributes(t);
             }
 
             now = DateTime.Now;
@@ -84,7 +65,7 @@ namespace Core
             {
                 double sum = 0;
                 Row attributes = t.Rows[i];
-                foreach (Column col in attributes.AttributeValues.Keys)
+                foreach (Column col in t.Columns)
                     sum += attributes[col.Name] * Beta[col.Name];
                 if (sum > 0)
                     Console.Write("");
@@ -103,7 +84,7 @@ namespace Core
             s += "\n=============\nNON-ZERO COEFFICIENTS:\n";
             foreach (string att in Beta.Keys)
                 if (Beta[att] != 0)
-                    s += att + ": " + Math.Round(Beta[att], 4) + "\n";
+                    s += att + ": " + Math.Round(Beta[att], 10) + "\n";
             return s;
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataSupport;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,14 @@ namespace Core
         private int _curStep;
         private GreedyRule<S, I, O> _rule;
         private int _maxTimeSeconds;
+        AbstractTableModifier _tableModifier;
         private DateTime _begin;
-        public GreedySolver(GreedyRule<S, I, O> rule, int maxTimeSeconds)
+
+        public GreedySolver(GreedyRule<S, I, O> rule, int maxTimeSeconds, AbstractTableModifier modifier = null)
         {
             _rule = rule;
             _maxTimeSeconds = maxTimeSeconds;
+            _tableModifier = modifier;
         }
         /// <summary>
         /// Solves the specified instance. At each step, it picks the best action according to the rule. The algorithm 

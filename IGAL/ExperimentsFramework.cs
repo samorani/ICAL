@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Core;
 using System.IO;
 using System.Collections.Concurrent;
+using DataSupport;
 
 namespace IGAL
 {
@@ -17,7 +18,7 @@ namespace IGAL
         public ISolver<S, I, O> Solver;
         public void RunExperiments(double lambda, string trainingDirectory, string testDirectory, string resultFile,
     InstanceReader<S, I, O> instanceReader, ISolver<S, I, O> solver,
-    int maxSeconds, bool expandAttributes, int maxAttributes)
+    int maxSeconds, AbstractTableModifier modifier, int maxAttributes)
         {
             Solver = solver;
             List<S> trainingSet = new List<S>();
@@ -38,18 +39,18 @@ namespace IGAL
                 //    Console.WriteLine("**************");
                 //}
             }
-            RunExperiments(lambda, trainingSet, testDirectory, resultFile, instanceReader, maxSeconds, expandAttributes, maxAttributes);
+            RunExperiments(lambda, trainingSet, testDirectory, resultFile, instanceReader, maxSeconds, modifier, maxAttributes);
         }
 
         public void RunExperiments(double lambda, List<S> trainingSet, string testDirectory, string resultFile,
-            InstanceReader<S, I, O> instanceReader, int maxSeconds, bool expandAttributes, int maxAttributes)
+            InstanceReader<S, I, O> instanceReader, int maxSeconds, AbstractTableModifier modifier, int maxAttributes)
         {
             _lambda = lambda;
             _maxSeconds = maxSeconds;
             _resultFile = resultFile;
 
             // train
-            GreedyRule<S, I, O> rule = Train(trainingSet, expandAttributes, maxAttributes);
+            GreedyRule<S, I, O> rule = Train(trainingSet, modifier, maxAttributes);
 
             List<I> testSet = new List<I>();
             DirectoryInfo d = new DirectoryInfo(testDirectory);
@@ -62,14 +63,14 @@ namespace IGAL
         }
 
         public void RunExperiments(double lambda, List<S> trainingSet, List<I> testSet, string resultFile,
-            InstanceReader<S, I, O> instanceReader, int maxSeconds, bool expandAttributes, int maxAttributes)
+            InstanceReader<S, I, O> instanceReader, int maxSeconds, AbstractTableModifier modifier, int maxAttributes)
         {
             _lambda = lambda;
             _maxSeconds = maxSeconds;
             _resultFile = resultFile;
 
             // train
-            GreedyRule<S, I, O> rule = Train(trainingSet, expandAttributes, maxAttributes);
+            GreedyRule<S, I, O> rule = Train(trainingSet, modifier, maxAttributes);
 
             Test(rule, testSet);
         }
@@ -153,9 +154,9 @@ namespace IGAL
             //}
         }
 
-        public GreedyRule<S, I, O> Train(List<S> training, bool expandAttributes, int maxAttributes)
+        public GreedyRule<S, I, O> Train(List<S> training, AbstractTableModifier modifier, int maxAttributes)
         {
-            CplexGreedyAlgorithmLearner<S, I, O> learner = new CplexGreedyAlgorithmLearner<S, I, O>(_lambda, _maxSeconds, expandAttributes, maxAttributes);
+            CplexConstructiveAlgorithmLearner<S, I, O> learner = new CplexConstructiveAlgorithmLearner<S, I, O>(_lambda, _maxSeconds, modifier, maxAttributes);
             GreedyRule<S, I, O> rule = learner.Learn(training);
             string msg = "\n******** LEARNING ********\n" +
             "Objective: " + learner.ObjectiveValue + "\n" +
