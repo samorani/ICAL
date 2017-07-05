@@ -60,8 +60,8 @@ namespace Core
             _model.Solve();
             _model.WriteSolution("..\\..\\..\\solution.lp");
             ObjectiveValue = _model.ObjValue;
-            OptimalityGap = Math.Round(_model.GetMIPRelativeGap(),6);
-            LowerBound = Math.Round(_model.GetBestObjValue(),6);
+            OptimalityGap = Math.Round(_model.GetMIPRelativeGap(), 6);
+            LowerBound = Math.Round(_model.GetBestObjValue(), 6);
             Console.WriteLine("ObjVal = " + Math.Round(ObjectiveValue, 4) + ". \n");
             Console.WriteLine("OptimalityGap = " + Math.Round(OptimalityGap, 4) + ". \n");
 
@@ -78,7 +78,7 @@ namespace Core
                 // add to beta only the non-zero attributes
                 double val = _model.GetValue(_g[att]);
                 Console.WriteLine(att + ": " + val);
-                if (Math.Abs(val ) > 0)
+                if (Math.Abs(val) > 0)
                     beta.Add(att, val);
                 else if (_modifier != null)
                     _modifier.SilenceAttribute(att);
@@ -87,7 +87,7 @@ namespace Core
 
             // get violations to the rule
             foreach (I i in _gamma.Keys)
-                foreach (Sequence<S,I,O> j in _gamma[i].Keys)
+                foreach (Sequence<S, I, O> j in _gamma[i].Keys)
                     foreach (int t in _gamma[i][j].Keys)
                         if (_model.GetValue(_gamma[i][j][t]) > 0.01)
                         {
@@ -95,7 +95,7 @@ namespace Core
                             string viol = "******** VIOLATION ********\n";
 
                             S sol = j.Solutions[t];
-                            viol += "Violation in instance " + i + " sequence "+j+ "\n";
+                            viol += "Violation in instance " + i + " sequence " + j + "\n";
                             viol += "At step " + t + ", here is the solution:\n";
                             viol += sol + "\n";
                             viol += "We should have selected " + j.Actions[t] + ". The other actions are:\n";
@@ -110,7 +110,7 @@ namespace Core
 
         private void SetupModel(List<S> solutions)
         {
-            StreamWriter sw = new StreamWriter(_descriptionFile,true);
+            StreamWriter sw = new StreamWriter(_descriptionFile, true);
             sw.WriteLine("\n======== CONSTRAINTS ========");
 
 
@@ -119,7 +119,7 @@ namespace Core
             foreach (I i in _s.Keys)
             {
                 ILinearNumExpr constr = _model.LinearNumExpr();
-                foreach (Sequence<S,I,O> j in _s[i].Keys)
+                foreach (Sequence<S, I, O> j in _s[i].Keys)
                     constr.AddTerm(1, _s[i][j]);
                 _model.AddEq(1.0, constr, "C1_" + (i_index++));
             }
@@ -128,7 +128,6 @@ namespace Core
             _g = new SortedList<string, INumVar>();
             _a = new SortedList<string, INumVar>();
             i_index = -1;
-            AttributeExpander exp = new AttributeExpander();
             foreach (I i in _gamma.Keys)
             {
                 i_index++;
@@ -161,12 +160,12 @@ namespace Core
                                 dt.AddRow(v_iojh);
                             }
                         if (_debug)
-                             Console.WriteLine("ORIGINAL TABLE:\n" + dt);
+                            Console.WriteLine("ORIGINAL TABLE:\n" + dt);
 
                         // Expand
                         if (_modifier != null)
                         {
-                           // expand the attributes
+                            // expand the attributes
                             dt = _modifier.Modify(dt);
                         }
                         if (_debug)
@@ -217,7 +216,7 @@ namespace Core
                         ILinearNumExpr sumAttr = _model.LinearNumExpr();
                         foreach (IIntVar iv in _a.Values)
                             sumAttr.AddTerm(1, iv);
-                        _model.AddLe(sumAttr, _maxAttributes,"max_attributes");
+                        _model.AddLe(sumAttr, _maxAttributes, "max_attributes");
                     }
                 }
             }
@@ -253,7 +252,7 @@ namespace Core
         {
             string s = "[";
             int i = 0;
-            foreach(DataSupport.Column col in attributes.AttributeValues.Keys)
+            foreach (DataSupport.Column col in attributes.AttributeValues.Keys)
             {
                 string end = ",";
                 if (++i == attributes.Count)
@@ -280,11 +279,11 @@ namespace Core
                 I inst = sol.Instance;
                 _s.Add(inst, new SortedList<Sequence<S, I, O>, IIntVar>());
                 _gamma.Add(inst, new SortedList<Sequence<S, I, O>, SortedList<int, IIntVar>>());
-                foreach (Sequence<S,I,O> seq in inst.SequencesThatMayBuild(sol))
+                foreach (Sequence<S, I, O> seq in inst.SequencesThatMayBuild(sol))
                 {
                     string svarname = "s_" + instanceIndex + "_" + seqIndex;
                     IIntVar s_ij = _model.IntVar(0, 1, svarname);
-                    sw.WriteLine(svarname + ": s(i=" + inst + ", j="+seq+")");
+                    sw.WriteLine(svarname + ": s(i=" + inst + ", j=" + seq + ")");
 
                     _s[inst].Add(seq, s_ij);
                     _gamma[inst].Add(seq, new SortedList<int, IIntVar>());
@@ -292,8 +291,8 @@ namespace Core
                     for (int t = 0; t < seq.Count; t++)
                     {
                         string gammavarname = "gamma_" + instanceIndex + "_" + seqIndex + "_" + t;
-                        _gamma[inst][seq].Add(t, _model.IntVar(0, 1, gammavarname ));
-                        sw.WriteLine(gammavarname + ": gamma(i=" + inst + ", j=" + seq + ",t="+t + ")");
+                        _gamma[inst][seq].Add(t, _model.IntVar(0, 1, gammavarname));
+                        sw.WriteLine(gammavarname + ": gamma(i=" + inst + ", j=" + seq + ",t=" + t + ")");
                     }
                     seqIndex++;
                     if (seqIndex % 100 == 0)
