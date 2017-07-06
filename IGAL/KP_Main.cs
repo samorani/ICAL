@@ -83,11 +83,12 @@ namespace IGAL
                 foreach (KP_ProblemInstance i in trainingSet)
                     trainingSetSolutions.Add(exactSolver.Solve(i));
 
-                foreach (int maxAttributes in new int[] { 2000, 2, 20 })
+                foreach (int maxAttributes in new int[] { 1, 2, 20000 })
                 {
                     double lambda = 0.001;
-                    int maxSeconds = 60;
+                    int maxSeconds = 120;
                     bool standardize = false;
+                    bool PenalizeNumberOfAttributes = true;
                     AbstractTableModifier modifier = new SymbolicExpansionTableModifier(standardize);
                     //int maxAttributes = 20;
 
@@ -96,7 +97,8 @@ namespace IGAL
                     //fw.Solver = new KP_CPlex_solver();
                     string resultFile = GetDrive() + @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\";
                     resultFile += "KP knapsack_" + trainingTypeInstance + "_corr " + maxAttributes + ".txt";
-                    fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds, modifier, maxAttributes);
+                    fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds,
+                        PenalizeNumberOfAttributes, modifier, maxAttributes);
                 }
             }
         }

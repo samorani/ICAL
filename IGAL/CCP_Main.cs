@@ -54,6 +54,8 @@ namespace IGAL
             double lambda = 0.001;
             int maxSeconds = 120;
             int maxAttributes = 1;
+            bool PenalizeNumberOfAttributes = true;
+
             string resultFile = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\CCP "+maxAttributes + " att.txt";
             AbstractTableModifier modifier = new SymbolicExpansionTableModifier(true);
 
@@ -61,7 +63,8 @@ namespace IGAL
 
             // solve using learner
             //fw.Solver = new CCP_Grasp_Solver(0, 0.05);
-            fw.RunExperiments(lambda, trainingSet, testDir, resultFile, new CCP_InstanceReader(), maxSeconds, modifier, maxAttributes);
+            fw.RunExperiments(lambda, trainingSet, testDir, resultFile, new CCP_InstanceReader(), maxSeconds,
+                PenalizeNumberOfAttributes, modifier, maxAttributes);
         }
     }
 }

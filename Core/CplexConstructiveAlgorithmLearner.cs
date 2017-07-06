@@ -14,6 +14,8 @@ namespace Core
     {
         Cplex _model;
         bool _debug = false;
+        bool _penalizeNumberOfAttributes;
+
         string _descriptionFile = "..\\..\\..\\variables.txt";
         public double ObjectiveValue { get; set; }
         public double OptimalityGap { get; private set; }
@@ -32,13 +34,17 @@ namespace Core
         int _maxSeconds;
         AbstractTableModifier _modifier;
         int _maxAttributes;
+        public int NumberOfGeneratedAttributes { get; set; }
 
-        public CplexConstructiveAlgorithmLearner(double lambda, int timeoutSeconds, AbstractTableModifier modifier = null, int maxAttributes = Int32.MaxValue)
+        public CplexConstructiveAlgorithmLearner(double lambda, int timeoutSeconds,
+            bool PenalizeNumberOfAttributes, AbstractTableModifier modifier = null, int maxAttributes = Int32.MaxValue)
         {
             _lambda = lambda;
             _maxSeconds = timeoutSeconds;
             _modifier = modifier;
             _maxAttributes = maxAttributes;
+            _penalizeNumberOfAttributes = PenalizeNumberOfAttributes;
+            NumberOfGeneratedAttributes = -1;
         }
 
         public GreedyRule<S, I, O> Learn(List<S> solutions)
@@ -183,12 +189,16 @@ namespace Core
                             {
                                 _nattr = v_iojh.Count;
                                 int attIndex = 0;
+                                NumberOfGeneratedAttributes = v_iojh.AttributeValues.Count;
                                 foreach (DataSupport.Column col in v_iojh.AttributeValues.Keys)
                                 {
                                     string gvarname = "g_" + (attIndex);
                                     string avarname = "a_" + (attIndex++);
                                     _g.Add(col.Name, _model.NumVar(-1.0, 1.0, gvarname));
-                                    _a.Add(col.Name, _model.IntVar(0, 1, avarname));
+                                    if (_penalizeNumberOfAttributes)
+                                        _a.Add(col.Name, _model.IntVar(0, 1, avarname));
+                                    else
+                                        _a.Add(col.Name, _model.NumVar(0, 1, avarname));
                                     sw.WriteLine(gvarname + ": g(att=" + col.Name + ")");
                                     sw.WriteLine(avarname + ": g(att=" + col.Name + ")");
                                 }
@@ -213,10 +223,13 @@ namespace Core
                         }
 
                         // max attributes constraint
-                        ILinearNumExpr sumAttr = _model.LinearNumExpr();
-                        foreach (IIntVar iv in _a.Values)
-                            sumAttr.AddTerm(1, iv);
-                        _model.AddLe(sumAttr, _maxAttributes, "max_attributes");
+                        if (_penalizeNumberOfAttributes)
+                        {
+                            ILinearNumExpr sumAttr = _model.LinearNumExpr();
+                            foreach (IIntVar iv in _a.Values)
+                                sumAttr.AddTerm(1, iv);
+                            _model.AddLe(sumAttr, _maxAttributes, "max_attributes");
+                        }
                     }
                 }
             }
