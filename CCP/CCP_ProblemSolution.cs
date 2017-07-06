@@ -122,11 +122,11 @@ namespace CCP
 
             List<Column> columns = new List<Column>();
             columns.Add(new Column("empty", "", ColumnType.Bool));
-            columns.Add(new Column("objectsThatWillFitHere", "#", ColumnType.Numeric));
-            columns.Add(new Column("clustersWhereObjCanFit", "#", ColumnType.Numeric));
+            columns.Add(new Column("objectsThatWillFitHere", "#o", ColumnType.Numeric));
+            columns.Add(new Column("clustersWhereObjCanFit", "#c", ColumnType.Numeric));
             columns.Add(new Column("p", "$", ColumnType.Numeric));
             columns.Add(new Column("w", "lb", ColumnType.Numeric));
-            columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
+            //columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
             //columns.Add(new Column("new_c", "lb", ColumnType.Numeric));
             Row att = new Row(columns);
 
@@ -145,7 +145,7 @@ namespace CCP
             // in how many other clusters can this object fit?
             int clustersWhereObjCanFit = 0;
             for (int k = 0; k < Instance.p; k++)
-                if (k!= o.Cluster && this.Instance.w[o.Object] <= Instance.U - CurWeights[k])
+                if (k != o.Cluster && this.Instance.w[o.Object] <= Instance.U - CurWeights[k])
                     clustersWhereObjCanFit++;
             att["clustersWhereObjCanFit"] = clustersWhereObjCanFit / (Instance.p + 0.0);
 
@@ -155,12 +155,59 @@ namespace CCP
 
             // WEIGHT
             att["w"] = this.Instance.w[o.Object] / totW;
-            att["p/w"] = att["p"] / att["w"];
+            //att["p/w"] = att["p"] / att["w"];
             // Remaining capacity of cluster after assignment
             //att["new_c"] = (CurWeights[o.Cluster] - this.Instance.w[o.Object]) / this.Instance.U;
 
             // stage out of n
             return att;
+
+            // results in paper
+            //// compute total weight
+            //double totW = Instance.p * Instance.U;
+
+
+            //List<Column> columns = new List<Column>();
+            //columns.Add(new Column("empty", "", ColumnType.Bool));
+            //columns.Add(new Column("objectsThatWillFitHere", "#", ColumnType.Numeric));
+            //columns.Add(new Column("clustersWhereObjCanFit", "#", ColumnType.Numeric));
+            //columns.Add(new Column("p", "$", ColumnType.Numeric));
+            //columns.Add(new Column("w", "lb", ColumnType.Numeric));
+            //columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
+            ////columns.Add(new Column("new_c", "lb", ColumnType.Numeric));
+            //Row att = new Row(columns);
+
+            //double p = 0;
+
+            //// is this an empty cluster?
+            //att["empty"] = this.ObjectsInCluster[o.Cluster].Count == 0 ? 1 : 0;
+
+            //// how many available objects can fit here after the assignment?
+            //int objectsThatWillFitHere = 0;
+            //for (int i = 0; i < Instance.n; i++)
+            //    if (this.X[i] == -1 && i != o.Object && this.Instance.w[i] <= Instance.U - CurWeights[o.Cluster] - Instance.w[o.Object])
+            //        objectsThatWillFitHere++;
+            //att["objectsThatWillFitHere"] = objectsThatWillFitHere / (Instance.n + 0.0);
+
+            //// in how many other clusters can this object fit?
+            //int clustersWhereObjCanFit = 0;
+            //for (int k = 0; k < Instance.p; k++)
+            //    if (k!= o.Cluster && this.Instance.w[o.Object] <= Instance.U - CurWeights[k])
+            //        clustersWhereObjCanFit++;
+            //att["clustersWhereObjCanFit"] = clustersWhereObjCanFit / (Instance.p + 0.0);
+
+            //foreach (int i in ObjectsInCluster[o.Cluster])
+            //    p += Instance.c[i, o.Object];
+            //att["p"] = p;// / Instance.TotalReward;
+
+            //// WEIGHT
+            //att["w"] = this.Instance.w[o.Object] / totW;
+            //att["p/w"] = att["p"] / att["w"];
+            //// Remaining capacity of cluster after assignment
+            ////att["new_c"] = (CurWeights[o.Cluster] - this.Instance.w[o.Object]) / this.Instance.U;
+
+            //// stage out of n
+            //return att;
         }
 
         /// <summary>

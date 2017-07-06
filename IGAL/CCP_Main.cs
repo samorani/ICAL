@@ -55,7 +55,7 @@ namespace IGAL
             int maxSeconds = 120;
             int maxAttributes = 1;
             string resultFile = @"D:\Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\CCP\CCP "+maxAttributes + " att.txt";
-            AbstractTableModifier modifier = null;
+            AbstractTableModifier modifier = new SymbolicExpansionTableModifier(true);
 
             ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action> fw = new ExperimentsFW<CCP_ProblemSolution, CCP_ProblemInstance, CCP_Action>();
 

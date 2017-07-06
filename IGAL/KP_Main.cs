@@ -63,7 +63,7 @@ namespace IGAL
         {
             string trainingDir = @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\myinstances";
             string testDir = @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\instances";
-            foreach (string trainingTypeInstance in new string[] { "strongly", "subset", "weakly",  "uncorr" })
+            foreach (string trainingTypeInstance in new string[] { "strongly", "subset", "weakly", "uncorr" })
             {
                 string testType = "";
                 if (trainingTypeInstance == "strongly")
@@ -83,18 +83,19 @@ namespace IGAL
                 foreach (KP_ProblemInstance i in trainingSet)
                     trainingSetSolutions.Add(exactSolver.Solve(i));
 
-                foreach (int maxAttributes in new int[] { 1, 2, 20 })
+                foreach (int maxAttributes in new int[] { 2000, 2, 20 })
                 {
-                    double lambda = .01;
-                    int maxSeconds = 600;
+                    double lambda = 0.001;
+                    int maxSeconds = 60;
+                    bool standardize = false;
+                    AbstractTableModifier modifier = new SymbolicExpansionTableModifier(standardize);
                     //int maxAttributes = 20;
-                    AbstractTableModifier modifier = null;
 
                     ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action> fw = new ExperimentsFW<KP_ProblemSolution, KP_ProblemInstance, KP_Action>();
                     //fw.Solver = new KP_SimpleGreedyRuleSolver();
                     //fw.Solver = new KP_CPlex_solver();
                     string resultFile = GetDrive() + @"Dropbox\Documents\research\Greedy Algorithm Learner\computational experiments\KP01\";
-                    resultFile += "KP knapsack_"+trainingTypeInstance+"_corr " + maxAttributes + ".txt";
+                    resultFile += "KP knapsack_" + trainingTypeInstance + "_corr " + maxAttributes + ".txt";
                     fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds, modifier, maxAttributes);
                 }
             }
@@ -124,7 +125,7 @@ namespace IGAL
                 string simpleName = f.Name;
                 int nPos = simpleName.IndexOf("_n");
                 string type = simpleName.Substring(0, nPos);
-                int thisn = Int32.Parse(simpleName.Substring(nPos-1).Split(new char[] { '_' })[2]);
+                int thisn = Int32.Parse(simpleName.Substring(nPos - 1).Split(new char[] { '_' })[2]);
                 int seed = Int32.Parse(simpleName.Substring(nPos - 1).Split(new char[] { '_' }).Last());
                 //Console.WriteLine(simpleName + ": n = " + thisn);
                 if (types.Contains(type) && minSeed <= seed && seed <= maxSeed && n.Contains(thisn))

@@ -8,14 +8,14 @@ using DataSupport;
 
 namespace KP
 {
-    public class KP_ProblemSolution : 
-        ProblemSolution<KP_ProblemSolution, KP_ProblemInstance, KP_Action> 
+    public class KP_ProblemSolution :
+        ProblemSolution<KP_ProblemSolution, KP_ProblemInstance, KP_Action>
     {
         /// <summary>
         /// The object selection array. X[i] = true if i is selected.
         /// </summary>
         /// <value>The current selection.</value>
-        public bool [] X { get; private set; }
+        public bool[] X { get; private set; }
 
         public override bool IsFeasible()
         {
@@ -44,9 +44,9 @@ namespace KP
             this.RemainingCapacity = inst.C;
         }
 
-        public KP_ProblemSolution(KP_ProblemInstance inst, bool [] x) : this(inst)
+        public KP_ProblemSolution(KP_ProblemInstance inst, bool[] x) : this(inst)
         {
-            for (int i=0;i<x.Length;i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 X[i] = x[i];
                 if (X[i])
@@ -68,29 +68,16 @@ namespace KP
             int i = o.Index;
 
             // simple columns
-            //List<Column> columns = new List<Column>();
-            //columns.Add(new Column("p", "$", ColumnType.Numeric));
-            //columns.Add(new Column("w", "lb", ColumnType.Numeric));
-            //columns.Add(new Column("newC", "lb", ColumnType.Numeric));
-            //Row attributes = new Row(columns);
-            //attributes["p"] = Instance.P[i];
-            //attributes["w"] = Instance.W[i];
-            //attributes["newC"] = RemainingCapacity - Instance.W[i];
-
-            // complex columns
             List<Column> columns = new List<Column>();
-            columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
-            columns.Add(new Column("w/p", "lb/$", ColumnType.Numeric));
-            columns.Add(new Column("p/c", "$/lb", ColumnType.Numeric));
-            columns.Add(new Column("c/p", "lb/$", ColumnType.Numeric));
             columns.Add(new Column("p", "$", ColumnType.Numeric));
-            columns.Add(new Column("w", "", ColumnType.Numeric));
+            columns.Add(new Column("w", "lb", ColumnType.Numeric));
             columns.Add(new Column("newC", "lb", ColumnType.Numeric));
             columns.Add(new Column("objectsThatFit", "#", ColumnType.Numeric));
-            double p = Instance.P[i];
-            double w = Instance.W[i];
-            double c = RemainingCapacity - Instance.W[i];
+            //columns.Add(new Column("totprofit", "$", ColumnType.Numeric));
+            //columns.Add(new Column("totweight", "lb", ColumnType.Numeric));
             Row attributes = new Row(columns);
+            double n = Instance.N;
+            double c = RemainingCapacity - Instance.W[i];
             int tot = 0;
             double totProfit = 0;
             double totWeight = 0;
@@ -101,14 +88,45 @@ namespace KP
                 totProfit += Instance.P[j];
                 totWeight += Instance.W[j];
             }
-            attributes["objectsThatFit"] = tot / (Instance.N + 0.0);
-            attributes["p/w"] = (p/ totProfit) / (w / totWeight);
-            attributes["w/p"] = (w / totWeight) / (p / totProfit);
-            attributes["p/c"] = (p / totProfit) / (c / totWeight);
-            attributes["c/p"] = (c/totWeight) / (p / totProfit);
-            attributes["p"] = (p / totProfit);
-            attributes["w"] = (w / totWeight);
+            attributes["p"] = Instance.P[i] / totProfit;
+            attributes["w"] = Instance.W[i] / totWeight;
             attributes["newC"] = c / totWeight;
+            attributes["objectsThatFit"] = tot / n;
+            //attributes["totprofit"] = totProfit;
+            //attributes["totweight"] = totWeight;
+
+            // complex columns
+            //List<Column> columns = new List<Column>();
+            //columns.Add(new Column("p/w", "$/lb", ColumnType.Numeric));
+            //columns.Add(new Column("w/p", "lb/$", ColumnType.Numeric));
+            //columns.Add(new Column("p/c", "$/lb", ColumnType.Numeric));
+            //columns.Add(new Column("c/p", "lb/$", ColumnType.Numeric));
+            //columns.Add(new Column("p", "$", ColumnType.Numeric));
+            //columns.Add(new Column("w", "", ColumnType.Numeric));
+            //columns.Add(new Column("newC", "lb", ColumnType.Numeric));
+            //columns.Add(new Column("objectsThatFit", "#", ColumnType.Numeric));
+            //double p = Instance.P[i];
+            //double w = Instance.W[i];
+            //double c = RemainingCapacity - Instance.W[i];
+            //Row attributes = new Row(columns);
+            //int tot = 0;
+            //double totProfit = 0;
+            //double totWeight = 0;
+            //for (int j = 0; j < X.Length; j++)
+            //{
+            //    if (!X[j] && Instance.W[j] < c)
+            //        tot++;
+            //    totProfit += Instance.P[j];
+            //    totWeight += Instance.W[j];
+            //}
+            //attributes["objectsThatFit"] = tot / (Instance.N + 0.0);
+            //attributes["p/w"] = (p/ totProfit) / (w / totWeight);
+            //attributes["w/p"] = (w / totWeight) / (p / totProfit);
+            //attributes["p/c"] = (p / totProfit) / (c / totWeight);
+            //attributes["c/p"] = (c/totWeight) / (p / totProfit);
+            //attributes["p"] = (p / totProfit);
+            //attributes["w"] = (w / totWeight);
+            //attributes["newC"] = c / totWeight;
 
 
             return attributes;
@@ -134,7 +152,7 @@ namespace KP
         {
             int i = o.Index;
             KP_ProblemSolution newSol = new KP_ProblemSolution(this.Instance);
-            X.CopyTo(newSol.X,0);
+            X.CopyTo(newSol.X, 0);
             newSol.X[i] = true;
             newSol.Value = Value + Instance.P[i];
             newSol.RemainingCapacity = RemainingCapacity - Instance.W[i];

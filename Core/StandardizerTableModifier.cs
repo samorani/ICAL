@@ -49,7 +49,7 @@ namespace DataSupport
             var queue2 = new BlockingCollection<Tuple<Column, double, double>>(100000);
 
             // producers get an instance from queue1, solve it, and add them to queue2
-            var producers = Enumerable.Range(1, 10).Select(_ => Task.Factory.StartNew(() =>
+            var producers = Enumerable.Range(1, 1).Select(_ => Task.Factory.StartNew(() =>
             {
                 foreach (Column c in queue1.GetConsumingEnumerable())
                 {
