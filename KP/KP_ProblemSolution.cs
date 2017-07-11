@@ -11,6 +11,7 @@ namespace KP
     public class KP_ProblemSolution :
         ProblemSolution<KP_ProblemSolution, KP_ProblemInstance, KP_Action>
     {
+        Random _rand = new Random(0);
         /// <summary>
         /// The object selection array. X[i] = true if i is selected.
         /// </summary>
@@ -141,7 +142,7 @@ namespace KP
         {
             for (int i = 0; i < Instance.N; i++)
                 if (Instance.W[i] <= RemainingCapacity && !this.X[i])
-                    yield return new KP_Action(i);
+                        yield return new KP_Action(i);
         }
 
         /// <summary>

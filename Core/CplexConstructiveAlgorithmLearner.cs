@@ -28,9 +28,14 @@ namespace Core
         SortedList<string, INumVar> _a;
         // for each instance i, for each sequence j, for each step t, gamma[i,j,t]
         SortedList<I, SortedList<Sequence<S, I, O>, SortedList<int, IIntVar>>> _gamma;
+        INumVar _sep; // minimum separation
+        public double Sep;
+
+        SortedList<I, S> _optimalSolutionsTraining;
+
         int _nattr = 0;
         double _lambda = 0;
-        double _eps = 0.001;
+        double _eps = 0.0000001; // 0.001
         int _maxSeconds;
         AbstractTableModifier _modifier;
         int _maxAttributes;
@@ -49,6 +54,10 @@ namespace Core
 
         public GreedyRule<S, I, O> Learn(List<S> solutions)
         {
+            _optimalSolutionsTraining = new SortedList<I, S>();
+            foreach (S sol in solutions)
+                _optimalSolutionsTraining.Add(sol.Instance, sol);
+
             _model = new Cplex();
             _model.SetParam(Cplex.IntParam.TimeLimit, _maxSeconds);
 
@@ -68,7 +77,9 @@ namespace Core
             ObjectiveValue = _model.ObjValue;
             OptimalityGap = Math.Round(_model.GetMIPRelativeGap(), 6);
             LowerBound = Math.Round(_model.GetBestObjValue(), 6);
+            Sep = _model.GetValue(_sep);
             Console.WriteLine("ObjVal = " + Math.Round(ObjectiveValue, 4) + ". \n");
+            Console.WriteLine("Sep = " + Sep + ". \n");
             Console.WriteLine("OptimalityGap = " + Math.Round(OptimalityGap, 4) + ". \n");
 
             if (!_model.IsPrimalFeasible())
@@ -77,19 +88,56 @@ namespace Core
                 Console.WriteLine("NOT FEASIBLE");
             }
 
+            // iterate all solutions
+            // values[i,j] is the value on instance j found by solution i
+            double[] gaps= new double[_model.GetSolnPoolNsolns()];
+            Console.WriteLine("There are " + _model.GetSolnPoolNsolns() + " solutions and " +
+                _s.Keys.Count + " instances to solve");
+            for (int nsol = 0; nsol < _model.GetSolnPoolNsolns(); nsol++)
+            {
+                double obj = _model.GetObjValue(nsol);
+ 
+                Console.Write(Math.Round(obj,3) + "\t");
+                SortedList<string, double> beta = new SortedList<string, double>();
+                foreach (string att in _g.Keys)
+                {
+                    // add to beta only the non-zero attributes
+                    double val = _model.GetValue(_g[att],nsol);
+                    beta.Add(att, val);
+                }
+                GreedySolver<S, I, O> solver = new GreedySolver<S, I, O>(new FunctionGreedyRule<S, I, O>(beta, _modifier), _maxSeconds, _modifier);
+                // evaluate this solution on training set
+                for (int i=0;i<_s.Keys.Count;i++)
+                {
+                    
+                    I inst = _s.Keys[i];
+                    S sol = solver.Solve(inst);
+                    double val = sol.IsFeasible() ? sol.Value : 0;
+                    double opt = _optimalSolutionsTraining[inst].Value;
+                    // define gap depending on max or min problem
+                    double gap = opt > val? (opt - val) / opt : (val - opt) / opt;
+                    gaps[nsol] += gap / (_s.Keys.Count + 0.0);
+                }
+                Console.WriteLine("Avg gap = " + Math.Round(gaps[nsol],7));
+            }
+
+            // find the best solution (the one with the lowest avg gap)
+
+
+
             // get values of g
-            SortedList<string, double> beta = new SortedList<string, double>();
+            SortedList<string, double> bestBeta = new SortedList<string, double>();
             foreach (string att in _g.Keys)
             {
                 // add to beta only the non-zero attributes
                 double val = _model.GetValue(_g[att]);
                 Console.WriteLine(att + ": " + val);
                 if (Math.Abs(val) > 0)
-                    beta.Add(att, val);
+                    bestBeta.Add(att, val);
                 else if (_modifier != null)
                     _modifier.SilenceAttribute(att);
             }
-            FunctionGreedyRule<S, I, O> func = new FunctionGreedyRule<S, I, O>(beta, _modifier);
+            FunctionGreedyRule<S, I, O> func = new FunctionGreedyRule<S, I, O>(bestBeta, _modifier);
 
             // get violations to the rule
             foreach (I i in _gamma.Keys)
@@ -119,6 +167,7 @@ namespace Core
             StreamWriter sw = new StreamWriter(_descriptionFile, true);
             sw.WriteLine("\n======== CONSTRAINTS ========");
 
+            Random rand = new Random(0);
 
             // constraint (1)
             int i_index = 0;
@@ -136,6 +185,7 @@ namespace Core
             i_index = -1;
             foreach (I i in _gamma.Keys)
             {
+                Console.WriteLine("Setting up constraints for instance " + (i_index+1) + " out of " + _gamma.Count);
                 i_index++;
                 int j_index = -1;
                 if (_debug)
@@ -205,11 +255,22 @@ namespace Core
                             }
 
                             // add constraint 2
-                            double bigM = _eps;
+                            double bigM = 0;
+                            double eps = 100;
                             foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
-                                bigM += Math.Abs(v_iojh[c] - v_ioj_star[c]);
-
+                            {
+                                double diff = Math.Abs(v_iojh[c] - v_ioj_star[c]);
+                                bigM += diff;
+                                if (diff > 0 && diff < eps)
+                                    eps = diff;
+                            }
+                            if (bigM == 0)
+                            {
+                                eps = 0.0;
+                            }
+                            bigM += eps;
                             ILinearNumExpr constr = _model.LinearNumExpr();
+                            constr.AddTerm(-1, _sep);
                             foreach (DataSupport.Column c in v_ioj_star.AttributeValues.Keys)
                                 constr.AddTerm(v_ioj_star[c], _g[c.Name]);
                             foreach (DataSupport.Column c in v_iojh.AttributeValues.Keys)
@@ -219,7 +280,7 @@ namespace Core
                             string constName = "2_" + i_index + "_" + j_index + "_" + t +
                             "_" + (h_index);
                             sw.WriteLine(constName + ": i=" + i + "; j=" + j + "; t=" + t + "; chosen action=" + chosen + GetAttributesString(v_ioj_star) + " vs " + feasibleActions[h_index] + GetAttributesString(v_iojh));
-                            _model.AddGe(constr, _eps - bigM, constName);
+                            _model.AddGe(constr, eps - bigM, constName);
                         }
 
                         // max attributes constraint
@@ -242,6 +303,7 @@ namespace Core
                         obj.AddTerm(1, _gamma[instance][seq][t]);
             foreach (string att in _a.Keys)
                 obj.AddTerm(_lambda, _a[att]);
+            //obj.AddTerm(-1, _sep);
             _model.AddMinimize(obj);
 
             // constraints (4) and (5)
@@ -255,6 +317,14 @@ namespace Core
                 expr.AddTerm(1, _a[att]);
                 expr.AddTerm(1, _g[att]);
                 _model.AddGe(expr, 0);
+                if (att.Equals("[p]/[w]"))
+                {
+                    //Console.WriteLine("SETTING UP p/w = 1");
+                    //Console.ReadLine();
+                    //_model.AddEq(_a[att],  1);
+                    //_model.AddEq(_g[att], 1);
+                }
+                //_model.SetPriority(_a[att], 1);
             }
 
             sw.Close();
@@ -279,7 +349,7 @@ namespace Core
         {
             _s = new SortedList<I, SortedList<Sequence<S, I, O>, IIntVar>>();
             _gamma = new SortedList<I, SortedList<Sequence<S, I, O>, SortedList<int, IIntVar>>>();
-
+            _sep = _model.NumVar(0, Double.MaxValue, "minsep");
             int instanceIndex = 0;
 
             StreamWriter sw = new StreamWriter(_descriptionFile);

@@ -101,6 +101,8 @@ namespace DataSupport
         public void RemoveColumn(Column c)
         {
             Columns.Remove(c);
+            foreach (Row r in Rows)
+                r.RemoveColumn(c);
         }
     }
 }

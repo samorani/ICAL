@@ -50,7 +50,7 @@ namespace IGAL
                                 //Console.WriteLine(greedy.Solve(inst));
                                 //Console.ReadLine();
                                 training.Add(sol);
-                                //if (training.Count > 2)
+                                //if (training.Count > 0)
                                 //    return training;
                             }
             }
@@ -76,7 +76,7 @@ namespace IGAL
                     testType = "knapsack_uncorrelated";
 
                 //List<KP_ProblemSolution> trainingSet = GenerateTrainingSet();
-                List<KP_ProblemInstance> trainingSet = LoadMyInstances(trainingDir, new string[] { trainingTypeInstance }, new int[] { 5 }, 1, 10);
+                List<KP_ProblemInstance> trainingSet = LoadMyInstances(trainingDir, new string[] { trainingTypeInstance }, new int[] {  5 }, 1,10 );
                 List<KP_ProblemInstance> testSet = LoadMyInstances(testDir, new string[] { testType }, new int[] { 100, 300, 1000, 3000 }, 1, 50);
                 List<KP_ProblemSolution> trainingSetSolutions = new List<KP_ProblemSolution>();
                 KP_CPlex_solver exactSolver = new KP_CPlex_solver();
@@ -85,9 +85,9 @@ namespace IGAL
 
                 foreach (int maxAttributes in new int[] { 1, 2, 20000 })
                 {
-                    double lambda = 0.001;
-                    int maxSeconds = 120;
-                    bool standardize = false;
+                    double lambda = 0.001;// 0.001;
+                    int maxSeconds = 1800;
+                    bool standardize = false;    
                     bool PenalizeNumberOfAttributes = true;
                     AbstractTableModifier modifier = new SymbolicExpansionTableModifier(standardize);
                     //int maxAttributes = 20;
@@ -99,6 +99,7 @@ namespace IGAL
                     resultFile += "KP knapsack_" + trainingTypeInstance + "_corr " + maxAttributes + ".txt";
                     fw.RunExperiments(lambda, trainingSetSolutions, testSet, resultFile, new KP_InstanceReader(), maxSeconds,
                         PenalizeNumberOfAttributes, modifier, maxAttributes);
+                    //Console.ReadLine();
                 }
             }
         }
@@ -131,7 +132,10 @@ namespace IGAL
                 int seed = Int32.Parse(simpleName.Substring(nPos - 1).Split(new char[] { '_' }).Last());
                 //Console.WriteLine(simpleName + ": n = " + thisn);
                 if (types.Contains(type) && minSeed <= seed && seed <= maxSeed && n.Contains(thisn))
+                {
                     inst.Add(read.LoadInstanceFromFile(f.FullName));
+                    //return inst;
+                }
             }
             return inst;
         }

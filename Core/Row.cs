@@ -65,5 +65,11 @@ namespace DataSupport
                 s += c + ":" + this[c] + ", ";
             return s;
         }
+
+        internal void RemoveColumn(Column c)
+        {
+            this.AttributeValues.Remove(c);
+            this._columnsByName.Remove(c.Name);
+        }
     }
 }

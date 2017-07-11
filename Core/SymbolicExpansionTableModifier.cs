@@ -12,24 +12,29 @@ namespace DataSupport
         List<string> Formulas = new List<string>();
         SortedList<string, Expression> _attributeExpressions = new SortedList<string, Expression>();
         StandardizerTableModifier _std;
-
+        int _min = -1;
+        int _max = Int32.MaxValue;
         public SymbolicExpansionTableModifier(bool standardize)
         {
             _std = standardize ? new StandardizerTableModifier() : null;
             Formulas.Add("x/x");
             Formulas.Add("x*x");
-            Formulas.Add("x-x");
-            Formulas.Add("x+x");
             Formulas.Add("x*x/x");
-            Formulas.Add("(x+x)/x");
-            Formulas.Add("(x-x)/x");
             Formulas.Add("x/(x+x)");
             Formulas.Add("x/(x-x)");
+            //Formulas.Add("x/(x*x)");
+
+            //Formulas.Add("x-x");
+            //Formulas.Add("x+x");
+            //Formulas.Add("(x+x)/x");
+            //Formulas.Add("(x-x)/x");
         }
+
 
         protected override void Initialize(List<Column> columns)
         {
             _attributeExpressions = new SortedList<string, Expression>();
+            int thisColNumber = -1;
             // find all expressions to build and put them in toAdd
             foreach (string f in Formulas)
             {
@@ -41,6 +46,7 @@ namespace DataSupport
                     string actualF = "";
                     int currentSymbol = 0;
                     string lastDim = "------";
+                    string lastName = "----";
                     bool mustSkip = false;
                     for (int i = 0; i < f.Length; i++)
                     {
@@ -48,13 +54,20 @@ namespace DataSupport
                         {
                             Column thisCol = permutation[currentSymbol++];
                             // check dimension:
-                            if (i >= 2 && f[i - 2] == 'x' && (f[i - 1] == '+' || f[i - 1] == '-' && lastDim != thisCol.Dimension))
+                            if (i >= 2 && f[i - 2] == 'x' && ((f[i - 1] == '+' || f[i - 1] == '-') && lastDim != thisCol.Dimension))
+                            {
+                                mustSkip = true;
+                                break;
+                            }
+                            // check commutative
+                            if (i >= 2 && f[i - 2] == 'x' && f[i] == 'x' && (f[i - 1] == '+' || f[i - 1] == '*') && lastName.CompareTo(thisCol.Name) > 0)
                             {
                                 mustSkip = true;
                                 break;
                             }
                             actualF += "[" + thisCol.Name + "]";
                             lastDim = thisCol.Dimension;
+                            lastName = thisCol.Name;
                         }
                         else
                             actualF += f[i];
@@ -62,7 +75,10 @@ namespace DataSupport
                     if (mustSkip)
                         continue;
 
-                    //Console.WriteLine(actualF);
+                    thisColNumber++;
+                    if (thisColNumber < _min || thisColNumber > _max)
+                        continue;
+                    Console.WriteLine(actualF);
                     Expression e = new Expression(actualF);
                     foreach (Column c in permutation)
                         e.Parameters[c.Name] = 0;
@@ -101,6 +117,10 @@ namespace DataSupport
                     // if you find a null value, set val to 0
                     if (Double.IsNaN(val) || Double.IsInfinity(val))
                         val = 0;
+                    if (val > 1000)
+                    {
+                        val = 1000;
+                    }
                     r[nc] = val;
                 }
             }
@@ -108,6 +128,12 @@ namespace DataSupport
             foreach (Column c in new List<Column>(t2.Columns))
                 if (silencedAttributes.Contains(c.Name))
                     t2.RemoveColumn(c);
+
+            // remove columns outside interval
+            int n = t2.Columns.Count;
+            for (int i = n - 1; i >= 0; i--)
+                if (i < _min || i > _max)
+                    t2.RemoveColumn(t2.Columns[i]);
 
             if (_std != null)
                 return _std.Modify(t2);
