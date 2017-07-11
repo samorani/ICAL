@@ -12,8 +12,8 @@ namespace Core
 {
     public class CplexConstructiveAlgorithmLearner<S, I, O> : IGreedyAlgorithmLearner<S, I, O> where S : ProblemSolution<S, I, O>, new() where I : ProblemInstance<S, I, O> where O : Action<S, I, O>
     {
-        Cplex _model;
-        bool _debug = false;
+        Cplex _model; 
+        bool _debug = false; 
         bool _penalizeNumberOfAttributes;
 
         string _descriptionFile = "..\\..\\..\\variables.txt";
